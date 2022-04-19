@@ -7,11 +7,3 @@ As part of this project we also plan to build and share the source code of a web
 # Important Links 
 1. [Project Announcement](https://www.grantfortheweb.org/blog/announcing-our-newest-cohort-of-awardees)
 
-
-# Operations
-
-## Installing new packages
-```
-npm install --save cors --prefix backend
-npm install --save react react-dom --prefix frontend
-```
