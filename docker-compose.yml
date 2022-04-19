@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  db:
+    image: "mysql"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pw
+      MYSQL_USER: tattle
+      MYSQL_PASSWORD: tattle_pw
+      MYSQL_DATABASE: incentives_db
+    ports:
+      - 3306:3306
+    volumes:
+      - "~/data/incentives_db/db:/var/lib/mysql"
+  db_gui:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

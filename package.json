@@ -1,0 +1,21 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "npm start --prefix frontend",
+    "backend": "npm start --prefix backend",
+    "dev": "concurrently -p \"{name}\" \"npm run frontend\" \"npm run backend\" "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.1.0"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}
