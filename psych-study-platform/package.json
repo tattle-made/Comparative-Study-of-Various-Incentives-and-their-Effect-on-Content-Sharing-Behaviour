@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "frontend": "npm start --prefix frontend",
-    "backend": "npm start --prefix backend",
-    "dev": "concurrently -p \"{name}\" \"npm run frontend\" \"npm run backend\" "
+    "dev:frontend": "npm start --prefix frontend",
+    "dev:backend": "npm start --prefix backend",
+    "dev": "concurrently -p \"{name}\" \"npm run dev:frontend\" \"npm run dev:backend\" "
   },
   "keywords": [],
   "author": "",

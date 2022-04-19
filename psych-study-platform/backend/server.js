@@ -9,7 +9,7 @@ app.options("*", cors());
 const port = 3000;
 
 app.get("/", (req, res) => {
-  res.json({ msg: "home 4" });
+  res.json({ msg: "home run" });
 });
 
 app.listen(port, () => {

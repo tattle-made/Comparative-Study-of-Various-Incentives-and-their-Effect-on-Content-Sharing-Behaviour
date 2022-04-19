@@ -16,7 +16,7 @@ export function Home() {
 
   return (
     <div>
-      <h1>Hello worldsssssss !</h1>
+      <h1>Hello worldsssssssss !</h1>
       <p>{msg.msg}</p>
     </div>
   );
