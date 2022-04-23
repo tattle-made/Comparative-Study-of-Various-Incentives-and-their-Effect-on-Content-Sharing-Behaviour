@@ -1,20 +1,18 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Posts", {
+    await queryInterface.createTable("Metrics", {
       id: {
+        type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
       },
-      informationType: {
-        type: Sequelize.ENUM("PLAUSIBLE", "IMPLAUSIBLE", "TRUE", "FALSE"),
+      type: {
+        type: Sequelize.ENUM("MONETARY", "VANITY"),
       },
-      headlineText: {
-        type: Sequelize.STRING(255),
-      },
-      readMoreText: {
-        type: Sequelize.STRING(500),
+      points: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +25,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Posts");
+    await queryInterface.dropTable("Metrics");
   },
 };

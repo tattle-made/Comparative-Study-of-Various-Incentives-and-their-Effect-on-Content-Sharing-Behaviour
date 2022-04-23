@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -11,14 +9,29 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Post.belongsToMany(models.Feed, { through: models.JunctionPostFeed });
     }
   }
-  Post.init({
-    text: DataTypes.STRING,
-    readMore: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Post',
-  });
+  Post.init(
+    {
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
+      informationType: DataTypes.ENUM(
+        "PLAUSIBLE",
+        "IMPLAUSIBLE",
+        "TRUE",
+        "FALSE"
+      ),
+      headlineText: DataTypes.STRING,
+      readMoreText: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "Post",
+    }
+  );
   return Post;
 };

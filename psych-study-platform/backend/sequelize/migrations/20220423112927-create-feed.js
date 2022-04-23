@@ -1,20 +1,20 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Posts", {
+    await queryInterface.createTable("Feeds", {
       id: {
+        type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
       },
-      informationType: {
-        type: Sequelize.ENUM("PLAUSIBLE", "IMPLAUSIBLE", "TRUE", "FALSE"),
+      postId: {
+        type: Sequelize.STRING(36),
       },
-      headlineText: {
-        type: Sequelize.STRING(255),
+      userId: {
+        type: Sequelize.STRING(36),
       },
-      readMoreText: {
-        type: Sequelize.STRING(500),
+      visited: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +27,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Posts");
+    await queryInterface.dropTable("Feeds");
   },
 };
