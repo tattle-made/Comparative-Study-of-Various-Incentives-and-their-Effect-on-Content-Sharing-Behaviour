@@ -15,6 +15,11 @@ cd ..
 cd frontend && npm install
 ```
 
+## Setup environment variables
+```
+PASETO_PRIVATE_KEY=
+```
+
 ## Start Project
 ```
 npm run dev
