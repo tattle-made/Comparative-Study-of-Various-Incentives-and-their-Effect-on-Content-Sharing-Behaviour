@@ -9,12 +9,13 @@ module.exports = {
       },
       username: {
         type: Sequelize.STRING(25),
+        unique: true,
       },
       password: {
-        type: Sequelize.STRING(25),
+        type: Sequelize.STRING(100),
       },
-      accessToken: {
-        type: Sequelize.STRING(50),
+      role: {
+        type: Sequelize.ENUM("PARTICIPANT", "MANAGER"),
       },
       refreshToken: {
         type: Sequelize.STRING(50),

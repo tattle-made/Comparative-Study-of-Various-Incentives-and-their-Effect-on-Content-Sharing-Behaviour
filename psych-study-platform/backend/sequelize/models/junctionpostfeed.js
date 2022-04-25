@@ -14,18 +14,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   JunctionPostFeed.init(
     {
-      id: DataTypes.UUID,
+      id: {
+        primaryKey: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       postId: {
         type: DataTypes.UUID,
         references: {
-          model: Post,
+          model: "Post",
           key: "id",
         },
       },
       feedId: {
         type: DataTypes.UUID,
         references: {
-          model: Feed,
+          model: "Feed",
           key: "id",
         },
       },

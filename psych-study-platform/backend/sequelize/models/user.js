@@ -1,8 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-const {
-  V4: { sign },
-} = paseto;
+const bcrypt = require("bcrypt");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -26,9 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      username: DataTypes.STRING,
+      username: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
       password: DataTypes.STRING,
-      accessToken: DataTypes.STRING,
+      role: DataTypes.ENUM("PARTICIPANT", "MANAGER"),
       refreshToken: DataTypes.STRING,
     },
     {
@@ -37,40 +38,10 @@ module.exports = (sequelize, DataTypes) => {
           let saltRounds = 10;
           user.password =
             user.password && user.password.length != 0
-              ? await bcrypt.has(user.password, saltRounds)
+              ? await bcrypt.hash(user.password, saltRounds)
               : "";
         },
-        async afterCreate(user, option) {
-          const accessToken = await sign(
-            { username: user.username },
-            process.env.PASETO_PRIVATE_KEY,
-            {
-              expiresIn: "20 m", // allowed formats : "24 hours", "20 m"
-            }
-          );
-          const refreshToken = await sign(
-            { username: user.username },
-            process.env.PASETO_PRIVATE_KEY,
-            {
-              expiresIn: "7 days", // allowed formats : "24 hours", "20 m"
-            }
-          );
-
-          await User.update(
-            {
-              accessToken,
-              refreshToken,
-            },
-            {
-              where: {
-                id: user.id,
-              },
-            }
-          );
-        },
       },
-    },
-    {
       sequelize,
       modelName: "User",
     }
