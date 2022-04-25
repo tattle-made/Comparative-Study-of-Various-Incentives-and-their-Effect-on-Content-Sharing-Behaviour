@@ -1,24 +1,17 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Users", {
+    await queryInterface.createTable("JunctionPostFeeds", {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      username: {
-        type: Sequelize.STRING(25),
-        unique: true,
+      postId: {
+        type: Sequelize.UUID,
       },
-      password: {
-        type: Sequelize.STRING(100),
-      },
-      role: {
-        type: Sequelize.ENUM("PARTICIPANT", "MANAGER"),
-      },
-      refreshToken: {
-        type: Sequelize.STRING(500),
+      feedId: {
+        type: Sequelize.UUID,
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +24,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("JunctionPostFeeds");
   },
 };

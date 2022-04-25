@@ -15,6 +15,13 @@ cd ..
 cd frontend && npm install
 ```
 
+## Setup environment variables
+```
+JWT_ACCESS_TOKEN_KEY=
+JWT_REFRESH_TOKEN_KEY=
+```
+both were generatd using `require('crypto').randomBytes(64).toString('hex')`
+
 ## Start Project
 ```
 npm run dev

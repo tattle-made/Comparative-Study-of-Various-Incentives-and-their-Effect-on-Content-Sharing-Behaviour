@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
+  class StudyPhase extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,29 +9,33 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Post.belongsToMany(models.Feed, { through: models.JunctionPostFeed });
     }
   }
-  Post.init(
+  StudyPhase.init(
     {
       id: {
         primaryKey: true,
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      informationType: DataTypes.ENUM(
-        "PLAUSIBLE",
-        "IMPLAUSIBLE",
-        "TRUE",
-        "FALSE"
+      stage: DataTypes.ENUM(
+        "UNUSED",
+        "PRETEST",
+        "ONBOARDING",
+        "TEST_DAY_01",
+        "TEST_DAY_02",
+        "TEST_DAY_03",
+        "TEST_DAY_04",
+        "TEST_DAY_05",
+        "POST_TEST_SURVEY",
+        "CRISIS",
+        "BLOCKED"
       ),
-      headlineText: DataTypes.STRING,
-      readMoreText: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "Post",
+      modelName: "StudyPhase",
     }
   );
-  return Post;
+  return StudyPhase;
 };
