@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.ENUM("PARTICIPANT", "MANAGER"),
       },
       refreshToken: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING(500),
       },
       createdAt: {
         allowNull: false,

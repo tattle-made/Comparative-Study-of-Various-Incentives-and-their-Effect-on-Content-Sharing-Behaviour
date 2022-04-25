@@ -1,16 +1,26 @@
-const { User, sequelize } = require("../../sequelize/models");
-const { createUser, loginUser } = require("./controller");
-const { UserCreationError, IncorrectPasswordError } = require("./errors");
+const { User } = require("../../sequelize/models");
+const {
+  createUser,
+  loginUser,
+  refreshToken,
+  logoutUser,
+} = require("./controller");
+const {
+  UserCreationError,
+  IncorrectPasswordError,
+  InvalidRefreshTokenError,
+} = require("./errors");
 
-/**
- * This script requires you to run the seeder script
- * run  : npx sequelize-cli db:seed --name SCRIPT_NAME
- * before running the test suite
- **/
 describe("User Authentication", () => {
   beforeAll(() => {});
 
-  afterAll(() => {});
+  afterAll(async () => {
+    await User.destroy({
+      where: {
+        username: "test_user_a",
+      },
+    });
+  });
 
   it("should create a new user", async () => {
     const user = await createUser({
@@ -35,23 +45,48 @@ describe("User Authentication", () => {
     }
   });
 
-  it("should login a user and return accessToken", async () => {
+  it("should generate and refresh tokens", async () => {
     const user = await loginUser({
       username: "test_user_a",
       password: "test_user_a_pw",
     });
+    expect(user).toHaveProperty("role");
     expect(user).toHaveProperty("accessToken");
+    expect(user).toHaveProperty("refreshToken");
+    const refreshTokenVar = user.refreshToken;
+
+    expect(async () => {
+      await refreshToken("wrong_token");
+    }).rejects.toThrowError(InvalidRefreshTokenError);
+
+    const newToken = await refreshToken(refreshTokenVar);
+    expect(newToken).toHaveProperty("accessToken");
+    expect(newToken).not.toHaveProperty("refreshToken");
+    expect(newToken.username).toBe("test_user_a");
   });
 
   it("should not allow login with wrong username,password", async () => {
-    const user = await loginUser({
-      username: "test_user_a",
-      password: "wrong_password",
-    });
-    expect(() => {}).toThrow(IncorrectPasswordError);
+    await expect(async () => {
+      await loginUser({
+        username: "test_user_a",
+        password: "wrong_password",
+      });
+    }).rejects.toThrowError(IncorrectPasswordError);
   });
 
-  //   it("should refresh token",  () => {});
-
-  //   it("should logout user",  () => {});
+  it("logout should set refreshToken to null", async () => {
+    const user = await User.findOne({
+      where: {
+        username: "test_user_a",
+      },
+    });
+    const refreshToken = user.refreshToken;
+    await logoutUser(refreshToken);
+    const updatedUser = User.findOne({
+      where: {
+        username: "test_user_a",
+      },
+    });
+    expect(updatedUser.refreshToken).toBe(undefined);
+  });
 });

@@ -1,6 +1,10 @@
 const { User } = require("../../sequelize/models");
 const bcrypt = require("bcrypt");
-const { generateAccessToken, generateRefreshToken } = require("./token");
+const {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} = require("./token");
 const {
   InvalidRefreshTokenError,
   UserCreationError,
@@ -26,7 +30,7 @@ async function loginUser(loginReqPayload) {
       username,
     },
   });
-  if (user === undefined) {
+  if (user === null) {
     throw new UserNotFoundError("User not found in database");
   } else {
     const { id, username, role } = user;
@@ -34,15 +38,19 @@ async function loginUser(loginReqPayload) {
     if (isEqual) {
       const accessToken = await generateAccessToken(username, role);
       const refreshToken = await generateRefreshToken(username, role);
+
+      user.set({ refreshToken });
+      const updatedUser = await user.save();
+
       return {
-        id,
-        username,
-        role,
+        id: updatedUser.id,
+        username: updatedUser.username,
+        role: updatedUser.role,
+        refreshToken: updatedUser.refreshToken,
         accessToken,
-        refreshToken,
       };
     } else {
-      throw new IncorrectPasswordError("Incorrect Password");
+      throw new IncorrectPasswordError();
     }
   }
 }
@@ -54,12 +62,12 @@ async function refreshToken(refreshToken) {
     },
   });
 
-  if (user === undefined) {
-    throw new Error("Invalid Token");
+  if (user === null) {
+    throw new InvalidRefreshTokenError();
   } else {
     try {
       const { id, username, role } = user;
-      const isValid = await verifyRefreshToken(token);
+      const isValid = await verifyRefreshToken(refreshToken);
       if (isValid) {
         const accessToken = await generateAccessToken(id, username, role);
         return {
@@ -75,7 +83,18 @@ async function refreshToken(refreshToken) {
   }
 }
 
-async function logoutUser(accessToken) {}
+async function logoutUser(token) {
+  await User.update(
+    {
+      refreshToken: null,
+    },
+    {
+      where: {
+        refreshToken: token,
+      },
+    }
+  );
+}
 
 module.exports = {
   createUser,
