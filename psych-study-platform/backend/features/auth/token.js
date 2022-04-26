@@ -4,18 +4,22 @@ const { sign, verify } = require("jsonwebtoken");
 const accessTokenKey = process.env.JWT_ACCESS_TOKEN_KEY;
 const refreshTokenKey = process.env.JWT_REFRESH_TOKEN_KEY;
 
-async function generateAccessToken(username, role) {
-  const accessToken = await sign({ sub: username, role }, accessTokenKey, {
+async function generateAccessToken(id, username, role) {
+  const accessToken = await sign({ sub: username, id, role }, accessTokenKey, {
     expiresIn: "20 m", // allowed formats : "24 hours", "20 m"
   });
 
   return accessToken;
 }
 
-async function generateRefreshToken(username, role) {
-  const refreshToken = await sign({ sub: username, role }, refreshTokenKey, {
-    expiresIn: "7 days", // allowed formats : "24 hours", "20 m"
-  });
+async function generateRefreshToken(id, username, role) {
+  const refreshToken = await sign(
+    { sub: username, id, role },
+    refreshTokenKey,
+    {
+      expiresIn: "7 days", // allowed formats : "24 hours", "20 m"
+    }
+  );
 
   return refreshToken;
 }
@@ -44,6 +48,17 @@ async function verifyRefreshToken(token) {
   }
 }
 
+async function verifyAccessToken(token) {
+  try {
+    const payload = await verify(token, accessTokenKey);
+    if (payload) {
+      return payload;
+    }
+  } catch (err) {
+    throw new InvalidRefreshTokenError();
+  }
+}
+
 async function revokeRefreshToken(userId) {}
 
 module.exports = {
@@ -51,5 +66,6 @@ module.exports = {
   generateRefreshToken,
   saveRefreshTokenInDb,
   verifyRefreshToken,
+  verifyAccessToken,
   revokeRefreshToken,
 };

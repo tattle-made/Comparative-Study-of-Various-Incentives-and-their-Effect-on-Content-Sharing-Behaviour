@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Box,
   Heading,
@@ -11,58 +11,31 @@ import {
 } from "grommet";
 import { Section } from "../atoms/Section";
 import { useNavigate } from "react-router-dom";
-
-const users = {
-  user_monetary: "money1234",
-  user_vanity: "vanity1234",
-};
-
-// return : valid, user's group type
-// or invalid
-function login(loginForm) {
-  console.log(loginForm);
-  if (users[loginForm.username]) {
-    if (users[loginForm.username] === loginForm.password) {
-      const { username } = loginForm;
-      if (username === "user_monetary") {
-        return {
-          group: "monetization",
-          user: {
-            id: 1,
-            username: username,
-          },
-        };
-      } else if (username === "user_vanity") {
-        return {
-          group: "vanity",
-          user: {
-            id: 2,
-            username: username,
-          },
-        };
-      } else {
-        return undefined;
-      }
-    }
-  } else {
-    return undefined;
-  }
-}
+import { useApi } from "../api/hook";
+import { PostRequestLoginMaker } from "../api/auth/requests";
+import { NotificationContext, UserContext } from "../context";
 
 export function Login() {
   let navigate = useNavigate();
-  function loginPressed({ value }) {
-    const loginResult = login(value);
-    if (loginResult === undefined) {
-      alert("Unable to Login");
-    } else {
-      if (loginResult === undefined) {
-        alert("Unexpected User");
-      } else {
-        navigate("/feed", { state: loginResult });
-      }
-    }
+  const { user: userInContext, setUser } = useContext(UserContext);
+  const { notification, showNotification } = useContext(NotificationContext);
+  let { data: user, err, loading, trigger } = useApi(PostRequestLoginMaker());
+
+  async function loginPressed({ value }) {
+    await trigger(value);
   }
+
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+      navigate("/feed", { state: { user } });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (err) showNotification("Error");
+  }, [err]);
+
   return (
     <Section>
       <Heading level={2}>Login</Heading>
@@ -83,6 +56,7 @@ export function Login() {
           </Box>
 
           <Button type="submit" primary label="Login" />
+          {loading ? <Text>loading...</Text> : null}
         </Box>
       </Form>
     </Section>

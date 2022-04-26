@@ -5,8 +5,8 @@ const Theme = {
     },
     colors: {
       background: "#ffffff",
-      brand: "#E76D67",
-      "accent-1": "#514E80",
+      brand: "#7FEFBD",
+      "accent-1": "#CBA135",
       "accent-2": "#7F7AB0",
       "accent-3": "#252653",
       "neutral-1": "#E68BBA",
