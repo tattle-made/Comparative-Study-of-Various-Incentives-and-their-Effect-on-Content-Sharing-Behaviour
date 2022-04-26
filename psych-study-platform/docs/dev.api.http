@@ -1,0 +1,28 @@
+@hostname = http://localhost
+@port = 3000
+@host = {{hostname}}:{{port}}
+@accessToken = 
+@refreshToken = 
+
+POST {{host}}/login
+content-type: application/json
+
+{
+    "username" : "test_user_a",
+    "password" : "test_user_a_pw"
+}
+
+###
+
+POST {{host}}/logout
+Authorization: Bearer {{refreshToken}}
+
+###
+GET {{host}}/post
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+### 
+POST {{host}}/event
+content-type : application/json
+Authorization: Bearer {{accessToken}}

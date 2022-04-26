@@ -28,7 +28,7 @@ npm run dev
 ```
 Open browser and visit http://localhost:1234
 
-## Installing new packages
+## Installing new packages from root
 ```
 npm install --save cors --prefix backend
 npm install --save react react-dom --prefix frontend 
