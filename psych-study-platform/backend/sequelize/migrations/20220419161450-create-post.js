@@ -8,7 +8,13 @@ module.exports = {
         type: Sequelize.UUID,
       },
       informationType: {
-        type: Sequelize.ENUM("PLAUSIBLE", "IMPLAUSIBLE", "TRUE", "FALSE"),
+        type: Sequelize.ENUM(
+          "PLAUSIBLE",
+          "IMPLAUSIBLE",
+          "TRUE",
+          "FALSE",
+          "WHOLESOME"
+        ),
       },
       headlineText: {
         type: Sequelize.STRING(255),

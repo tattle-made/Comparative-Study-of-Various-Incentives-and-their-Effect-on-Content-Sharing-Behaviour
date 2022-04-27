@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
         "PLAUSIBLE",
         "IMPLAUSIBLE",
         "TRUE",
-        "FALSE"
+        "FALSE",
+        "WHOLESOME"
       ),
       headlineText: DataTypes.STRING,
       readMoreText: DataTypes.STRING,
