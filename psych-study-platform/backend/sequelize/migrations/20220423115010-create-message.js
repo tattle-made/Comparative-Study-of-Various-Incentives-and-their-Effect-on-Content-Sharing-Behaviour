@@ -8,7 +8,9 @@ module.exports = {
         primaryKey: true,
       },
       author: {
-        type: Sequelize.UUID(36),
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: { model: "Users", key: "id" },
       },
       text: {
         type: Sequelize.STRING(1000),

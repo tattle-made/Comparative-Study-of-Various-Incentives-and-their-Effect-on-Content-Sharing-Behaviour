@@ -7,11 +7,10 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-      postId: {
-        type: Sequelize.STRING(36),
-      },
-      userId: {
-        type: Sequelize.STRING(36),
+      user: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: { model: "Users", key: "id" },
       },
       visited: {
         type: Sequelize.BOOLEAN,

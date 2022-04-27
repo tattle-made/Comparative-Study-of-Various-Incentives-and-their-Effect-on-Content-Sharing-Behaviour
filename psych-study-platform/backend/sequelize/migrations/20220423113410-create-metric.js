@@ -7,6 +7,11 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
+      user: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: { model: "Users", key: "id" },
+      },
       type: {
         type: Sequelize.ENUM("MONETARY", "VANITY"),
       },

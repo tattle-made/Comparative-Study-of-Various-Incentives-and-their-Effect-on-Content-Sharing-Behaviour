@@ -9,9 +9,11 @@ module.exports = {
       },
       postId: {
         type: Sequelize.UUID,
+        references: { model: "Posts", key: "id" },
       },
       feedId: {
         type: Sequelize.UUID,
+        references: { model: "Feeds", key: "id" },
       },
       createdAt: {
         allowNull: false,

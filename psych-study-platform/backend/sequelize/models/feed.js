@@ -20,8 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      post: DataTypes.STRING,
-      user: DataTypes.STRING,
+      user: {
+        type: DataTypes.STRING,
+      },
       visited: DataTypes.BOOLEAN,
     },
     {
