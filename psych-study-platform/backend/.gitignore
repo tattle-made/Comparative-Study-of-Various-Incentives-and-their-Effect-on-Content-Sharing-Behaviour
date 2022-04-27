@@ -5,3 +5,4 @@ scripts/credentials.json
 scripts/*.json
 
 sequelize/seeders/posts.json
+sequelize/seeders/userData.json
