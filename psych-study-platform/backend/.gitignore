@@ -1,2 +1,7 @@
 node_modules/
 *.env
+
+scripts/credentials.json
+scripts/*.json
+
+sequelize/seeders/posts.json
