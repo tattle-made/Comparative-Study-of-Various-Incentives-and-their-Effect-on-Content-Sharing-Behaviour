@@ -42,27 +42,27 @@ function transformData(data) {
   var posts = [];
   Object.keys(data).map((key) => {
     posts.push({
-      informationType: "plausible",
+      informationType: "PLAUSIBLE",
       headlineText: data[key]["plausible"],
       readMoreText: data[key]["plausibleReadMore"],
     });
     posts.push({
-      informationType: "implausible",
+      informationType: "IMPLAUSIBLE",
       headlineText: data[key]["implausible"],
       readMoreText: data[key]["implausibleReadMore"],
     });
     posts.push({
-      informationType: "true",
+      informationType: "TRUE",
       headlineText: data[key]["true"],
       readMoreText: data[key]["trueReadMore"],
     });
     posts.push({
-      informationType: "false",
+      informationType: "FALSE",
       headlineText: data[key]["false"],
       readMoreText: data[key]["falseReadMore"],
     });
     posts.push({
-      informationType: "wholesome",
+      informationType: "WHOLESOME",
       headlineText: data[key]["wholesome"],
       readMoreText: data[key]["wholesomeReadMore"],
     });

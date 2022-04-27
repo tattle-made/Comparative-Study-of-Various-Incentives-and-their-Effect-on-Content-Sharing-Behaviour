@@ -3,3 +3,5 @@ node_modules/
 
 scripts/credentials.json
 scripts/*.json
+
+sequelize/seeders/posts.json
