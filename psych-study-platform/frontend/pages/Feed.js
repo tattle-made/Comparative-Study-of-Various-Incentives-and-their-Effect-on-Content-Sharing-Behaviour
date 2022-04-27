@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Heading, Text, Button, Paragraph, Button } from "grommet";
 import { User, ShareOption } from "grommet-icons";
 import styled from "styled-components";
 import { Section } from "../atoms/Section";
+import { UserContext } from "../context";
+import { useApi } from "../api/hook";
+import { config } from "../api/feed/request";
 
 const Container = styled.div`
   max-height: 80vh;
@@ -99,26 +102,23 @@ const feed = [
 ];
 
 export function Feed() {
+  let navigate = useNavigate();
   const location = useLocation();
   const [msg, setMsg] = useState("Default");
+  const { user, setUser } = useContext(UserContext);
+  const { data, err, loading, trigger } = useApi(config.getFeed);
 
   useEffect(() => {
-    const getMsg = async () => {
-      const response = await axios.get("http://localhost:3000");
-      const { data } = response;
-      setMsg(data);
-    };
+    if (!user) navigate("/");
+  }, [user]);
 
-    // getMsg();
-  }, []);
-
-  useEffect(() => {
-    console.log(location);
-  }, []);
+  async function test() {
+    await trigger();
+  }
 
   return (
     <Box>
-      {location.state.user ? (
+      {location.state.user.id ? (
         <Box>
           <Section>
             <Box round={"small"} border pad={"small"}>
@@ -131,6 +131,7 @@ export function Feed() {
             </Box>
             <Box flex={"grow"}></Box>
           </Section>
+          <Button label={"test"} onClick={test} />
           <Container>
             {feed.map((item, ix) => {
               return <FeedItem key={ix} ix={ix} item={item} />;

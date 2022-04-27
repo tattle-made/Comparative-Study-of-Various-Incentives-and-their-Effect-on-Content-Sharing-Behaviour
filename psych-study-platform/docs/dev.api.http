@@ -1,24 +1,38 @@
 @hostname = http://localhost
 @port = 3000
 @host = {{hostname}}:{{port}}
-@accessToken = 
-@refreshToken = 
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXJ0aWNpcGFudF9hIiwiaWQiOiJlYzE5YTNiNi0xMjRjLTRkNTAtYmU0Zi1lNzU2MDY0YWNjOTIiLCJyb2xlIjoiUEFSVElDSVBBTlQiLCJpYXQiOjE2NTA5NzY0MzEsImV4cCI6MTY1MDk3NzYzMX0.9_YqAtDgGLxxkdaM8RXQhyTzWxuqhNmPfySjMla-CwM
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXJ0aWNpcGFudF9hIiwiaWQiOiJlYzE5YTNiNi0xMjRjLTRkNTAtYmU0Zi1lNzU2MDY0YWNjOTIiLCJyb2xlIjoiUEFSVElDSVBBTlQiLCJpYXQiOjE2NTA5NzUzMDgsImV4cCI6MTY1MTU4MDEwOH0.OJTi1ooIh-0SxX-n02lEWT1w_AnjrNFsoIzoYisMaEo
+
+GET {{host}}/
+
+###
 
 POST {{host}}/login
 content-type: application/json
 
 {
-    "username" : "test_user_a",
-    "password" : "test_user_a_pw"
+    "username" : "participant_a",
+    "password" : "pa1234"
 }
 
 ###
+
+POST {{host}}/auth/refreshToken
+content-type: application/json
+
+{
+    "refreshToken" : "{{refreshToken}}"
+}
+
+###
+
 
 POST {{host}}/logout
 Authorization: Bearer {{refreshToken}}
 
 ###
-GET {{host}}/post
+GET {{host}}/feed
 content-type: application/json
 Authorization: Bearer {{accessToken}}
 

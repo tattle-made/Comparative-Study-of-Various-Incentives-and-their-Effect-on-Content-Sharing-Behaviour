@@ -9,9 +9,8 @@ const {
   InvalidRefreshTokenError,
   UserCreationError,
   IncorrectPasswordError,
+  UserNotFoundError,
 } = require("./errors");
-
-class UserNotFoundError extends Error {}
 
 async function createUser(newUser) {
   try {
@@ -36,8 +35,8 @@ async function loginUser(loginReqPayload) {
     const { id, username, role } = user;
     const isEqual = await bcrypt.compare(password, user.password);
     if (isEqual) {
-      const accessToken = await generateAccessToken(username, role);
-      const refreshToken = await generateRefreshToken(username, role);
+      const accessToken = await generateAccessToken(id, username, role);
+      const refreshToken = await generateRefreshToken(id, username, role);
 
       user.set({ refreshToken });
       const updatedUser = await user.save();
