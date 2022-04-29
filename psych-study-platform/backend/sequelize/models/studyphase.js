@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         "CRISIS",
         "BLOCKED"
       ),
+      user: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,

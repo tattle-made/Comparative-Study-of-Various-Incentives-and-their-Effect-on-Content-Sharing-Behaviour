@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Feed.belongsTo(models.User);
+      Feed.belongsTo(models.User, {
+        foreignKey: "user",
+      });
       Feed.belongsToMany(models.Post, { through: models.JunctionPostFeed });
     }
   }

@@ -5,12 +5,18 @@ import { UserContext } from "../context";
 
 const HOST_URL = "http://localhost:3000";
 
-function useApi(requestConfig) {
+function useApi(requestConfig, executeImmediately = false) {
   // const [requestConfig, setRequestConfig] = useState(requestConfig);
   const [data, setData] = useState(undefined);
   const [err, setErr] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const { user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (executeImmediately) {
+      trigger();
+    }
+  }, []);
 
   async function trigger(payload) {
     console.log({ payload, requestConfig });
