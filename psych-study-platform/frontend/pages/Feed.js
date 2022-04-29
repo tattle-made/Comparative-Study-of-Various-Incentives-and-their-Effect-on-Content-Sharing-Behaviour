@@ -106,11 +106,15 @@ export function Feed() {
   const location = useLocation();
   const [msg, setMsg] = useState("Default");
   const { user, setUser } = useContext(UserContext);
-  const { data, err, loading, trigger } = useApi(config.getFeed);
+  const { data, err, loading, trigger } = useApi(config.getFeed, true);
 
   useEffect(() => {
     if (!user) navigate("/");
   }, [user]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   async function test() {
     await trigger();
@@ -131,11 +135,13 @@ export function Feed() {
             </Box>
             <Box flex={"grow"}></Box>
           </Section>
-          <Button label={"test"} onClick={test} />
+          {/* <Button label={"test"} onClick={test} /> */}
           <Container>
-            {feed.map((item, ix) => {
-              return <FeedItem key={ix} ix={ix} item={item} />;
-            })}
+            {data && data.type === "POSTS" && data.posts
+              ? data.posts.map((item, ix) => {
+                  return <FeedItem key={ix} ix={ix} item={item} />;
+                })
+              : null}
           </Container>
         </Box>
       ) : null}
@@ -148,14 +154,14 @@ function FeedItem({ ix, item }) {
     <Child key={ix} ix={ix}>
       <Box margin={"medium"} pad={"medium"} border round gap={"medium"}>
         <Box>
-          <Heading level={1}>{item.headline}</Heading>
+          <Heading level={1}>{item.headlineText}</Heading>
           <Button
             plain
             label={"Read More"}
             onClick={() => setExpand(!expand)}
           />
           {expand ? (
-            <Paragraph size="xxlarge">{item.readMore}</Paragraph>
+            <Paragraph size="xxlarge">{item.readMoreText}</Paragraph>
           ) : null}
         </Box>
         <Box direction="row" gap={"large"}>
