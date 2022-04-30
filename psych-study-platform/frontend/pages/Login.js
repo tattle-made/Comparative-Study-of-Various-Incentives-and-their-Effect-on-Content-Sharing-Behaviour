@@ -14,7 +14,6 @@ import { Section } from "~/components/atoms/Section";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "~/api/hook";
 import { PostRequestLoginMaker } from "~/api/auth/requests";
-import { NotificationContext, UserContext } from "~/components/atoms/context";
 import { UserState } from "~/UserState";
 
 export function Login() {

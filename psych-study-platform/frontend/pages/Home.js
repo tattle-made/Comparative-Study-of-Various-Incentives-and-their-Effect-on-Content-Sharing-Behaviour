@@ -6,6 +6,7 @@ import { Login } from "./Login";
 import { Feed } from "./Feed";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserState, UserLoginStatusState } from "~/UserState";
+import { Notification } from "~/components/atoms/Notification";
 
 export function Home() {
   const [msg, setMsg] = useState("Default");
@@ -47,6 +48,7 @@ export function Home() {
           }
         />
       </Routes>
+      <Notification />
     </Box>
   );
 }

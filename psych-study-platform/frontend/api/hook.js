@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import { UserState } from "~/UserState";
+import { NotificationState } from "~/NotificationState";
 
 const HOST_URL = "http://localhost:3000";
 
@@ -11,6 +12,7 @@ function useApi(requestConfig, executeImmediately = false) {
   const [err, setErr] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useRecoilState(UserState);
+  const [notification, setNotification] = useRecoilState(NotificationState);
 
   useEffect(() => {
     if (executeImmediately) {
@@ -41,11 +43,17 @@ function useApi(requestConfig, executeImmediately = false) {
       } else {
         setErr("Unable to get data");
         setLoading(false);
+        setNotification({ message: "Unable to get data" });
       }
     } catch (err) {
-      console.log(err);
+      const { response } = err;
+      const { request, ...errorObject } = response; // take everything but 'request'
+      console.log(errorObject);
       setLoading(false);
       setErr("Something Unexpected Happened.");
+      if (errorObject && errorObject.data && errorObject.data.msg) {
+        setNotification({ message: errorObject.data.msg });
+      }
     }
   }
   return { data, err, loading, trigger };
