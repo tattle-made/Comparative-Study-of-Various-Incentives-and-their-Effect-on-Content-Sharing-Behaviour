@@ -15,10 +15,6 @@ export function Feed() {
   const [user, setUser] = useRecoilState(UserState);
   const { data, err, loading, trigger } = useApi(config.getFeed, true);
 
-  useEffect(() => {
-    if (!user) navigate("/");
-  }, [user]);
-
   return (
     <Box>
       {user.id ? (
