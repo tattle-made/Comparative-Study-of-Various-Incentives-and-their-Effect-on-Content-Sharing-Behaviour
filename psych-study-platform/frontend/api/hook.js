@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { get, post, postWithToken } from "./index";
-import { UserContext } from "../context";
+import { UserContext } from "~/components/atoms/context";
 
 const HOST_URL = "http://localhost:3000";
 

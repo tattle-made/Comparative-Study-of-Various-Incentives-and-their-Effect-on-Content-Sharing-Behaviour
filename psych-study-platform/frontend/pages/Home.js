@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { Grommet, Box, Heading, Text, Button } from "grommet";
-import axios from "axios";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import { FeedVanity } from "./FeedVanity";
-import { FeedMonetary } from "./FeedMonetary";
 import { Login } from "./Login";
-import Theme from "../atoms/Theme";
+import Theme from "~/components/atoms/Theme";
 import { Feed } from "./Feed";
-import { NotificationContext, UserContext } from "../context";
+import { NotificationContext, UserContext } from "~/components/atoms/context";
 
 export function Home() {
   const [msg, setMsg] = useState("Default");
@@ -50,8 +47,6 @@ export function Home() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/feed" element={<Feed />} />
-              <Route path="/feed-vanity" element={<FeedVanity />}></Route>
-              <Route path="/feed-monetary" element={<FeedMonetary />}></Route>
               <Route
                 path="*"
                 element={
