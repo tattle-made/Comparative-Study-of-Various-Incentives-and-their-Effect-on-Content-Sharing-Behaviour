@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { config as configEvent } from "~/api/events/request";
 import { EventValues, EventPayload } from "~/api/events/payload";
 import { Box, Heading, Text, Button, Paragraph, Button } from "grommet";
@@ -20,7 +21,7 @@ function FeedItem({ ix, item }) {
   }
 
   async function clickReaction(reaction) {
-    let reaction;
+    let reactionPayload;
     if (reaction === EventValues.REACTION_HAPPY)
       reaction = EventPayload.REACTION_HAPPY;
     else if (reaction === EventValues.REACTION_ANGRY)
@@ -29,7 +30,7 @@ function FeedItem({ ix, item }) {
       reaction = EventPayload.REACTION_DISGUST;
     else throw new Error("Unexpected Reaction Value");
 
-    await trigger(reaction(item.id));
+    await trigger(reactionPayload(item.id));
   }
 
   async function clickReadMore() {
@@ -87,14 +88,16 @@ function FeedItem({ ix, item }) {
   );
 }
 
-export function UserFeed(data) {
+export function UserFeed({ data }) {
   return (
     <SnappyVerticalScrollContainer>
-      {data && data.type === "POSTS" && data.posts
-        ? data.posts.map((item, ix) => {
-            return <FeedItem key={ix} ix={ix} item={item} />;
-          })
-        : null}
+      {data && data.type === "POSTS" && data.posts ? (
+        data.posts.map((item, ix) => {
+          return <FeedItem key={ix} ix={ix} item={item} />;
+        })
+      ) : (
+        <Text color={"status-error"}>Could not find any posts</Text>
+      )}
     </SnappyVerticalScrollContainer>
   );
 }
