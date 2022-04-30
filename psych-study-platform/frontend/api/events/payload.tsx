@@ -1,17 +1,17 @@
-const EventNames = {
-  SHARE: "SHARE",
-  REACTION: "REACTION",
-  READ_MORE: "READ_MORE",
+const enum EventNames  {
+  SHARE = "SHARE",
+  REACTION = "REACTION",
+  READ_MORE = "READ_MORE",
 };
 
-const EventValues = {
-  SHARE_YES: "YES",
-  SHARE_NO: "NO",
-  REACTION_HAPPY: "HAPPY",
-  REACTION_ANGRY: "SAD",
-  REACTION_DISGUST: "DISGUST",
-  READ_MORE_YES: "YES",
-  READ_MORE_NO: "NO",
+const enum EventValues {
+  SHARE_YES = "YES",
+  SHARE_NO = "NO",
+  REACTION_HAPPY = "HAPPY",
+  REACTION_ANGRY = "SAD",
+  REACTION_DISGUST = "DISGUST",
+  READ_MORE_YES = "YES",
+  READ_MORE_NO = "NO",
 };
 
 const EventPayload = {
