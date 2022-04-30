@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { useRecoilState } from "recoil";
 import {
   Box,
   Heading,
@@ -9,31 +10,36 @@ import {
   FormField,
   TextInput,
 } from "grommet";
-import { Section } from "../atoms/Section";
+import { Section } from "~/components/atoms/Section";
 import { useNavigate } from "react-router-dom";
-import { useApi } from "../api/hook";
-import { PostRequestLoginMaker } from "../api/auth/requests";
-import { NotificationContext, UserContext } from "../context";
+import { useApi } from "~/api/hook";
+import { PostRequestLoginMaker } from "~/api/auth/requests";
+import { NotificationContext, UserContext } from "~/components/atoms/context";
+import { UserState } from "~/UserState";
 
 export function Login() {
   let navigate = useNavigate();
-  const { user: userInContext, setUser } = useContext(UserContext);
-  const { notification, showNotification } = useContext(NotificationContext);
-  let { data: user, err, loading, trigger } = useApi(PostRequestLoginMaker());
+  let {
+    data: userData,
+    err,
+    loading,
+    trigger,
+  } = useApi(PostRequestLoginMaker());
+  const [user, setUser] = useRecoilState(UserState);
 
   async function loginPressed({ value }) {
     await trigger(value);
   }
 
   useEffect(() => {
-    if (user) {
-      setUser(user);
-      navigate("/feed", { state: { user } });
+    if (userData) {
+      navigate("/feed");
+      setUser(userData);
     }
-  }, [user]);
+  }, [userData]);
 
   useEffect(() => {
-    if (err) showNotification("Error");
+    // if (err) showNotification("Error");
   }, [err]);
 
   return (

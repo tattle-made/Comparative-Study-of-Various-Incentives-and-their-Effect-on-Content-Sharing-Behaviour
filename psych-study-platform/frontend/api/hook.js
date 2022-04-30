@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
+import { useRecoilState } from "recoil";
 import axios from "axios";
-import { get, post, postWithToken } from "./index";
-import { UserContext } from "../context";
+import { UserState } from "~/UserState";
 
 const HOST_URL = "http://localhost:3000";
 
@@ -10,7 +10,7 @@ function useApi(requestConfig, executeImmediately = false) {
   const [data, setData] = useState(undefined);
   const [err, setErr] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useRecoilState(UserState);
 
   useEffect(() => {
     if (executeImmediately) {

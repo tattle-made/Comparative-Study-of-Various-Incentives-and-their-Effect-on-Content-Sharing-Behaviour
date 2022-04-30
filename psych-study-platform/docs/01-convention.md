@@ -40,3 +40,6 @@ function PostRequestLoginMaker(payload) {
   };
 }
 ```
+
+# Absolute Imports for frontend
+We use parcel's ability to make sense of absolute imports. So instead of using relative import paths like `../../components/atoms/Header.js`, we use `~` to use absolute imports. eg : `~/components/atoms/Header.js`
