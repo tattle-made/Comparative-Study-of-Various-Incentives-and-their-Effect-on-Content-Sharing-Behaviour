@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Metric, {
         foreignKey: "user",
       });
-      User.hasOne(models.StudyPhase, {
+      User.hasMany(models.StudyPhase, {
         foreignKey: "user",
       });
     }

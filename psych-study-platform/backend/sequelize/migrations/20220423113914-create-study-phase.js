@@ -15,17 +15,23 @@ module.exports = {
       stage: {
         type: Sequelize.ENUM(
           "UNUSED",
-          "PRETEST",
           "ONBOARDING",
           "TEST_DAY_01",
           "TEST_DAY_02",
           "TEST_DAY_03",
-          "TEST_DAY_04",
-          "TEST_DAY_05",
           "POST_TEST_SURVEY",
-          "CRISIS",
-          "BLOCKED"
+          "FINISHED"
         ),
+        defaultValue: "UNUSED",
+        allowNull: false,
+      },
+      startedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      finishedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,

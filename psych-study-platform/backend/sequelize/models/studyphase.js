@@ -20,19 +20,21 @@ module.exports = (sequelize, DataTypes) => {
       },
       stage: DataTypes.ENUM(
         "UNUSED",
-        "PRETEST",
         "ONBOARDING",
         "TEST_DAY_01",
         "TEST_DAY_02",
         "TEST_DAY_03",
-        "TEST_DAY_04",
-        "TEST_DAY_05",
         "POST_TEST_SURVEY",
-        "CRISIS",
-        "BLOCKED"
+        "FINISHED"
       ),
       user: {
         type: DataTypes.STRING,
+      },
+      startedAt: {
+        type: DataTypes.DATE,
+      },
+      finishedAt: {
+        type: DataTypes.DATE,
       },
     },
     {
