@@ -30,9 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       user: {
         type: DataTypes.STRING,
       },
-      startedAt: {
-        type: DataTypes.DATE,
-      },
       finishedAt: {
         type: DataTypes.DATE,
       },
