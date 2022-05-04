@@ -1,4 +1,5 @@
 const { Feed, Post, User, StudyPhase } = require("../../sequelize/models");
+const { checkAndUpdate } = require("../study-phase/controller");
 const { FeedNotFound } = require("./errors");
 
 /**
@@ -13,28 +14,24 @@ async function getFeed(userId) {
   };
 
   try {
-    const [feed, studyPhase] = await Promise.all([
+    let [feed, studyPhase] = await Promise.all([
       Feed.findAll({
         where: {
           user: userId,
         },
       }),
-      StudyPhase.findOne({
-        where: {
-          user: userId,
-        },
-      }),
+      StudyPhase.getCurrentStage(userId),
     ]);
 
+    if (studyPhase === null) {
+      await checkAndUpdate(userId);
+      studyPhase = await StudyPhase.getCurrentStage(userId);
+    }
+
     if (
-      [
-        "UNUSED",
-        "PRETEST",
-        "ONBOARDING",
-        "POST_TEST_SURVEY",
-        "CRISIS",
-        "BLOCKED",
-      ].includes(studyPhase.stage)
+      ["UNUSED", "ONBOARDING", "POST_TEST_SURVEY", "FINISHED"].includes(
+        studyPhase.stage
+      )
     ) {
       return {
         type: "PAGE",

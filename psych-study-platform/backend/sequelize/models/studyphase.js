@@ -33,11 +33,25 @@ module.exports = (sequelize, DataTypes) => {
       finishedAt: {
         type: DataTypes.DATE,
       },
+      current: {
+        type: DataTypes.BOOLEAN,
+      },
     },
     {
       sequelize,
       modelName: "StudyPhase",
     }
   );
+
+  StudyPhase.getCurrentStage = async (userId) => {
+    const studyPhase = await StudyPhase.findOne({
+      where: {
+        user: userId,
+        current: true,
+      },
+    });
+    return studyPhase;
+  };
+
   return StudyPhase;
 };
