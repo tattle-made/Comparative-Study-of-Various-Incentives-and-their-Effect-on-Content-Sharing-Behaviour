@@ -31,7 +31,7 @@ export function Feed() {
               <Box direction={"row"} gap={"small"} align={"center"}>
                 <User size={"large"} />
                 <Text weight={800} size={"xxlarge"}>
-                  {"hi"}
+                  {user.username}
                 </Text>
               </Box>
             </Box>
