@@ -1,8 +1,8 @@
 @hostname = http://localhost
 @port = 3000
 @host = {{hostname}}:{{port}}
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmV0dHlzbHVnMTUxIiwiaWQiOiJjOGE0OTg2Ny1hNjUyLTRmMzgtODg1Ny05MDk1MThjMWFjMWEiLCJyb2xlIjoiUEFSVElDSVBBTlQiLCJpYXQiOjE2NTExNjQxNDUsImV4cCI6MTY1MTE2NTM0NX0.CuJu7oYEwmidAG0Y1gYwYMi9BkL8193Gd-4neMyoBJc
-@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmV0dHlzbHVnMTUxIiwiaWQiOiJjOGE0OTg2Ny1hNjUyLTRmMzgtODg1Ny05MDk1MThjMWFjMWEiLCJyb2xlIjoiUEFSVElDSVBBTlQiLCJpYXQiOjE2NTExNjQxNDUsImV4cCI6MTY1MTc2ODk0NX0.aEy95xV2k5SaiDxe1K0FKyvpoUEEPUCiOd35zVgu3PM
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtaXhlZGhlZGdlaG9nMjc5IiwiaWQiOiIxYTRkMDBhNi02M2ZlLTQ3ZmItYTNmNy0xOTBkMTExNmFiYzAiLCJyb2xlIjoiUEFSVElDSVBBTlQiLCJpYXQiOjE2NTE2Nzg5MzEsImV4cCI6MTY1MTY4MDEzMX0.sYJIejG8eInVNpliEVPS7FwLfX6pN8dbyDBjHlFjmMY
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtaXhlZGhlZGdlaG9nMjc5IiwiaWQiOiIxYTRkMDBhNi02M2ZlLTQ3ZmItYTNmNy0xOTBkMTExNmFiYzAiLCJyb2xlIjoiUEFSVElDSVBBTlQiLCJpYXQiOjE2NTE2Nzg5MzEsImV4cCI6MTY1MjI4MzczMX0.oH8WZAkZ9wUieQJqy-HCet9Z6E-MLDH3y-MdW-YOqfQ
 
 GET {{host}}/
 
@@ -12,8 +12,8 @@ POST {{host}}/login
 content-type: application/json
 
 {
-    "username" : "prettyslug151",
-    "password" : "gomikunezo"
+    "username" : "mixedhedgehog279",
+    "password" : "jifipakafa"
 }
 
 ###
@@ -46,3 +46,9 @@ Authorization: Bearer {{accessToken}}
     "name" : "REACTION",
     "value" : "DISGUST"
 }
+
+###
+
+POST {{host}}/study-phase
+content-type : application/json
+Authorization: Bearer {{accessToken}}

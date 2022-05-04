@@ -1,7 +1,7 @@
 const { User, StudyPhase } = require("../../sequelize/models");
 const { checkAndUpdate } = require("./controller");
 
-const USER_ID = "00b61de3-29e4-457a-80b2-19ae66e1c7fd";
+const USER_ID = "00319b75-eb27-4895-b52a-5526748408aa";
 
 describe("Study Phase Functions", () => {
   test("new users should not have a study phase", async () => {
@@ -13,14 +13,9 @@ describe("Study Phase Functions", () => {
     expect(studyPhase.length).toBe(0);
   });
 
-  test("initialize study phase for new user", async () => {
-    // const USER_ID = "00b61de3-29e4-457a-80b2-19ae66e1c7fd";
+  test("study phase progression", async () => {
     await checkAndUpdate(USER_ID);
-    const studyPhase = await StudyPhase.findAll({
-      where: {
-        user: USER_ID,
-      },
-    });
-    expect(studyPhase[0].stage).toBe("PRETEST");
+    const studyPhase = await StudyPhase.getCurrentStage(USER_ID);
+    expect(studyPhase.stage).toBe("FINISHED");
   });
 });
