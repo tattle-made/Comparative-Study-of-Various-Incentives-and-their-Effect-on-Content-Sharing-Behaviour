@@ -25,12 +25,7 @@ module.exports = {
         defaultValue: "UNUSED",
         allowNull: false,
       },
-      startedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
       finishedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       createdAt: {
