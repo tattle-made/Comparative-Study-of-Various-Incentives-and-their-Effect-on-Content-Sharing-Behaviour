@@ -1,11 +1,11 @@
-import { Section } from "../atoms/Section";
+import { useApi } from "~/api/hook";
 import { config } from "~/api/study-phase/request";
+import { Box, Heading, Text, Button } from "grommet";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useApi } from "~/api/hook";
-import { Box, Heading, Text, Button } from "grommet";
+import { Section } from "../atoms/Section";
 
-export function FeedPostTestSurvey() {
+export function FeedOnboarding() {
   const { data, trigger } = useApi(config.checkAndUpdate);
   let navigate = useNavigate();
 
@@ -15,10 +15,10 @@ export function FeedPostTestSurvey() {
       navigate(0);
     }
   }, [data]);
+
   return (
     <Section>
-      {" "}
-      <h1>Feed Post Test Survey</h1>{" "}
+      <Heading>Onboarding Section</Heading>
       <Button
         onClick={async () => {
           await trigger();

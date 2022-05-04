@@ -46,6 +46,7 @@ function useApi(requestConfig, executeImmediately = false) {
         setNotification({ message: "Unable to get data" });
       }
     } catch (err) {
+      console.log({ err });
       const { response } = err;
       const { request, ...errorObject } = response; // take everything but 'request'
       console.log(errorObject);

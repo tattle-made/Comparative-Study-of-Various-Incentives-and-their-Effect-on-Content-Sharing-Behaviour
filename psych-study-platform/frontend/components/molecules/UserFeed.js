@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { config as configEvent } from "~/api/events/request";
 import { EventValues, EventPayload } from "~/api/events/payload";
 import { Box, Heading, Text, Button, Paragraph, Button } from "grommet";
@@ -8,6 +8,8 @@ import {
   SnappyVerticalScrollChild,
 } from "~/components/atoms/SnappyScroll";
 import { useApi } from "~/api/hook";
+import { config } from "~/api/study-phase/request";
+import { useNavigate } from "react-router-dom";
 
 function FeedItem({ ix, item }) {
   const [expand, setExpand] = useState(false);
@@ -89,6 +91,16 @@ function FeedItem({ ix, item }) {
 }
 
 export function UserFeed({ data }) {
+  const { data: studyPhaseResult, trigger } = useApi(config.checkAndUpdate);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (studyPhaseResult && studyPhaseResult.msg === "done") {
+      console.log({ HERE: studyPhaseResult });
+      navigate(0);
+    }
+  }, [studyPhaseResult]);
+
   return (
     <SnappyVerticalScrollContainer>
       {data && data.type === "POSTS" && data.posts ? (
@@ -98,6 +110,14 @@ export function UserFeed({ data }) {
       ) : (
         <Text color={"status-error"}>Could not find any posts</Text>
       )}
+      <SnappyVerticalScrollChild>
+        <Button
+          onClick={async () => {
+            await trigger();
+          }}
+          label={"Next"}
+        ></Button>
+      </SnappyVerticalScrollChild>
     </SnappyVerticalScrollContainer>
   );
 }
