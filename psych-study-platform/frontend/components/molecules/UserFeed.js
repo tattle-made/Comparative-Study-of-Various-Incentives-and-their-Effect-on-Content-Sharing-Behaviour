@@ -19,7 +19,7 @@ function FeedItem({ ix, item }) {
   const { ref, inView, entry } = useInView();
 
   useEffect(() => {
-    console.log(`ix ${ix} is inview : ${inView}`);
+    // console.log(`ix ${ix} is inview : ${inView}`);
     async function recordInView() {
       await trigger({
         postId: item.id,
