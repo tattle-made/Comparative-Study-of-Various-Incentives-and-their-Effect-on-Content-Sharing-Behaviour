@@ -23,7 +23,7 @@ const EventPayload = {
   SHARE_NO: (postId) => ({
     postId,
     name: EventNames.SHARE,
-    value: EventNames.SHARE_NO,
+    value: EventValues.SHARE_NO,
   }),
   REACTION_HAPPY: (postId) => ({
     postId,
@@ -33,7 +33,7 @@ const EventPayload = {
   REACTION_ANGRY: (postId) => ({
     postId,
     name: EventNames.REACTION,
-    value: EventNames.REACTION_ANGRY,
+    value: EventValues.REACTION_ANGRY,
   }),
   REACTION_DISGUST: (postId) => ({
     postId,
@@ -48,12 +48,10 @@ const EventPayload = {
   READ_MORE_NO: (postId) => ({
     postId,
     name: EventNames.READ_MORE,
-    value: EventNames.READ_MORE_NO,
+    value: EventValues.READ_MORE_NO,
   }),
 };
 
 module.exports = {
-  EventNames,
-  EventValues,
   EventPayload,
 };

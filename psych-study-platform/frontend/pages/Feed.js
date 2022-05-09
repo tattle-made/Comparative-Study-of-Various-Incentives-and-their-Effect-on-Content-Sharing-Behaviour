@@ -11,16 +11,22 @@ import { UserState } from "~/UserState";
 import { FeedOnboarding } from "../components/molecules/FeedOnboarding";
 import { FeedPostTestSurvey } from "../components/molecules/FeedPostTestSurvey";
 import { FeedFinished } from "../components/molecules/FeedFinished";
+import { usePageVisibility } from "~/components/atoms/usePageVisibility";
 
 export function Feed() {
   let navigate = useNavigate();
   const [msg, setMsg] = useState("Default");
   const [user, setUser] = useRecoilState(UserState);
   const { data } = useApi(config.getFeed, true);
+  const isVisible = usePageVisibility();
 
   useEffect(() => {
     console.log({ feed: data });
   }, [data]);
+
+  useEffect(() => {
+    console.log(`page is visible ${isVisible}`);
+  }, [isVisible]);
 
   return (
     <Box>

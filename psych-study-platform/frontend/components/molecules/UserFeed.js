@@ -10,11 +10,25 @@ import {
 import { useApi } from "~/api/hook";
 import { config } from "~/api/study-phase/request";
 import { useNavigate } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 function FeedItem({ ix, item }) {
   const [expand, setExpand] = useState(false);
   const [shared, setShared] = useState(false);
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
+  const { ref, inView, entry } = useInView();
+
+  useEffect(() => {
+    // console.log(`ix ${ix} is inview : ${inView}`);
+    async function recordInView() {
+      await trigger({
+        postId: item.id,
+        name: "IN_VIEW",
+        value: inView ? "YES" : "NO",
+      });
+    }
+    recordInView();
+  }, [inView]);
 
   async function clickShare() {
     setShared(!shared);
@@ -42,7 +56,7 @@ function FeedItem({ ix, item }) {
   }
 
   return (
-    <SnappyVerticalScrollChild key={ix} ix={ix}>
+    <SnappyVerticalScrollChild key={ix} ix={ix} ref={ref}>
       <Box margin={"medium"} pad={"medium"} border round gap={"medium"}>
         <Box>
           <Heading level={1}>{item.headlineText}</Heading>
