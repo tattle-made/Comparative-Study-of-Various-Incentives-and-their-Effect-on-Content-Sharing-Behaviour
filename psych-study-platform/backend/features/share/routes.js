@@ -1,16 +1,13 @@
 const { StatusCodes } = require("http-status-codes");
-const { sharePost: sharePostController } = require("./controller");
+const { createOrUpdateShareMetric } = require("./controller");
 
 async function sharePost(req, res) {
-  const { post, userMetric, action } = req.body;
-  const { informationType } = post;
-  const { type: studyType } = userMetric;
+  const { postId, action } = req.body;
   const { user } = req;
 
-  const { updateMetric } = postMetricManagerFactory(post, user, action);
-
   try {
-    await updateMetric();
+    await createOrUpdateShareMetric({ id: user.id }, { id: postId }, action);
+    res.status(200).send({ msg: "done" });
   } catch (err) {
     if (err instanceof InvalidSharePostPayload) {
       res.status(StatusCodes.BAD_REQUEST).send();

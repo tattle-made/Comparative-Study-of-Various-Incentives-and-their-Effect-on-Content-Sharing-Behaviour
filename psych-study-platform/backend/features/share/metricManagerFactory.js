@@ -50,14 +50,14 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
   async function updateMetric() {
     const { type: metricType } = metric;
     try {
-      await sequelize.transaction(async (t) => {
+      return sequelize.transaction(async (t) => {
         if (metricType === "MONETARY")
           await updateMonetaryMetric(post, metric, t);
         else if (metricType === "VANITY")
           await updateVanityMetric(post, metric, t);
         else throw new InvalidStudyTypePayload();
 
-        await PostMetric.upsert(
+        const [postMetric, res] = await PostMetric.upsert(
           {
             id: postMetricRes ? postMetricRes.id : undefined,
             user: user.id,
@@ -67,6 +67,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
           },
           { transaction: t }
         );
+        return postMetric;
       });
     } catch (err) {
       throw new InvalidSharePostPayload();
