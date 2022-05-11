@@ -20,7 +20,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
 
     if (increment === undefined) throw new Error("Undefined Information Type");
 
-    await Metric.upsert(
+    return await Metric.upsert(
       { id: metric.id, user: user.id, points: metric.points + increment },
       { transaction: t }
     );
@@ -41,7 +41,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
 
     if (increment === undefined) throw new Error("Undefined Information Type");
 
-    await Metric.upsert(
+    return await Metric.upsert(
       { id: metric.id, user: user.id, points: metric.points + increment },
       { transaction: t }
     );
@@ -51,10 +51,11 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
     const { type: metricType } = metric;
     try {
       return sequelize.transaction(async (t) => {
+        let userMetric;
         if (metricType === "MONETARY")
-          await updateMonetaryMetric(post, metric, t);
+          userMetric = await updateMonetaryMetric(post, metric, t);
         else if (metricType === "VANITY")
-          await updateVanityMetric(post, metric, t);
+          userMetric = await updateVanityMetric(post, metric, t);
         else throw new InvalidStudyTypePayload();
 
         const [postMetric, res] = await PostMetric.upsert(
@@ -67,7 +68,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
           },
           { transaction: t }
         );
-        return postMetric;
+        return { postMetric, userMetric: userMetric[0] };
       });
     } catch (err) {
       throw new InvalidSharePostPayload();

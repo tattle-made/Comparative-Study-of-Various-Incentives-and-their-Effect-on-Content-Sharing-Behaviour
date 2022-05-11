@@ -6,8 +6,12 @@ async function sharePost(req, res) {
   const { user } = req;
 
   try {
-    await createOrUpdateShareMetric({ id: user.id }, { id: postId }, action);
-    res.status(200).send({ msg: "done" });
+    const metrics = await createOrUpdateShareMetric(
+      { id: user.id },
+      { id: postId },
+      action
+    );
+    res.status(200).send(metrics);
   } catch (err) {
     if (err instanceof InvalidSharePostPayload) {
       res.status(StatusCodes.BAD_REQUEST).send();

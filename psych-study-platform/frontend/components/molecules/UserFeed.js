@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { config as configEvent } from "~/api/events/request";
 import { EventValues, EventPayload } from "~/api/events/payload";
 import { Box, Heading, Text, Button, Paragraph, Button } from "grommet";
@@ -12,6 +13,7 @@ import { config } from "~/api/study-phase/request";
 import { config as configShare } from "~/api/share/request";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import { UserMetric } from "~/UserState";
 
 /**
  *
@@ -28,6 +30,7 @@ function FeedItem({ ix, item }) {
     trigger: triggerShare,
   } = useApi(configShare.sharePost);
   const { ref, inView, entry } = useInView();
+  const [userMetric, setUserMetric] = useRecoilState(UserMetric);
 
   useEffect(() => {
     // console.log(`ix ${ix} is inview : ${inView}`);
@@ -44,6 +47,12 @@ function FeedItem({ ix, item }) {
   useEffect(() => {
     setShared(false);
   }, [shareErr]);
+
+  useEffect(() => {
+    if (dataShare && dataShare.userMetric)
+      setUserMetric(dataShare.userMetric.points);
+    // console.log({ dataShare });
+  }, [dataShare]);
 
   async function clickShare() {
     setShared(!shared);

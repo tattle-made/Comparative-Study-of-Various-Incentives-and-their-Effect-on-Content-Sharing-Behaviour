@@ -21,8 +21,8 @@ async function createOrUpdateShareMetric(user, post, action) {
       postMetricRes,
       action
     );
-    const postMetric = await updateMetric();
-    return postMetric;
+    const metrics = await updateMetric();
+    return metrics;
   } catch (err) {
     console.log({ ERR: err });
   }
