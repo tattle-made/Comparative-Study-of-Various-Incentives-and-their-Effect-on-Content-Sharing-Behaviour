@@ -7,7 +7,7 @@ import { Section } from "~/components/atoms/Section";
 import { useApi } from "~/api/hook";
 import { config } from "~/api/feed/request";
 import { UserFeed } from "~/components/molecules/UserFeed";
-import { UserState } from "~/UserState";
+import { UserState, UserMetric } from "~/UserState";
 import { FeedOnboarding } from "../components/molecules/FeedOnboarding";
 import { FeedPostTestSurvey } from "../components/molecules/FeedPostTestSurvey";
 import { FeedFinished } from "../components/molecules/FeedFinished";
@@ -17,6 +17,7 @@ export function Feed() {
   let navigate = useNavigate();
   const [msg, setMsg] = useState("Default");
   const [user, setUser] = useRecoilState(UserState);
+  const [userMetric, setUserMetric] = useRecoilState(UserMetric);
   const { data } = useApi(config.getFeed, true);
   const isVisible = usePageVisibility();
 
@@ -37,7 +38,7 @@ export function Feed() {
               <Box direction={"row"} gap={"small"} align={"center"}>
                 <User size={"large"} />
                 <Text weight={800} size={"xxlarge"}>
-                  {user.username}
+                  {user.username + " | " + userMetric}
                 </Text>
               </Box>
             </Box>

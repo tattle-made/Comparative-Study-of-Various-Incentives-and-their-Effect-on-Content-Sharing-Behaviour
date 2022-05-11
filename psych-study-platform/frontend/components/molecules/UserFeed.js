@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import { config as configEvent } from "~/api/events/request";
 import { EventValues, EventPayload } from "~/api/events/payload";
 import { Box, Heading, Text, Button, Paragraph, Button } from "grommet";
@@ -9,14 +10,27 @@ import {
 } from "~/components/atoms/SnappyScroll";
 import { useApi } from "~/api/hook";
 import { config } from "~/api/study-phase/request";
+import { config as configShare } from "~/api/share/request";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import { UserMetric } from "~/UserState";
 
+/**
+ *
+ * `shared` is used to keep track of the share button's state.
+ * Its possible values are - DEFAULT, IN_PROGRESS<
+ */
 function FeedItem({ ix, item }) {
   const [expand, setExpand] = useState(false);
-  const [shared, setShared] = useState(false);
+  const [shared, setShared] = useState("DEFAULT");
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
+  const {
+    data: dataShare,
+    err: shareErr,
+    trigger: triggerShare,
+  } = useApi(configShare.sharePost);
   const { ref, inView, entry } = useInView();
+  const [userMetric, setUserMetric] = useRecoilState(UserMetric);
 
   useEffect(() => {
     // console.log(`ix ${ix} is inview : ${inView}`);
@@ -30,9 +44,20 @@ function FeedItem({ ix, item }) {
     recordInView();
   }, [inView]);
 
+  useEffect(() => {
+    setShared(false);
+  }, [shareErr]);
+
+  useEffect(() => {
+    if (dataShare && dataShare.userMetric)
+      setUserMetric(dataShare.userMetric.points);
+    // console.log({ dataShare });
+  }, [dataShare]);
+
   async function clickShare() {
     setShared(!shared);
     const { SHARE_YES, SHARE_NO } = EventPayload;
+    await triggerShare({ postId: item.id, action: "SHARE" });
     await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
   }
 

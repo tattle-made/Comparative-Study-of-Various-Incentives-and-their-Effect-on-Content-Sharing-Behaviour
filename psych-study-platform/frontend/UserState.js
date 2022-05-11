@@ -16,6 +16,11 @@ export const UserState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const UserMetric = atom({
+  key: "UserMetric",
+  default: 0,
+});
+
 /**
  * Empty object check code gotten from here
  * https://stackoverflow.com/a/32108184

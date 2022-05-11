@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.StudyPhase, {
         foreignKey: "user",
       });
+      User.hasOne(models.PostMetric, {
+        foreignKey: "user",
+      });
     }
   }
   User.init(
@@ -54,5 +57,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
+
+  User.makeBareBones = (userId) => {
+    return {
+      id: userId,
+    };
+  };
+
   return User;
 };
