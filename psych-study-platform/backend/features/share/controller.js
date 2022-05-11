@@ -4,7 +4,7 @@ const { shareMetricManagerFactory } = require("./metricManagerFactory");
 async function createOrUpdateShareMetric(user, post, action) {
   try {
     const [userRes, postRes, metricRes, postMetricRes] = await Promise.all([
-      User.findOne({ where: { id: user.id } }),
+      User.makeBareBones(user.id),
       Post.findOne({ where: { id: post.id } }),
       Metric.findOne({ where: { user: user.id } }),
       PostMetric.findOne({

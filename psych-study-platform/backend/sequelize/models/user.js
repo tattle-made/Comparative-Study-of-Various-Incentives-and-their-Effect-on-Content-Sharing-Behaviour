@@ -57,5 +57,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
+
+  User.makeBareBones = (userId) => {
+    return {
+      id: userId,
+    };
+  };
+
   return User;
 };
