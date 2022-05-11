@@ -9,13 +9,24 @@ import {
 } from "~/components/atoms/SnappyScroll";
 import { useApi } from "~/api/hook";
 import { config } from "~/api/study-phase/request";
+import { config as configShare } from "~/api/share/request";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 
+/**
+ *
+ * `shared` is used to keep track of the share button's state.
+ * Its possible values are - DEFAULT, IN_PROGRESS<
+ */
 function FeedItem({ ix, item }) {
   const [expand, setExpand] = useState(false);
-  const [shared, setShared] = useState(false);
+  const [shared, setShared] = useState("DEFAULT");
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
+  const {
+    data: dataShare,
+    err: shareErr,
+    trigger: triggerShare,
+  } = useApi(configShare.sharePost);
   const { ref, inView, entry } = useInView();
 
   useEffect(() => {
@@ -30,9 +41,14 @@ function FeedItem({ ix, item }) {
     recordInView();
   }, [inView]);
 
+  useEffect(() => {
+    setShared(false);
+  }, [shareErr]);
+
   async function clickShare() {
     setShared(!shared);
     const { SHARE_YES, SHARE_NO } = EventPayload;
+    await triggerShare({ postId: item.id, action: "SHARE" });
     await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
   }
 
