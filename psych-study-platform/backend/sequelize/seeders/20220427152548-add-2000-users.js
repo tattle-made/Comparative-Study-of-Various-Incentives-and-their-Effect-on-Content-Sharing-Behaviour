@@ -35,7 +35,20 @@ module.exports = {
     const usersPayload = await Promise.all(usersPayloadPromises);
     // console.log(usersPayload);
 
-    return await queryInterface.bulkInsert("Users", usersPayload);
+    await queryInterface.bulkInsert("Users", usersPayload);
+
+    const studyPhasePayloads = usersPayload.map((user) => {
+      return {
+        id: uuidv4(),
+        user: user.id,
+        type: Math.floor(Math.random() * 2) === 0 ? "MONETARY" : "VANITY",
+        points: 0,
+        createdAt: timeOfRun,
+        updatedAt: timeOfRun,
+      };
+    });
+
+    return await queryInterface.bulkInsert("Metrics", studyPhasePayloads);
   },
 
   async down(queryInterface, Sequelize) {

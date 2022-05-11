@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.StudyPhase, {
         foreignKey: "user",
       });
+      User.hasOne(models.PostMetric, {
+        foreignKey: "user",
+      });
     }
   }
   User.init(
