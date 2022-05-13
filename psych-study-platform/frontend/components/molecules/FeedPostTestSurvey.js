@@ -1,5 +1,6 @@
 import { Section } from "../atoms/Section";
 import { config } from "~/api/study-phase/request";
+import { config as configSurvey } from "~/api/survey-form/request";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -27,6 +28,7 @@ export function FeedPostTestSurvey() {
   const { data, trigger } = useApi(config.checkAndUpdate);
   let navigate = useNavigate();
   const [userMetric, setUserMetric] = useRecoilState(UserMetric);
+  const { trigger: triggerSaveSurvey } = useApi(configSurvey.saveSurveyForm);
 
   useEffect(() => {
     if (data && data.msg === "done") {
@@ -39,8 +41,10 @@ export function FeedPostTestSurvey() {
     console.log({ userMetric });
   }, [userMetric]);
 
-  function submitClicked({ value }) {
+  async function submitClicked({ value }) {
     console.log(value);
+    await triggerSaveSurvey({ survey: value });
+    await trigger();
   }
 
   return (
