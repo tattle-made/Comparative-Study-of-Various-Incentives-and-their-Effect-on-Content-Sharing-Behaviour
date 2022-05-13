@@ -14,6 +14,7 @@ import { config as configShare } from "~/api/share/request";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { UserMetric } from "~/UserState";
+import { Section } from "../atoms/Section";
 
 /**
  *
@@ -49,9 +50,8 @@ function FeedItem({ ix, item }) {
   }, [shareErr]);
 
   useEffect(() => {
-    if (dataShare && dataShare.userMetric)
-      setUserMetric(dataShare.userMetric.points);
-    // console.log({ dataShare });
+    if (dataShare && dataShare.userMetric) setUserMetric(dataShare.userMetric);
+    console.log({ dataShare });
   }, [dataShare]);
 
   async function clickShare() {
@@ -118,7 +118,7 @@ function FeedItem({ ix, item }) {
           >
             <ShareOption size="large" />
             {shared ? (
-              <Text size={"large"} weight={"500"}>
+              <Text size={"large"} weight={500}>
                 Shared
               </Text>
             ) : null}
@@ -150,12 +150,21 @@ export function UserFeed({ data }) {
         <Text color={"status-error"}>Could not find any posts</Text>
       )}
       <SnappyVerticalScrollChild>
-        <Button
-          onClick={async () => {
-            await trigger();
-          }}
-          label={"Next"}
-        ></Button>
+        <Section>
+          <Box gap={"medium"}>
+            <Text size="large">
+              You have finished viewing your posts for the day. Please visit
+              this app again tomorrow for new posts.
+            </Text>
+            <Button
+              alignSelf="start"
+              onClick={async () => {
+                await trigger();
+              }}
+              label={"Next"}
+            ></Button>
+          </Box>
+        </Section>
       </SnappyVerticalScrollChild>
     </SnappyVerticalScrollContainer>
   );

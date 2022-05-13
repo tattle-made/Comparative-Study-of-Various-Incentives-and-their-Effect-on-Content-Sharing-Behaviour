@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
       },
       type: DataTypes.ENUM("MONETARY", "VANITY"),
+      user: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
       points: {
         type: DataTypes.INTEGER,
         defaultValue: 0,

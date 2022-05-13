@@ -28,6 +28,11 @@ async function createOrUpdateShareMetric(user, post, action) {
   }
 }
 
+async function getUserMetrics(userId) {
+  return Metric.findOne({ where: { user: userId } });
+}
+
 module.exports = {
   createOrUpdateShareMetric,
+  getUserMetrics,
 };

@@ -21,7 +21,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
     if (increment === undefined) throw new Error("Undefined Information Type");
 
     return await Metric.upsert(
-      { id: metric.id, user: user.id, points: metric.points + increment },
+      { id: metric.id, points: metric.points + increment },
       { transaction: t }
     );
   }
@@ -42,7 +42,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
     if (increment === undefined) throw new Error("Undefined Information Type");
 
     return await Metric.upsert(
-      { id: metric.id, user: user.id, points: metric.points + increment },
+      { id: metric.id, points: metric.points + increment },
       { transaction: t }
     );
   }
@@ -68,7 +68,13 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
           },
           { transaction: t }
         );
-        return { postMetric, userMetric: userMetric[0] };
+
+        const fullUserMetric = await Metric.findOne({
+          where: {
+            id: userMetric[0].id,
+          },
+        });
+        return { postMetric, userMetric: fullUserMetric };
       });
     } catch (err) {
       throw new InvalidSharePostPayload();
