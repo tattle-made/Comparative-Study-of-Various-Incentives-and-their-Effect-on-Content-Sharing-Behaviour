@@ -28,4 +28,4 @@ npm run dev
 ```
 Open browser and visit http://localhost:1234
 
-v0.0.4
+v0.0.5
