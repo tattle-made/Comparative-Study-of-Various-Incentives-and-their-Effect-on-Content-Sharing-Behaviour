@@ -27,3 +27,5 @@ both can be generatd using `require('crypto').randomBytes(64).toString('hex')`
 npm run dev
 ```
 Open browser and visit http://localhost:1234
+
+v0.0.1
