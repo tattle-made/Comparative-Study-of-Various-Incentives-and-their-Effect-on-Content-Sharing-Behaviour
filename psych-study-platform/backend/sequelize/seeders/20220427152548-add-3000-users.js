@@ -10,9 +10,9 @@ const timeOfRun = new Date();
 module.exports = {
   async up(queryInterface, Sequelize) {
     const userData = [];
-    const usersPayloadPromises = Array.from({ length: 2000 }, (v, i) => i).map(
+    const usersPayloadPromises = Array.from({ length: 3000 }, (v, i) => i).map(
       async (i) => {
-        const username = generateUsername({ useHyphen: false }).slice(0, 24);
+        const username = generateUsername({ useHyphen: false }).slice(0, 25);
         const password = generatePassword();
         userData.push({ username, password });
         const payload = {
@@ -52,8 +52,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return await queryInterface.bulkDelete("Users", {
-      createdAt: time_of_run,
-    });
+    await queryInterface.bulkDelete("Users", {});
+    return await queryInterface.bulkDelete("Metrics", {});
   },
 };

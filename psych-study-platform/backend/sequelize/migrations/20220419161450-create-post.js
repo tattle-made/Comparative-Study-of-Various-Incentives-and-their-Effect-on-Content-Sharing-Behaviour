@@ -7,6 +7,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
+      postNumber: {
+        type: Sequelize.INTEGER,
+      },
       informationType: {
         type: Sequelize.ENUM(
           "PLAUSIBLE",

@@ -17,8 +17,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return await queryInterface.bulkDelete("Posts", {
-      createdAt: time_of_run,
-    });
+    return await queryInterface.bulkDelete("Posts", {});
   },
 };

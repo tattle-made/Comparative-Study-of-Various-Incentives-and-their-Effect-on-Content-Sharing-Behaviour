@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
+      postNumber: DataTypes.INTEGER,
       informationType: DataTypes.ENUM(
         "PLAUSIBLE",
         "IMPLAUSIBLE",

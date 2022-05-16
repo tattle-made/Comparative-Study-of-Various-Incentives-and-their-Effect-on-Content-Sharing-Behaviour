@@ -40,28 +40,33 @@ async function parseSheet(sheet) {
 
 function transformData(data) {
   var posts = [];
-  Object.keys(data).map((key) => {
+  Object.keys(data).map((key, ix) => {
     posts.push({
+      postNumber: ix,
       informationType: "PLAUSIBLE",
       headlineText: data[key]["plausible"],
       readMoreText: data[key]["plausibleReadMore"],
     });
     posts.push({
+      postNumber: ix,
       informationType: "IMPLAUSIBLE",
       headlineText: data[key]["implausible"],
       readMoreText: data[key]["implausibleReadMore"],
     });
     posts.push({
+      postNumber: ix,
       informationType: "TRUE",
       headlineText: data[key]["true"],
       readMoreText: data[key]["trueReadMore"],
     });
     posts.push({
+      postNumber: ix,
       informationType: "FALSE",
       headlineText: data[key]["false"],
       readMoreText: data[key]["falseReadMore"],
     });
     posts.push({
+      postNumber: ix,
       informationType: "WHOLESOME",
       headlineText: data[key]["wholesome"],
       readMoreText: data[key]["wholesomeReadMore"],
