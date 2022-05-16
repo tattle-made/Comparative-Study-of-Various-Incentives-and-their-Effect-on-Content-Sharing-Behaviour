@@ -28,6 +28,8 @@
     "styled-components": "^5.3.5"
   },
   "alias": {
-    "process": false
+    "process": {
+      "global": "{}"
+    }
   }
 }
