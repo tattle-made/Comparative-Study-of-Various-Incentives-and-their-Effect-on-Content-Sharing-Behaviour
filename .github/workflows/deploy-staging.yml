@@ -36,7 +36,9 @@ jobs:
           echo "setting variables"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           cd psych-study-platform/frontend
-          npm install
+          echo "installing dependencies"
+          npm install --force
+          echo "building frontend"
           npm run build
 
           
