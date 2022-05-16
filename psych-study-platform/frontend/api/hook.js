@@ -5,6 +5,7 @@ import { UserState } from "~/UserState";
 import { NotificationState } from "~/NotificationState";
 
 const HOST_URL = "https://meshi-staging.tattle.co.in";
+// const HOST_URL = "http://localhost:3000";
 
 function useApi(requestConfig, executeImmediately = false) {
   // const [requestConfig, setRequestConfig] = useState(requestConfig);

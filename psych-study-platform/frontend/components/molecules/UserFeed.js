@@ -14,7 +14,63 @@ import { config as configShare } from "~/api/share/request";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { UserMetric } from "~/UserState";
+import { NotificationState } from "~/NotificationState";
 import { Section } from "../atoms/Section";
+
+function StatefulBox({ currentState, value, children }) {
+  return currentState === value ? (
+    <Box background={"light-4"} round pad={"small"}>
+      {children}
+    </Box>
+  ) : (
+    <Box pad={"small"}>{children}</Box>
+  );
+}
+
+function Reactions({ postId }) {
+  const { data, err, loading, trigger } = useApi(configEvent.createEvent);
+  const [selectedReaction, setSelectedReaction] = useState("");
+  const [notification, setNotification] = useRecoilState(NotificationState);
+
+  async function clickReaction(reaction) {
+    if (selectedReaction === "") {
+      console.log({ reaction, EventValues, EventPayload });
+      let reactionPayload;
+      if (reaction === EventValues.REACTION_HAPPY)
+        reactionPayload = EventPayload.REACTION_HAPPY;
+      else if (reaction === EventValues.REACTION_ANGRY)
+        reactionPayload = EventPayload.REACTION_ANGRY;
+      else if (reaction === EventValues.REACTION_DISGUST)
+        reactionPayload = EventPayload.REACTION_DISGUST;
+      else throw new Error("Unexpected Reaction Value");
+
+      setSelectedReaction(reaction);
+      await trigger(reactionPayload(postId));
+    } else {
+      setNotification({ message: "You can not Undo your Reaction" });
+    }
+  }
+
+  return (
+    <Box direction={"row"} gap={"small"}>
+      <StatefulBox currentState={selectedReaction} value={"HAPPY"}>
+        <Button plain onClick={() => clickReaction("HAPPY")}>
+          <Text size={"40px"}>🙂</Text>
+        </Button>
+      </StatefulBox>
+      <StatefulBox currentState={selectedReaction} value={"ANGRY"}>
+        <Button plain onClick={() => clickReaction("ANGRY")}>
+          <Text size={"40px"}>😠</Text>
+        </Button>
+      </StatefulBox>
+      <StatefulBox currentState={selectedReaction} value={"DISGUST"}>
+        <Button plain onClick={() => clickReaction("DISGUST")}>
+          <Text size={"40px"}>🤢</Text>
+        </Button>
+      </StatefulBox>
+    </Box>
+  );
+}
 
 /**
  *
@@ -32,6 +88,7 @@ function FeedItem({ ix, item }) {
   } = useApi(configShare.sharePost);
   const { ref, inView, entry } = useInView();
   const [userMetric, setUserMetric] = useRecoilState(UserMetric);
+  const [notification, setNotification] = useRecoilState(NotificationState);
 
   useEffect(() => {
     // console.log(`ix ${ix} is inview : ${inView}`);
@@ -55,23 +112,14 @@ function FeedItem({ ix, item }) {
   }, [dataShare]);
 
   async function clickShare() {
-    setShared(!shared);
-    const { SHARE_YES, SHARE_NO } = EventPayload;
-    await triggerShare({ postId: item.id, action: "SHARE" });
-    await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
-  }
-
-  async function clickReaction(reaction) {
-    let reactionPayload;
-    if (reaction === EventValues.REACTION_HAPPY)
-      reaction = EventPayload.REACTION_HAPPY;
-    else if (reaction === EventValues.REACTION_ANGRY)
-      reaction = EventPayload.REACTION_ANGRY;
-    else if (reaction === EventValues.REACTION_DISGUST)
-      reaction = EventPayload.REACTION_DISGUST;
-    else throw new Error("Unexpected Reaction Value");
-
-    await trigger(reactionPayload(item.id));
+    if (!shared) {
+      setShared(!shared);
+      const { SHARE_YES, SHARE_NO } = EventPayload;
+      await triggerShare({ postId: item.id, action: "SHARE" });
+      await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
+    } else {
+      setNotification({ message: "You can not Undo your share" });
+    }
   }
 
   async function clickReadMore() {
@@ -90,24 +138,8 @@ function FeedItem({ ix, item }) {
             <Paragraph size="xxlarge">{item.readMoreText}</Paragraph>
           ) : null}
         </Box>
-        <Box direction="row" gap={"large"}>
-          <Box direction={"row"} gap={"small"}>
-            <Box>
-              <Button plain onClick={() => clickReaction("HAPPY")}>
-                <Text size={"40px"}>🙂</Text>
-              </Button>
-            </Box>
-            <Box>
-              <Button plain onClick={() => clickReaction("ANGRY")}>
-                <Text size={"40px"}>😠</Text>
-              </Button>
-            </Box>
-            <Box>
-              <Button plain onClick={() => clickReaction("DISGUST")}>
-                <Text size={"40px"}>🤢</Text>
-              </Button>
-            </Box>
-          </Box>
+        <Box direction="row" gap={"large"} pad={"small"} align={"center"}>
+          <Reactions postId={item.id} />
           <Box
             hoverIndicator={true}
             focusIndicator={false}
@@ -115,6 +147,9 @@ function FeedItem({ ix, item }) {
             direction={"row"}
             gap={"small"}
             align={"center"}
+            round
+            pad={"small"}
+            background={shared ? "light-4" : "light-0"}
           >
             <ShareOption size="large" />
             {shared ? (
