@@ -27,6 +27,7 @@ app.use(function (req, res, next) {
     next();
   }
 });
+app.use(express.static("public"));
 app.use(authenticationMiddleware);
 
 const port = 3000;
