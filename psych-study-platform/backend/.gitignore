@@ -6,3 +6,5 @@ scripts/*.json
 
 sequelize/seeders/posts.json
 sequelize/seeders/userData.json
+
+public/
