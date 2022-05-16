@@ -26,5 +26,8 @@
     "recoil": "^0.6.1",
     "recoil-persist": "^4.1.0",
     "styled-components": "^5.3.5"
+  },
+  "alias": {
+    "process": false
   }
 }
