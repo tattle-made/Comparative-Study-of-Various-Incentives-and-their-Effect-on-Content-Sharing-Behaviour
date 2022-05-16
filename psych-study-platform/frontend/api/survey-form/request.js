@@ -1,7 +1,7 @@
 const config = {
   saveSurveyForm: {
     type: "POST",
-    endpoint: "survey-form",
+    endpoint: "api/survey-form",
   },
 };
 

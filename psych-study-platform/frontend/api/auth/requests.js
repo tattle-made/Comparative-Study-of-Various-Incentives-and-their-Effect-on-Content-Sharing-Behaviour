@@ -1,25 +1,25 @@
 function PostRequestLoginMaker(payload) {
   return {
     type: "POST",
-    endpoint: "login",
+    endpoint: "api/login",
   };
 }
 
 function LogoutRequestConfig(payload) {
   return {
     type: "POST",
-    endpoint: "/auth/logout",
+    endpoint: "api/auth/logout",
   };
 }
 
 const config = {
   loginUser: {
     type: "POST",
-    endpoint: "login",
+    endpoint: "api/login",
   },
   logoutUser: {
     type: "POST",
-    endpoint: "/logout",
+    endpoint: "api/logout",
   },
 };
 

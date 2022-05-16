@@ -25,6 +25,6 @@ async function createEvent(req, res) {
 async function updateEvent(req, res) {}
 
 module.exports = (expressApp) => {
-  expressApp.post("/event", createEvent);
-  expressApp.patch("/event", updateEvent);
+  expressApp.post("/api/event", createEvent);
+  expressApp.patch("/api/event", updateEvent);
 };

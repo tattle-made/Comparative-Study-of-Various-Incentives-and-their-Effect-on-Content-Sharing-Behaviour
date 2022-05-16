@@ -18,5 +18,5 @@ async function saveSurveyResponse(req, res) {
 }
 
 module.exports = (expressApp) => {
-  expressApp.post("/survey-form", saveSurveyResponse);
+  expressApp.post("/api/survey-form", saveSurveyResponse);
 };

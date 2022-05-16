@@ -1,7 +1,7 @@
 const config = {
   checkAndUpdate: {
     type: "POST",
-    endpoint: "study-phase",
+    endpoint: "api/study-phase",
   },
 };
 
