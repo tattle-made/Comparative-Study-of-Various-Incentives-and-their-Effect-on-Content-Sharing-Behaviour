@@ -64,7 +64,7 @@ module.exports = {
       };
     });
 
-    console.log({ doubleUserIds });
+    // console.log({ doubleUserIds });
 
     await queryInterface.bulkInsert("Feeds", feeds);
 
@@ -89,7 +89,17 @@ module.exports = {
       return allocations;
     });
     const flatAllocations = allocation.flat();
-    await queryInterface.bulkInsert("JunctionPostFeeds", flatAllocations);
+    const BATCH_SIZE = 1000;
+    for (let i = 0; i < flatAllocations.length / BATCH_SIZE; i++) {
+      console.log(`Adding Batch ${i}`);
+      let batch = flatAllocations.slice(
+        i * BATCH_SIZE,
+        i * BATCH_SIZE + BATCH_SIZE
+      );
+      await queryInterface.bulkInsert("JunctionPostFeeds", batch);
+    }
+
+    // await queryInterface.bulkInsert("JunctionPostFeeds", flatAllocations);
 
     // console.log(flatAllocations);
   },

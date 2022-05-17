@@ -154,14 +154,14 @@ export function FeedPostTestSurvey() {
           </Box>
         ) : null}
 
-        <Button type="submit" primary label="Submit" />
+        <Button type="submit" primary label="Submit" alignSelf="start" />
       </Form>
-      <Button
+      {/* <Button
         onClick={async () => {
           await trigger();
         }}
         label={"Next"}
-      ></Button>
+      ></Button> */}
     </Section>
   );
 }

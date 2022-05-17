@@ -1,11 +1,11 @@
 const config = {
   sharePost: {
     type: "POST",
-    endpoint: "share",
+    endpoint: "api/share",
   },
   userMetrics: {
     type: "GET",
-    endpoint: "user-metrics",
+    endpoint: "api/user-metrics",
   },
 };
 

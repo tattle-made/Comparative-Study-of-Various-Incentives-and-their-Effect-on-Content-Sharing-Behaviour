@@ -6,7 +6,7 @@ const refreshTokenKey = process.env.JWT_REFRESH_TOKEN_KEY;
 
 async function generateAccessToken(id, username, role) {
   const accessToken = await sign({ sub: username, id, role }, accessTokenKey, {
-    expiresIn: "20 m", // allowed formats : "24 hours", "20 m"
+    expiresIn: "7 days", // allowed formats : "24 hours", "20 m"
   });
 
   return accessToken;

@@ -25,5 +25,5 @@ async function upgradePhase(req, res) {
 }
 
 module.exports = (expressApp) => {
-  expressApp.post("/study-phase", upgradePhase);
+  expressApp.post("/api/study-phase", upgradePhase);
 };

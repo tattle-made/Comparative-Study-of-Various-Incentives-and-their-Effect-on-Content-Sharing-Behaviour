@@ -4,7 +4,10 @@ import axios from "axios";
 import { UserState } from "~/UserState";
 import { NotificationState } from "~/NotificationState";
 
-const HOST_URL = "http://localhost:3000";
+// const HOST_URL = "https://meshi-staging.tattle.co.in";
+// const HOST_URL = "http://localhost:3000";
+
+const HOST_URL = process.env.API_HOST;
 
 function useApi(requestConfig, executeImmediately = false) {
   // const [requestConfig, setRequestConfig] = useState(requestConfig);

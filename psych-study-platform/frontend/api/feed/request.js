@@ -1,7 +1,7 @@
 const config = {
   getFeed: {
     type: "GET",
-    endpoint: "feed",
+    endpoint: "api/feed",
   },
 };
 

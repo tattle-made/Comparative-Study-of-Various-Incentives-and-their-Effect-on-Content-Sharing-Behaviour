@@ -1,5 +1,9 @@
 import { Box } from "grommet";
 
 export function Section({ children }) {
-  return <Box pad={"medium"}>{children}</Box>;
+  return (
+    <Box flex={"grow"} pad={"medium"}>
+      {children}
+    </Box>
+  );
 }

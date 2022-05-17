@@ -1,11 +1,11 @@
 const config = {
   createEvent: {
     type: "POST",
-    endpoint: "event",
+    endpoint: "api/event",
   },
   updateEvent: {
     type: "PATCH",
-    endpoint: "event",
+    endpoint: "api/event",
   },
 };
 

@@ -3,5 +3,5 @@ function healthCheck(req, res) {
 }
 
 module.exports = (expressApp) => {
-  expressApp.get("/", healthCheck);
+  expressApp.get("/api/", healthCheck);
 };

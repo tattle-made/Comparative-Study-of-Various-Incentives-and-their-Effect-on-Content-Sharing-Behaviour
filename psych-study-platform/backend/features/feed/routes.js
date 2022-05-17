@@ -17,5 +17,5 @@ async function getFeed(req, res) {
 }
 
 module.exports = (expressApp) => {
-  expressApp.get("/feed", getFeed);
+  expressApp.get("/api/feed", getFeed);
 };

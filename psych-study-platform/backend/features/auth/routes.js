@@ -54,7 +54,7 @@ async function refreshToken(req, res) {
 }
 
 module.exports = (expressApp) => {
-  expressApp.post("/login", login);
-  expressApp.post("/logout", logout);
-  expressApp.post("/auth/refreshToken", refreshToken);
+  expressApp.post("/api/login", login);
+  expressApp.post("/api/logout", logout);
+  expressApp.post("/api/auth/refreshToken", refreshToken);
 };

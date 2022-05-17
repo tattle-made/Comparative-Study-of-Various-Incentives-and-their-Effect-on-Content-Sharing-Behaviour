@@ -36,7 +36,9 @@ jobs:
           echo "setting variables"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           cd psych-study-platform/frontend
-          npm install
+          echo "installing dependencies"
+          npm install --force
+          echo "building frontend"
           npm run build
 
           
@@ -45,19 +47,19 @@ jobs:
         with:
           username: tattletech
           password: ${{ secrets.DOCKER_PASSWORD }}
-          name: tattletech/ogbv_annotator
+          name: tattletech/psych-study-platform
           tags: ${{ steps.vars.outputs.sha_short }}
-          workdir: annotators/backend/
+          workdir: psych-study-platform/backend/
 
-      # - name: deploy to cluster
-      #   uses: steebchen/kubectl@v2.0.0
-      #   with: # defaults to latest kubectl binary version
-      #     config: ${{ secrets.PROD_KUBE_CONFIG_DATA }}
-      #     command: set image --record deployment/psych-study-platform-staging psych-study-platform-staging=tattletech/psych-study-platform:${{ steps.vars.outputs.sha_short }}
-      # - name: verify deployment
-      #   uses: steebchen/kubectl@v2.0.0
-      #   with:
-      #     config: ${{ secrets.PROD_KUBE_CONFIG_DATA }}
-      #     version: v1.21.0 # specify kubectl binary version explicitly
-      #     command: rollout status deployment/psych-study-platform-staging
+      - name: deploy to cluster
+        uses: steebchen/kubectl@v2.0.0
+        with: # defaults to latest kubectl binary version
+          config: ${{ secrets.PROD_KUBE_CONFIG_DATA }}
+          command: set image --record deployment/psych-study-platform-staging psych-study-platform-staging=tattletech/psych-study-platform:${{ steps.vars.outputs.sha_short }}
+      - name: verify deployment
+        uses: steebchen/kubectl@v2.0.0
+        with:
+          config: ${{ secrets.PROD_KUBE_CONFIG_DATA }}
+          version: v1.21.0 # specify kubectl binary version explicitly
+          command: rollout status deployment/psych-study-platform-staging
 

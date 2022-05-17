@@ -13,17 +13,12 @@ import {
 import { Section } from "~/components/atoms/Section";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "~/api/hook";
-import { PostRequestLoginMaker } from "~/api/auth/requests";
+import { config } from "~/api/auth/requests";
 import { UserState } from "~/UserState";
 
 export function Login() {
   let navigate = useNavigate();
-  let {
-    data: userData,
-    err,
-    loading,
-    trigger,
-  } = useApi(PostRequestLoginMaker());
+  let { data: userData, err, loading, trigger } = useApi(config.loginUser);
   const [user, setUser] = useRecoilState(UserState);
 
   async function loginPressed({ value }) {
@@ -38,8 +33,9 @@ export function Login() {
   }, [userData]);
 
   useEffect(() => {
-    // if (err) showNotification("Error");
-  }, [err]);
+    console.log({ user });
+    navigate("/feed");
+  }, [user]);
 
   return (
     <Section>
@@ -64,6 +60,11 @@ export function Login() {
           {loading ? <Text>loading...</Text> : null}
         </Box>
       </Form>
+      <Box flex={"grow"} />
+
+      <Text color={"dark-4"} size={"xsmall"}>
+        {process.env.NODE_ENV}
+      </Text>
     </Section>
   );
 }

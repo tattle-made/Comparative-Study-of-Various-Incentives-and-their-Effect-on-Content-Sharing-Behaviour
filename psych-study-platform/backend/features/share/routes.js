@@ -35,6 +35,6 @@ async function getUserMetrics(req, res) {
 }
 
 module.exports = (expressApp) => {
-  expressApp.post("/share", sharePost);
-  expressApp.get("/user-metrics", getUserMetrics);
+  expressApp.post("/api/share", sharePost);
+  expressApp.get("/api/user-metrics", getUserMetrics);
 };

@@ -8,7 +8,7 @@ const enum EventValues {
   SHARE_YES = "YES",
   SHARE_NO = "NO",
   REACTION_HAPPY = "HAPPY",
-  REACTION_ANGRY = "SAD",
+  REACTION_ANGRY = "ANGRY",
   REACTION_DISGUST = "DISGUST",
   READ_MORE_YES = "YES",
   READ_MORE_NO = "NO",
@@ -54,4 +54,6 @@ const EventPayload = {
 
 module.exports = {
   EventPayload,
+  EventValues,
+  EventNames
 };
