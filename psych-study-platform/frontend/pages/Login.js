@@ -33,8 +33,9 @@ export function Login() {
   }, [userData]);
 
   useEffect(() => {
-    // if (err) showNotification("Error");
-  }, [err]);
+    console.log({ user });
+    navigate("/feed");
+  }, [user]);
 
   return (
     <Section>
