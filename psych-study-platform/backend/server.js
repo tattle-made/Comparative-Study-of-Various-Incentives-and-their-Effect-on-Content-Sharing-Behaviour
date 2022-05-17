@@ -9,6 +9,7 @@ const { enableFeatures } = require("./features");
 const {
   authenticationMiddleware,
 } = require("./middlewares/authentication/middleware");
+const path = require("path");
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,11 @@ app.use(function (req, res, next) {
 });
 app.use(express.static("public"));
 app.use(authenticationMiddleware);
+app.get(["/app", "/feed"], function (req, res, next) {
+  console.log("here3");
+  console.log(__dirname, req.originalUrl);
+  res.sendFile(path.join(__dirname, "/public", "index.html"));
+});
 
 const port = 3000;
 
