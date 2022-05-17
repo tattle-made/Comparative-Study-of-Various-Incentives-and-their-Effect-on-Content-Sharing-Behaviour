@@ -142,7 +142,7 @@ function FeedItem({ ix, item }) {
             </Paragraph>
           ) : null}
         </Box>
-        <Box direction="row" gap={"large"} pad={"small"} align={"center"}>
+        <Box direction="row" gap={"small"} align={"center"}>
           <Reactions postId={item.id} />
           <Box
             hoverIndicator={true}
@@ -160,7 +160,11 @@ function FeedItem({ ix, item }) {
               <Text size={"large"} weight={500}>
                 Shared
               </Text>
-            ) : null}
+            ) : (
+              <Text size={"large"} weight={500}>
+                Share
+              </Text>
+            )}
           </Box>
         </Box>
       </Box>

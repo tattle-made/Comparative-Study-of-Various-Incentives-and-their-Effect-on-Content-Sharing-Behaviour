@@ -47,11 +47,11 @@ export function Feed() {
         {user.id ? (
           <Box>
             <Section>
-              <Box round={"small"} border pad={"small"}>
+              <Box round={"small"} border flex={"grow"} pad={"small"}>
                 <Box direction={"row"} gap={"small"} align={"center"}>
                   <User size={"large"} />
                   <Box dir="row">
-                    <Text weight={800} size={"xxlarge"}>
+                    <Text weight={300} size={"xxlarge"}>
                       {user.username}
                     </Text>
                     <Text weight={800} size={"xxlarge"} color={"brand"}>
@@ -60,7 +60,6 @@ export function Feed() {
                   </Box>
                 </Box>
               </Box>
-              <Box flex={"grow"}></Box>
             </Section>
             {/* <Text>{JSON.stringify(data)}</Text> */}
             {data && data.type === "POSTS" ? <UserFeed data={data} /> : null}
