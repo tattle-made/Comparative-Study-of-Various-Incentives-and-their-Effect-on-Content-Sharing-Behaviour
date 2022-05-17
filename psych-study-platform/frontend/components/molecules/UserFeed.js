@@ -137,7 +137,7 @@ function FeedItem({ ix, item }) {
           </Heading>
           <Button plain label={"Read More"} onClick={clickReadMore} />
           {expand ? (
-            <Paragraph fill size="xlarge">
+            <Paragraph fill size="medium">
               {item.readMoreText}
             </Paragraph>
           ) : null}
