@@ -59,6 +59,11 @@ export function Login() {
           {loading ? <Text>loading...</Text> : null}
         </Box>
       </Form>
+      <Box flex={"grow"} />
+
+      <Text color={"dark-4"} size={"xsmall"}>
+        {process.env.NODE_ENV}
+      </Text>
     </Section>
   );
 }
