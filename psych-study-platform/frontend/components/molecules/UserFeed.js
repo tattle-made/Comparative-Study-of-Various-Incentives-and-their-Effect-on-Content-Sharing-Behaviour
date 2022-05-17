@@ -132,10 +132,14 @@ function FeedItem({ ix, item }) {
     <SnappyVerticalScrollChild key={ix} ix={ix} ref={ref}>
       <Box margin={"medium"} pad={"medium"} border round gap={"medium"}>
         <Box>
-          <Heading level={1}>{item.headlineText}</Heading>
+          <Heading level={3} fill>
+            {item.headlineText}
+          </Heading>
           <Button plain label={"Read More"} onClick={clickReadMore} />
           {expand ? (
-            <Paragraph size="xxlarge">{item.readMoreText}</Paragraph>
+            <Paragraph fill size="xlarge">
+              {item.readMoreText}
+            </Paragraph>
           ) : null}
         </Box>
         <Box direction="row" gap={"large"} pad={"small"} align={"center"}>

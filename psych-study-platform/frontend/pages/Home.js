@@ -25,7 +25,7 @@ export function Home() {
   }, [userLoginStatus]);
 
   return (
-    <Box>
+    <Box fill>
       <Box pad={"small"} gap={"large"} direction={"row"} align={"center"}>
         <Heading level={3}>Meshi</Heading>
         {/* {notification ? (

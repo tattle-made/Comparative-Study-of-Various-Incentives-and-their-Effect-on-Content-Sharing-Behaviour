@@ -18,7 +18,7 @@ export function FeedOnboarding() {
 
   return (
     <Section>
-      <Heading>Onboarding Section</Heading>
+      <Heading>User Onboarding</Heading>
       <Paragraph fill>
         Welcome to the study on content sharing on social media by Tattle and
         Monk Prayogshala!
@@ -48,6 +48,8 @@ export function FeedOnboarding() {
         onClick={async () => {
           await trigger();
         }}
+        primary
+        alignSelf="start"
         label={"Continue to Posts"}
       ></Button>
     </Section>

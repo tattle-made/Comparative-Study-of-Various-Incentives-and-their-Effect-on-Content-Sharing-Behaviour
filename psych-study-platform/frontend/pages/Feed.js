@@ -50,9 +50,14 @@ export function Feed() {
               <Box round={"small"} border pad={"small"}>
                 <Box direction={"row"} gap={"small"} align={"center"}>
                   <User size={"large"} />
-                  <Text weight={800} size={"xxlarge"}>
-                    {user.username + " | " + userMetricLabel}
-                  </Text>
+                  <Box dir="row">
+                    <Text weight={800} size={"xxlarge"}>
+                      {user.username}
+                    </Text>
+                    <Text weight={800} size={"xxlarge"} color={"brand"}>
+                      {userMetricLabel}
+                    </Text>
+                  </Box>
                 </Box>
               </Box>
               <Box flex={"grow"}></Box>
