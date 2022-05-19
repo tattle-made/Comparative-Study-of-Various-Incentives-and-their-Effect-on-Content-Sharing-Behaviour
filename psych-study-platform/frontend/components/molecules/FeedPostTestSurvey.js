@@ -29,6 +29,7 @@ export function FeedPostTestSurvey() {
   let navigate = useNavigate();
   const [userMetric, setUserMetric] = useRecoilState(UserMetric);
   const { trigger: triggerSaveSurvey } = useApi(configSurvey.saveSurveyForm);
+  const [formSubmitStatus, setFormSubmitStatus] = useState(false);
 
   useEffect(() => {
     if (data && data.msg === "done") {
@@ -45,123 +46,119 @@ export function FeedPostTestSurvey() {
     console.log(value);
     await triggerSaveSurvey({ survey: value });
     await trigger();
+    setFormSubmitStatus(true);
   }
 
   return (
     <Section>
-      {" "}
-      <h1>Feed Post Test Survey</h1>{" "}
-      <Form onSubmit={submitClicked}>
-        <FormField
-          label={"1. How often did you read the whole message?"}
-          name="q_1"
-          htmlFor="q_1"
-        >
-          <RadioButtonGroup
+      <Box>
+        <h1>Feed Post Test Survey</h1>{" "}
+        <Form onSubmit={submitClicked}>
+          <FormField
+            label={"1. How often did you read the whole message?"}
             name="q_1"
-            id="q_1"
-            options={FORM_OPTIONS}
-          ></RadioButtonGroup>
-        </FormField>
+            htmlFor="q_1"
+          >
+            <RadioButtonGroup
+              name="q_1"
+              id="q_1"
+              options={FORM_OPTIONS}
+            ></RadioButtonGroup>
+          </FormField>
 
-        <FormField
-          label={
-            "2. To what extent were you familiar with the messages shown to you?"
-          }
-          name="q_2"
-          htmlFor="q_2"
-        >
-          <RadioButtonGroup
+          <FormField
+            label={
+              "2. To what extent were you familiar with the messages shown to you?"
+            }
             name="q_2"
-            id="q_2"
-            options={FORM_OPTIONS}
-          ></RadioButtonGroup>
-        </FormField>
+            htmlFor="q_2"
+          >
+            <RadioButtonGroup
+              name="q_2"
+              id="q_2"
+              options={FORM_OPTIONS}
+            ></RadioButtonGroup>
+          </FormField>
 
-        <FormField
-          label={"3. How many times did you Google the information provided?"}
-          name="q_3"
-          htmlFor="q_3"
-        >
-          <RadioButtonGroup
+          <FormField
+            label={"3. How many times did you Google the information provided?"}
             name="q_3"
-            id="q_3"
-            options={FORM_OPTIONS}
-          ></RadioButtonGroup>
-        </FormField>
+            htmlFor="q_3"
+          >
+            <RadioButtonGroup
+              name="q_3"
+              id="q_3"
+              options={FORM_OPTIONS}
+            ></RadioButtonGroup>
+          </FormField>
 
-        {userMetric.type === "MONETARY" ? (
-          <Box>
-            <FormField
-              label={
-                "4. To what extent were you thinking about maximising your earnings while deciding to share/not share a message?"
-              }
-              name="q_4"
-              htmlFor="q_4"
-            >
-              <RadioButtonGroup
+          {userMetric.type === "MONETARY" ? (
+            <Box>
+              <FormField
+                label={
+                  "4. To what extent were you thinking about maximising your earnings while deciding to share/not share a message?"
+                }
                 name="q_4"
-                id="q_4"
-                options={FORM_OPTIONS}
-              ></RadioButtonGroup>
-            </FormField>
+                htmlFor="q_4"
+              >
+                <RadioButtonGroup
+                  name="q_4"
+                  id="q_4"
+                  options={FORM_OPTIONS}
+                ></RadioButtonGroup>
+              </FormField>
 
-            <FormField
-              label={
-                "5. To what extent were you thinking about maximizing money while sharing the messages?"
-              }
-              name="q_5"
-              htmlFor="q_5"
-            >
-              <RadioButtonGroup
-                name="q_5"
-                id="q_5"
-                options={FORM_OPTIONS}
-              ></RadioButtonGroup>
-            </FormField>
-          </Box>
-        ) : null}
-
-        {userMetric.type === "VANITY" ? (
-          <Box>
-            <FormField
-              label={
-                "4. To what extent were you thinking about maximising your likes while deciding to share/not share a message?"
-              }
-              name="q_4"
-              htmlFor="q_4"
-            >
-              <RadioButtonGroup
-                name="q_4"
-                id="q_4"
-                options={FORM_OPTIONS}
-              ></RadioButtonGroup>
-            </FormField>
-
-            <FormField
-              label={
-                "5. To what extent were you thinking about maximizing likes while sharing the messages?"
-              }
-              name="q_5"
-              htmlFor="q_5"
-            >
-              <RadioButtonGroup
+              <FormField
+                label={
+                  "5. To what extent were you thinking about maximizing money while sharing the messages?"
+                }
                 name="q_5"
                 htmlFor="q_5"
-                options={FORM_OPTIONS}
-              ></RadioButtonGroup>
-            </FormField>
-          </Box>
-        ) : null}
+              >
+                <RadioButtonGroup
+                  name="q_5"
+                  id="q_5"
+                  options={FORM_OPTIONS}
+                ></RadioButtonGroup>
+              </FormField>
+            </Box>
+          ) : null}
 
-        <Button type="submit" primary label="Submit" alignSelf="start" />
-      </Form>
-      {/* <Button
-        onClick={async () => {
-          await trigger();
-        }}
-        label={"Next"}
-      ></Button> */}
+          {userMetric.type === "VANITY" ? (
+            <Box>
+              <FormField
+                label={
+                  "4. To what extent were you thinking about maximising your likes while deciding to share/not share a message?"
+                }
+                name="q_4"
+                htmlFor="q_4"
+              >
+                <RadioButtonGroup
+                  name="q_4"
+                  id="q_4"
+                  options={FORM_OPTIONS}
+                ></RadioButtonGroup>
+              </FormField>
+
+              <FormField
+                label={
+                  "5. To what extent were you thinking about maximizing likes while sharing the messages?"
+                }
+                name="q_5"
+                htmlFor="q_5"
+              >
+                <RadioButtonGroup
+                  name="q_5"
+                  htmlFor="q_5"
+                  options={FORM_OPTIONS}
+                ></RadioButtonGroup>
+              </FormField>
+            </Box>
+          ) : null}
+          <Box height={"2em"}></Box>
+          <Button type="submit" primary label="Submit" alignSelf="start" />
+        </Form>
+      </Box>
     </Section>
   );
 }
