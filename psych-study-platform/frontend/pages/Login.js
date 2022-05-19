@@ -33,8 +33,9 @@ export function Login() {
   }, [userData]);
 
   useEffect(() => {
-    console.log({ user });
-    navigate("/feed");
+    if (user.id) {
+      navigate("/feed");
+    }
   }, [user]);
 
   return (
