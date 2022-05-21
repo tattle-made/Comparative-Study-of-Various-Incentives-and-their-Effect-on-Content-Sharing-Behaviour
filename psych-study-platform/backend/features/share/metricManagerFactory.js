@@ -20,7 +20,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
 
     if (increment === undefined) throw new Error("Undefined Information Type");
 
-    return await Metric.upsert(
+    return Metric.upsert(
       { id: metric.id, points: metric.points + increment },
       { transaction: t }
     );
@@ -41,7 +41,7 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
 
     if (increment === undefined) throw new Error("Undefined Information Type");
 
-    return await Metric.upsert(
+    return Metric.upsert(
       { id: metric.id, points: metric.points + increment },
       { transaction: t }
     );
@@ -50,32 +50,35 @@ function shareMetricManagerFactory(user, post, metric, postMetricRes, action) {
   async function updateMetric() {
     const { type: metricType } = metric;
     try {
-      return sequelize.transaction(async (t) => {
-        let userMetric;
-        if (metricType === "MONETARY")
-          userMetric = await updateMonetaryMetric(post, metric, t);
-        else if (metricType === "VANITY")
-          userMetric = await updateVanityMetric(post, metric, t);
-        else throw new InvalidStudyTypePayload();
+      const { userMetric, postMetric } = await sequelize.transaction(
+        async (t) => {
+          let userMetric;
+          if (metricType === "MONETARY")
+            userMetric = await updateMonetaryMetric(post, metric, t);
+          else if (metricType === "VANITY")
+            userMetric = await updateVanityMetric(post, metric, t);
+          else throw new InvalidStudyTypePayload();
 
-        const [postMetric, res] = await PostMetric.upsert(
-          {
-            id: postMetricRes ? postMetricRes.id : undefined,
-            user: user.id,
-            post: post.id,
-            name: "SHARE",
-            value: "YES",
-          },
-          { transaction: t }
-        );
+          const [postMetric, res] = await PostMetric.upsert(
+            {
+              id: postMetricRes ? postMetricRes.id : undefined,
+              user: user.id,
+              post: post.id,
+              name: "SHARE",
+              value: "YES",
+            },
+            { transaction: t }
+          );
 
-        const fullUserMetric = await Metric.findOne({
-          where: {
-            id: userMetric[0].id,
-          },
-        });
-        return { postMetric, userMetric: fullUserMetric };
+          return { userMetric, postMetric };
+        }
+      );
+      const fullUserMetric = await Metric.findOne({
+        where: {
+          id: userMetric[0].id,
+        },
       });
+      return { postMetric, userMetric: fullUserMetric };
     } catch (err) {
       throw new InvalidSharePostPayload();
     }
