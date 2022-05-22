@@ -59,7 +59,6 @@ export function Feed() {
                 </Box>
               </Box>
             </Section>
-            {/* <Text>{JSON.stringify(data)}</Text> */}
             {dataFeed && dataFeed.type === "POSTS" ? (
               <UserFeed data={dataFeed} />
             ) : null}

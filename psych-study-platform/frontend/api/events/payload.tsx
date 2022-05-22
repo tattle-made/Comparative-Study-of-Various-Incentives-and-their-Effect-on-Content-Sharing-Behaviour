@@ -52,8 +52,22 @@ const EventPayload = {
   }),
 };
 
+const makePostPostMetricPayload = (reaction)=>{
+  let reactionPayload;
+  if (reaction === EventValues.REACTION_HAPPY)
+    reactionPayload = EventPayload.REACTION_HAPPY;
+  else if (reaction === EventValues.REACTION_ANGRY)
+    reactionPayload = EventPayload.REACTION_ANGRY;
+  else if (reaction === EventValues.REACTION_DISGUST)
+    reactionPayload = EventPayload.REACTION_DISGUST;
+  else throw new Error("Unexpected Reaction Value");
+  
+  return reactionPayload
+}
+
 module.exports = {
   EventPayload,
   EventValues,
-  EventNames
+  EventNames,
+  makePostPostMetricPayload
 };

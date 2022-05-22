@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { config as configEvent } from "~/api/events/request";
-import { EventValues, EventPayload } from "~/api/events/payload";
+import { makePostPostMetricPayload, EventPayload } from "~/api/events/payload";
 import { Box, Heading, Text, Button, Paragraph, Button } from "grommet";
 import { ShareOption } from "grommet-icons";
 import {
@@ -31,23 +31,20 @@ function Reactions({ postId }) {
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
   const [selectedReaction, setSelectedReaction] = useState("");
   const [notification, setNotification] = useRecoilState(NotificationState);
+  const {
+    data: dataPostPostMetric,
+    err: errPostPostMetric,
+    trigger: triggerPostPostMetric,
+  } = useApi(configShare.postPostMetrics);
 
   async function clickReaction(reaction) {
     if (selectedReaction === "") {
-      console.log({ reaction, EventValues, EventPayload });
-      let reactionPayload;
-      if (reaction === EventValues.REACTION_HAPPY)
-        reactionPayload = EventPayload.REACTION_HAPPY;
-      else if (reaction === EventValues.REACTION_ANGRY)
-        reactionPayload = EventPayload.REACTION_ANGRY;
-      else if (reaction === EventValues.REACTION_DISGUST)
-        reactionPayload = EventPayload.REACTION_DISGUST;
-      else throw new Error("Unexpected Reaction Value");
-
+      // let payload = makeEventPayload(reaction);
       setSelectedReaction(reaction);
-      await trigger(reactionPayload(postId));
+      // await trigger(payload(postId));
+      await triggerPostPostMetric(makePostPostMetricPayload(reaction)(postId));
     } else {
-      setNotification({ message: "You can not Undo your Reaction" });
+      setNotification({ message: "You can not change your Reaction" });
     }
   }
 
@@ -55,17 +52,26 @@ function Reactions({ postId }) {
     <Box direction={"row"} gap={"small"}>
       <StatefulBox currentState={selectedReaction} value={"HAPPY"}>
         <Button plain onClick={() => clickReaction("HAPPY")}>
-          <Text size={"40px"}>🙂</Text>
+          <Box align="center">
+            <Text size={"40px"}>🙂</Text>
+            <Text size={"xsmall"}> happy</Text>
+          </Box>
         </Button>
       </StatefulBox>
       <StatefulBox currentState={selectedReaction} value={"ANGRY"}>
         <Button plain onClick={() => clickReaction("ANGRY")}>
-          <Text size={"40px"}>😠</Text>
+          <Box align="center">
+            <Text size={"40px"}>😠</Text>
+            <Text size={"xsmall"}> angry</Text>
+          </Box>
         </Button>
       </StatefulBox>
       <StatefulBox currentState={selectedReaction} value={"DISGUST"}>
         <Button plain onClick={() => clickReaction("DISGUST")}>
-          <Text size={"40px"}>🤢</Text>
+          <Box align="center">
+            <Text size={"40px"}>🤢</Text>
+            <Text size={"xsmall"}> disgust</Text>
+          </Box>
         </Button>
       </StatefulBox>
     </Box>
@@ -86,6 +92,11 @@ function FeedItem({ ix, item }) {
     err: shareErr,
     trigger: triggerShare,
   } = useApi(configShare.sharePost);
+  const {
+    data: dataPostPostMetric,
+    err: errPostPostMetric,
+    trigger: triggerPostPostMetric,
+  } = useApi(configShare.postPostMetrics);
   const { ref, inView, entry } = useInView();
   const [userMetric, setUserMetric] = useRecoilState(UserMetric);
   const [notification, setNotification] = useRecoilState(NotificationState);
@@ -107,16 +118,17 @@ function FeedItem({ ix, item }) {
   }, [shareErr]);
 
   useEffect(() => {
-    if (dataShare && dataShare.userMetric) setUserMetric(dataShare.userMetric);
-    console.log({ dataShare });
-  }, [dataShare]);
+    if (dataPostPostMetric && dataPostPostMetric.userMetric)
+      setUserMetric(dataPostPostMetric.userMetric);
+    console.log({ dataPostPostMetric });
+  }, [dataPostPostMetric]);
 
   async function clickShare() {
     if (!shared) {
       setShared(!shared);
-      const { SHARE_YES, SHARE_NO } = EventPayload;
-      await triggerShare({ postId: item.id, action: "SHARE" });
-      await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
+      triggerPostPostMetric(EventPayload.SHARE_YES(item.id));
+      // await triggerShare({ postId: item.id, action: "SHARE" });
+      // await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
     } else {
       setNotification({ message: "You can not Undo your share" });
     }
@@ -125,7 +137,9 @@ function FeedItem({ ix, item }) {
   async function clickReadMore() {
     setExpand(!expand);
     const { READ_MORE_YES, READ_MORE_NO } = EventPayload;
-    await trigger(expand ? READ_MORE_YES(item.id) : READ_MORE_NO(item.id));
+    await triggerPostPostMetric(
+      expand ? READ_MORE_NO(item.id) : READ_MORE_YES(item.id)
+    );
   }
 
   return (
