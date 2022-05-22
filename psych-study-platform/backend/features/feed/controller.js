@@ -42,6 +42,11 @@ async function getFeed(userId) {
         ...STUDY_PHASES[studyPhase.stage],
         joinTableAttributes: [],
       });
+      // const events = await Events.findAll({
+      //   where:{
+      //     postId :
+      //   }
+      // })
       return {
         type: "POSTS",
         posts: posts.map((post) => post.toJSON()),
