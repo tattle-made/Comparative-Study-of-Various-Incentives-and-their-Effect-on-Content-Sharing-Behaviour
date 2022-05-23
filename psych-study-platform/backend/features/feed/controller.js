@@ -29,9 +29,13 @@ async function getFeed(userId) {
     }
 
     if (
-      ["UNUSED", "ONBOARDING", "POST_TEST_SURVEY", "FINISHED"].includes(
-        studyPhase.stage
-      )
+      [
+        "UNUSED",
+        "CONSENT",
+        "ONBOARDING",
+        "POST_TEST_SURVEY",
+        "FINISHED",
+      ].includes(studyPhase.stage)
     ) {
       return {
         type: "PAGE",

@@ -1,6 +1,7 @@
 import { FeedOnboarding } from "./FeedOnboarding";
 import { FeedFinished } from "./FeedFinished";
 import { FeedPostTestSurvey } from "./FeedPostTestSurvey";
+import { FeedConsent } from "./FeedConsent";
 
 /**
  *
@@ -13,6 +14,8 @@ const ContentPage = ({ dataFeed }) => {
       {dataFeed && dataFeed.type === "PAGE"
         ? (() => {
             switch (dataFeed.page) {
+              case "CONSENT":
+                return <FeedConsent />;
               case "ONBOARDING":
                 return <FeedOnboarding />;
               case "POST_TEST_SURVEY":

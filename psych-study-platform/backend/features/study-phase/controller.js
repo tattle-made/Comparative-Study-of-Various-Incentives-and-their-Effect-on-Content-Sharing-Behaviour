@@ -43,7 +43,7 @@ async function checkAndUpdate(userId) {
     try {
       await StudyPhase.create({
         user: userId,
-        stage: "ONBOARDING",
+        stage: "CONSENT",
         finishedAt: null,
         current: true,
       });
@@ -54,7 +54,16 @@ async function checkAndUpdate(userId) {
       );
     }
   } else {
-    if (studyPhase.stage === "ONBOARDING") {
+    if (studyPhase.stage === "CONSENT") {
+      try {
+        await goToNextPhase(userId, studyPhase, "ONBOARDING");
+      } catch (err) {
+        console.log(err);
+        throw new UnableToGoToNextPhaseError(
+          `Cound not create onboarding study phase for ${userId}`
+        );
+      }
+    } else if (studyPhase.stage === "ONBOARDING") {
       try {
         await goToNextPhase(userId, studyPhase, "TEST_DAY_01");
       } catch (err) {

@@ -15,6 +15,7 @@ module.exports = {
       stage: {
         type: Sequelize.ENUM(
           "UNUSED",
+          "CONSENT",
           "ONBOARDING",
           "TEST_DAY_01",
           "TEST_DAY_02",

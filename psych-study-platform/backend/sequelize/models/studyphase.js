@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       stage: DataTypes.ENUM(
         "UNUSED",
+        "CONSENT",
         "ONBOARDING",
         "TEST_DAY_01",
         "TEST_DAY_02",
