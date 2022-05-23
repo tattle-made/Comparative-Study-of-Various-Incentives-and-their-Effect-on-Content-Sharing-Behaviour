@@ -98,8 +98,8 @@ function FeedItem({ ix, item }) {
     trigger: triggerPostPostMetric,
   } = useApi(configMetrics.postPostMetrics);
   const { ref, inView, entry } = useInView();
-  const [userMetric, setUserMetric] = useRecoilState(UserMetric);
-  const [notification, setNotification] = useRecoilState(NotificationState);
+  const [, setUserMetric] = useRecoilState(UserMetric);
+  const [, setNotification] = useRecoilState(NotificationState);
 
   useEffect(() => {
     // console.log(`ix ${ix} is inview : ${inView}`);
