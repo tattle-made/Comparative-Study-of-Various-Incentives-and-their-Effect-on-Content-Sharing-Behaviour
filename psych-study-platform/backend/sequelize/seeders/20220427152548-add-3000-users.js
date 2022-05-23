@@ -78,11 +78,13 @@ module.exports = {
     }
 
     const studyPhasePayloads = usersPayload.map((user) => {
+      const type = Math.floor(Math.random() * 2) === 0 ? "MONETARY" : "VANITY";
+      const points = type === "MONETARY" ? 1000 : 200;
       return {
         id: uuidv4(),
         user: user.id,
-        type: Math.floor(Math.random() * 2) === 0 ? "MONETARY" : "VANITY",
-        points: 0,
+        type,
+        points,
         createdAt: timeOfRun,
         updatedAt: timeOfRun,
       };
