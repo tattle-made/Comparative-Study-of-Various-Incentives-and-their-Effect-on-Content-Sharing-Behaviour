@@ -4,6 +4,8 @@ import {
   Box,
   Heading,
   Text,
+  Paragraph,
+  Anchor,
   Button,
   TextInput,
   Form,
@@ -61,6 +63,27 @@ export function Login() {
           {loading ? <Text>loading...</Text> : null}
         </Box>
       </Form>
+      <Box height={"2em"}>
+        <Paragraph fill>
+          <Text>Don't have a username or password? </Text>
+          <Text>
+            Please{" "}
+            <Anchor
+              href={
+                "https://uconn.co1.qualtrics.com/jfe/form/SV_9AA3gVCYPmUyRZs"
+              }
+              target={"_blank"}
+            >
+              fill in this form
+            </Anchor>
+            <Text> or write to </Text>
+            <Anchor href="mailto:ar@monkprayosghala.in" target={"_blank"}>
+              ar@monkprayosghala.in
+            </Anchor>{" "}
+            to participate.
+          </Text>
+        </Paragraph>
+      </Box>
       <Box flex={"grow"} />
 
       <Text color={"dark-4"} size={"xsmall"}>
