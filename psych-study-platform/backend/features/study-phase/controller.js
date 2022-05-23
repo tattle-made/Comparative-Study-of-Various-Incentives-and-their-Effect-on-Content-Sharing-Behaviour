@@ -75,7 +75,7 @@ async function checkAndUpdate(userId) {
     } else if (studyPhase.stage === "TEST_DAY_01") {
       const now = new Date();
       const timeElapsed = Math.abs(now - studyPhase.createdAt) / 60000;
-      if (timeElapsed > 1) {
+      if (timeElapsed > 5) {
         try {
           await goToNextPhase(userId, studyPhase, "TEST_DAY_02");
         } catch (err) {
@@ -92,7 +92,7 @@ async function checkAndUpdate(userId) {
     } else if (studyPhase.stage === "TEST_DAY_02") {
       const now = new Date();
       const timeElapsed = Math.abs(now - studyPhase.createdAt) / 60000;
-      if (timeElapsed > 1) {
+      if (timeElapsed > 5) {
         try {
           await goToNextPhase(userId, studyPhase, "TEST_DAY_03");
         } catch (err) {
