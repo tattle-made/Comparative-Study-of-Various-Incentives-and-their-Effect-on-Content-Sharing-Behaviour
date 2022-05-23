@@ -90,7 +90,7 @@ function Reactions({ postId }) {
  */
 function FeedItem({ ix, item }) {
   const [expand, setExpand] = useState(false);
-  const [shared, setShared] = useState("DEFAULT");
+  const [shared, setShared] = useState(false);
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
   const {
     data: dataPostPostMetric,

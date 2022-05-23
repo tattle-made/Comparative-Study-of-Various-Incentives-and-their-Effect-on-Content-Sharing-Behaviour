@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
+      order: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     },
     {
       sequelize,

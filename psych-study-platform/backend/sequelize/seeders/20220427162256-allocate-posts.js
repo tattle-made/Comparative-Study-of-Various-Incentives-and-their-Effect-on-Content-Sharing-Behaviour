@@ -82,6 +82,7 @@ module.exports = {
           id: uuidv4(),
           postId: distribution[i].id,
           feedId: feedID.id,
+          order: i,
           createdAt: timeOfRun,
           updatedAt: timeOfRun,
         });

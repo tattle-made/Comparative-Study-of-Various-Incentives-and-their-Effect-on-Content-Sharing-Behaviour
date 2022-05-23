@@ -15,6 +15,11 @@ module.exports = {
         type: Sequelize.UUID,
         references: { model: "Feeds", key: "id" },
       },
+      order: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
