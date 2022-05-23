@@ -5,7 +5,7 @@ import { User } from "grommet-icons";
 import { Section } from "~/components/atoms/Section";
 import { useApi } from "~/api/hook";
 import { config as configFeed } from "~/api/feed/request";
-import { config as configShare } from "~/api/share/request";
+import { config as configMetrics } from "~/api/metrics/request";
 import { UserFeed } from "~/components/molecules/UserFeed";
 import { UserState, UserMetric } from "~/UserState";
 import { FeedOnboarding } from "../components/molecules/FeedOnboarding";
@@ -21,7 +21,7 @@ export function Feed() {
   const [, setUserMetric] = useRecoilState(UserMetric);
   const userMetricLabel = useRecoilValue(UserMetricLabelState);
   const { data: dataFeed } = useApi(configFeed.getFeed, true);
-  const { data: dataUserMetrics } = useApi(configShare.userMetrics, true);
+  const { data: dataUserMetrics } = useApi(configMetrics.userMetrics, true);
   const isVisible = usePageVisibility();
 
   useEffect(() => {

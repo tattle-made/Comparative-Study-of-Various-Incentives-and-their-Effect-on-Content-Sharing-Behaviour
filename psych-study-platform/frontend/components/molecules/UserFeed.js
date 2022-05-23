@@ -10,7 +10,7 @@ import {
 } from "~/components/atoms/SnappyScroll";
 import { useApi } from "~/api/hook";
 import { config } from "~/api/study-phase/request";
-import { config as configShare } from "~/api/share/request";
+import { config as configMetrics } from "~/api/metrics/request";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import { UserMetric } from "~/UserState";
@@ -35,13 +35,18 @@ function Reactions({ postId }) {
     data: dataPostPostMetric,
     err: errPostPostMetric,
     trigger: triggerPostPostMetric,
-  } = useApi(configShare.postPostMetrics);
+  } = useApi(configMetrics.postPostMetrics);
+
+  useEffect(() => {
+    if (errPostPostMetric) {
+      setNotification({ message: "Unable to save reaction. Please try again" });
+      setSelectedReaction("");
+    }
+  }, [errPostPostMetric]);
 
   async function clickReaction(reaction) {
     if (selectedReaction === "") {
-      // let payload = makeEventPayload(reaction);
       setSelectedReaction(reaction);
-      // await trigger(payload(postId));
       await triggerPostPostMetric(makePostPostMetricPayload(reaction)(postId));
     } else {
       setNotification({ message: "You can not change your Reaction" });
@@ -88,15 +93,10 @@ function FeedItem({ ix, item }) {
   const [shared, setShared] = useState("DEFAULT");
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
   const {
-    data: dataShare,
-    err: shareErr,
-    trigger: triggerShare,
-  } = useApi(configShare.sharePost);
-  const {
     data: dataPostPostMetric,
     err: errPostPostMetric,
     trigger: triggerPostPostMetric,
-  } = useApi(configShare.postPostMetrics);
+  } = useApi(configMetrics.postPostMetrics);
   const { ref, inView, entry } = useInView();
   const [userMetric, setUserMetric] = useRecoilState(UserMetric);
   const [notification, setNotification] = useRecoilState(NotificationState);
@@ -114,21 +114,14 @@ function FeedItem({ ix, item }) {
   }, [inView]);
 
   useEffect(() => {
-    setShared(false);
-  }, [shareErr]);
-
-  useEffect(() => {
     if (dataPostPostMetric && dataPostPostMetric.userMetric)
       setUserMetric(dataPostPostMetric.userMetric);
-    console.log({ dataPostPostMetric });
   }, [dataPostPostMetric]);
 
   async function clickShare() {
     if (!shared) {
       setShared(!shared);
       triggerPostPostMetric(EventPayload.SHARE_YES(item.id));
-      // await triggerShare({ postId: item.id, action: "SHARE" });
-      // await trigger(shared ? SHARE_YES(item.id) : SHARE_NO(item.id));
     } else {
       setNotification({ message: "You can not Undo your share" });
     }
