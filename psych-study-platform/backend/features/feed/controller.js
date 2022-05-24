@@ -1,4 +1,10 @@
-const { Feed, Post, User, StudyPhase } = require("../../sequelize/models");
+const {
+  Feed,
+  Post,
+  User,
+  StudyPhase,
+  sequelize,
+} = require("../../sequelize/models");
 const { checkAndUpdate } = require("../study-phase/controller");
 const { FeedNotFound } = require("./errors");
 
@@ -8,18 +14,28 @@ const { FeedNotFound } = require("./errors");
  */
 async function getFeed(userId) {
   const STUDY_PHASES = {
-    TEST_DAY_01: { offset: 0, limit: 5 },
-    TEST_DAY_02: { offset: 5, limit: 10 },
-    TEST_DAY_03: { offset: 15, limit: 10 },
+    TEST_DAY_01: { start: 0, end: 5 },
+    TEST_DAY_02: { start: 5, end: 15 },
+    TEST_DAY_03: { start: 15, end: 25 },
   };
 
   try {
     let [feed, studyPhase] = await Promise.all([
-      Feed.findAll({
-        where: {
-          user: userId,
-        },
-      }),
+      await sequelize.query(`
+        SELECT Posts.id, Posts.postNumber, Posts.informationType, Posts.headlineText, Posts.readMoreText, 
+        Posts.createdAt, Posts.updatedAt, JunctionPostFeeds.order
+        FROM Users
+        LEFT JOIN Feeds
+        ON Feeds.user = Users.id
+        LEFT JOIN JunctionPostFeeds
+        ON Feeds.id = JunctionPostFeeds.feedId
+        LEFT JOIN Posts
+        ON JunctionPostFeeds.postId = Posts.id
+        LEFT JOIN Metrics
+        ON Metrics.user = Users.id
+        WHERE Users.id = "${userId}"
+        ORDER BY JunctionPostFeeds.order ASC
+      `),
       StudyPhase.getCurrentStage(userId),
     ]);
 
@@ -42,18 +58,11 @@ async function getFeed(userId) {
         page: studyPhase.stage,
       };
     } else {
-      const posts = await feed[0].getPosts({
-        ...STUDY_PHASES[studyPhase.stage],
-        joinTableAttributes: [],
-      });
-      // const events = await Events.findAll({
-      //   where:{
-      //     postId :
-      //   }
-      // })
+      const start = STUDY_PHASES[studyPhase.stage].start;
+      const end = STUDY_PHASES[studyPhase.stage].end;
       return {
         type: "POSTS",
-        posts: posts.map((post) => post.toJSON()),
+        posts: feed[0].slice(start, end),
       };
     }
   } catch (err) {

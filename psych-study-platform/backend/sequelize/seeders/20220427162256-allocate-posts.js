@@ -12,33 +12,59 @@ function getPostDistribution(posts) {
 
   postIDs = Array.from(postIDs);
 
-  let selectedPosts = [];
+  let categorizedPosts = {
+    plausible: [],
+    true: [],
+    implausible: [],
+    false: [],
+    wholesome: [],
+  };
 
   postIDs.map((postId, ix) => {
     if (ix >= 0 && ix < 5) {
       // PLAUSIBLE
-      selectedPosts.push(posts[postId * 5 + 0]);
+      categorizedPosts.plausible.push(posts[postId * 5 + 0]);
     } else if (ix >= 5 && ix < 10) {
       // IMPLAUSIBLE
-      selectedPosts.push(posts[postId * 5 + 1]);
+      categorizedPosts.implausible.push(posts[postId * 5 + 1]);
     } else if (ix >= 10 && ix < 15) {
       // TRUE
-      selectedPosts.push(posts[postId * 5 + 2]);
+      categorizedPosts.true.push(posts[postId * 5 + 2]);
     } else if (ix >= 15 && ix < 20) {
       // FALSE
-      selectedPosts.push(posts[postId * 5 + 3]);
+      categorizedPosts.false.push(posts[postId * 5 + 3]);
     } else if (ix >= 20 && ix < 25) {
       // WHOLESOME
-      selectedPosts.push(posts[postId * 5 + 4]);
+      categorizedPosts.wholesome.push(posts[postId * 5 + 4]);
     } else {
       console.log("error");
     }
   });
 
-  return selectedPosts
+  let dayOnePosts = Object.keys(categorizedPosts).map(
+    (key) => categorizedPosts[key][0]
+  );
+
+  let shuffledDayOnePosts = dayOnePosts
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
+
+  let remainingPosts = Object.keys(categorizedPosts).map((key) => {
+    let posts = [];
+    for (const item of categorizedPosts[key]) {
+      posts.push(item);
+    }
+    return posts;
+  });
+  remainingPosts = remainingPosts.flat();
+
+  let shuffledRemainingPosts = remainingPosts
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
+  return [...shuffledDayOnePosts, ...shuffledRemainingPosts];
 }
 
 module.exports = {
