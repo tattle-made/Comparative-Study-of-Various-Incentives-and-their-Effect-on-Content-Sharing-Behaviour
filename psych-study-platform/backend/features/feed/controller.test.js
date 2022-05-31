@@ -2,7 +2,7 @@ const { getFeed } = require("./controller");
 
 describe("Feed", () => {
   it("Gets feed by user ID", async () => {
-    const feed = await getFeed("c7431bcf-c2c5-4b83-9cab-7cba2dea7438");
+    const feed = await getFeed("0bf8c131-c6d6-44f1-bcce-c559dfb90536");
     expect(1).toBe(1);
   });
 });
