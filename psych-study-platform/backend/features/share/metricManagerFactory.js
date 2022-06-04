@@ -2,7 +2,7 @@ const {
   InvalidSharePostPayload,
   InvalidStudyTypePayload,
 } = require("./errors");
-const { PostMetric, Metric, sequelize } = require("../../sequelize/models");
+const { Metric, sequelize } = require("../../sequelize/models");
 
 function shareMetricManagerFactory(userId, post, metric, studyPhase) {
   async function updateMonetaryMetric(post, metric, t) {
