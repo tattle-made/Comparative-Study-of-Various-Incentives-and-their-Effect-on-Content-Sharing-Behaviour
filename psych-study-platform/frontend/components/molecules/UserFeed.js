@@ -27,7 +27,7 @@ function StatefulBox({ currentState, value, children }) {
   );
 }
 
-function Reactions({ postId }) {
+function Reactions({ metrics, postId }) {
   const { data, err, loading, trigger } = useApi(configEvent.createEvent);
   const [selectedReaction, setSelectedReaction] = useState("");
   const [notification, setNotification] = useRecoilState(NotificationState);
@@ -36,6 +36,12 @@ function Reactions({ postId }) {
     err: errPostPostMetric,
     trigger: triggerPostPostMetric,
   } = useApi(configMetrics.postPostMetrics);
+
+  useEffect(() => {
+    if (metrics.REACTION) {
+      setSelectedReaction(metrics.REACTION);
+    }
+  }, [metrics]);
 
   useEffect(() => {
     if (errPostPostMetric) {
@@ -127,6 +133,16 @@ function FeedItem({ ix, item }) {
     }
   }
 
+  useEffect(() => {
+    console.log("item changed", item.metrics);
+    if (item.metrics.SHARE === "YES") {
+      setShared(true);
+    }
+    if (item.metrics.READ_MORE === "YES") {
+      setExpand(true);
+    }
+  }, [item]);
+
   async function clickReadMore() {
     setExpand(!expand);
     const { READ_MORE_YES, READ_MORE_NO } = EventPayload;
@@ -134,6 +150,10 @@ function FeedItem({ ix, item }) {
       expand ? READ_MORE_NO(item.id) : READ_MORE_YES(item.id)
     );
   }
+
+  // function testClicked() {
+  //   console.log({ item });
+  // }
 
   return (
     <SnappyVerticalScrollChild key={ix} ix={ix} ref={ref}>
@@ -150,7 +170,7 @@ function FeedItem({ ix, item }) {
           ) : null}
         </Box>
         <Box direction="row" gap={"small"} align={"center"}>
-          <Reactions postId={item.id} />
+          <Reactions metrics={item.metrics} postId={item.id} />
           <Box
             hoverIndicator={true}
             focusIndicator={false}
@@ -173,6 +193,7 @@ function FeedItem({ ix, item }) {
               </Text>
             )}
           </Box>
+          {/* <Button onClick={testClicked} label={"TEST"} /> */}
         </Box>
       </Box>
     </SnappyVerticalScrollChild>

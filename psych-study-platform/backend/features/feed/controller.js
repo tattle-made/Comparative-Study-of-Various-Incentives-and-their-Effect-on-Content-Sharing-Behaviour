@@ -62,7 +62,7 @@ async function getFeed(userId) {
         `);
       let posts = feed[0].reduce((prev, curr) => {
         let index = curr.order - start;
-        if (!prev[curr.order]) {
+        if (!prev[index]) {
           prev[index] = {};
           prev[index]["metrics"] = {};
           prev[index]["id"] = curr.id;
@@ -71,7 +71,13 @@ async function getFeed(userId) {
           prev[index]["headlineText"] = curr.headlineText;
           prev[index]["readMoreText"] = curr.readMoreText;
         }
+
         prev[index]["metrics"][curr.name] = curr.value;
+        // if (curr.name != null) {
+        // }
+
+        // prev[index]["metrics"][curr.name] = curr.value;
+
         return prev;
       }, []);
       return {
