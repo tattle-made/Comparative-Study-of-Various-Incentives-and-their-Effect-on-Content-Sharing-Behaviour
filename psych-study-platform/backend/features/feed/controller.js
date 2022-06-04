@@ -1,4 +1,10 @@
-const { Feed, Post, User, StudyPhase } = require("../../sequelize/models");
+const {
+  Feed,
+  Post,
+  User,
+  StudyPhase,
+  sequelize,
+} = require("../../sequelize/models");
 const { checkAndUpdate } = require("../study-phase/controller");
 const { FeedNotFound } = require("./errors");
 
@@ -8,20 +14,13 @@ const { FeedNotFound } = require("./errors");
  */
 async function getFeed(userId) {
   const STUDY_PHASES = {
-    TEST_DAY_01: { offset: 0, limit: 5 },
-    TEST_DAY_02: { offset: 5, limit: 10 },
-    TEST_DAY_03: { offset: 15, limit: 10 },
+    TEST_DAY_01: { start: 0, end: 5 },
+    TEST_DAY_02: { start: 5, end: 15 },
+    TEST_DAY_03: { start: 15, end: 25 },
   };
 
   try {
-    let [feed, studyPhase] = await Promise.all([
-      Feed.findAll({
-        where: {
-          user: userId,
-        },
-      }),
-      StudyPhase.getCurrentStage(userId),
-    ]);
+    let studyPhase = await StudyPhase.getCurrentStage(userId);
 
     if (studyPhase === null) {
       await checkAndUpdate(userId);
@@ -42,18 +41,48 @@ async function getFeed(userId) {
         page: studyPhase.stage,
       };
     } else {
-      const posts = await feed[0].getPosts({
-        ...STUDY_PHASES[studyPhase.stage],
-        joinTableAttributes: [],
-      });
-      // const events = await Events.findAll({
-      //   where:{
-      //     postId :
-      //   }
-      // })
+      const start = STUDY_PHASES[studyPhase.stage].start;
+      const end = STUDY_PHASES[studyPhase.stage].end;
+      let feed = await sequelize.query(`     
+          SELECT Posts.id, Posts.postNumber, Posts.informationType, Posts.headlineText, Posts.readMoreText, 
+          Posts.createdAt, Posts.updatedAt, JunctionPostFeeds.order, PostMetrics.name, PostMetrics.value
+          FROM Users
+          LEFT JOIN Feeds
+          ON Feeds.user = Users.id
+          LEFT JOIN JunctionPostFeeds
+          ON Feeds.id = JunctionPostFeeds.feedId
+          LEFT JOIN Posts
+          ON JunctionPostFeeds.postId = Posts.id
+          LEFT JOIN Metrics
+          ON Metrics.user = Users.id
+          LEFT JOIN PostMetrics
+          ON PostMetrics.user = Users.id AND PostMetrics.post = Posts.id
+          WHERE Users.id = "${userId}" AND (JunctionPostFeeds.order >= ${start} AND JunctionPostFeeds.order<${end})
+          ORDER BY JunctionPostFeeds.order ASC
+        `);
+      let posts = feed[0].reduce((prev, curr) => {
+        let index = curr.order - start;
+        if (!prev[index]) {
+          prev[index] = {};
+          prev[index]["metrics"] = {};
+          prev[index]["id"] = curr.id;
+          prev[index]["postNumber"] = curr.postNumber;
+          prev[index]["informationType"] = curr.informationType;
+          prev[index]["headlineText"] = curr.headlineText;
+          prev[index]["readMoreText"] = curr.readMoreText;
+        }
+
+        prev[index]["metrics"][curr.name] = curr.value;
+        // if (curr.name != null) {
+        // }
+
+        // prev[index]["metrics"][curr.name] = curr.value;
+
+        return prev;
+      }, []);
       return {
         type: "POSTS",
-        posts: posts.map((post) => post.toJSON()),
+        posts,
       };
     }
   } catch (err) {

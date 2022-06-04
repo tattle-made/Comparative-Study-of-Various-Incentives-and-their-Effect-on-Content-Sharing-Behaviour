@@ -9,36 +9,89 @@ function getPostDistribution(posts) {
   while (postIDs.size < 25) {
     postIDs.add(Math.floor(Math.random() * 50));
   }
-
   postIDs = Array.from(postIDs);
 
-  let selectedPosts = [];
+  let truePosts = new Set();
+  let plausiblePosts = new Set();
+  let falsePosts = new Set();
+  let implausiblePosts = new Set();
+  let wholesomePosts = new Set();
 
   postIDs.map((postId, ix) => {
     if (ix >= 0 && ix < 5) {
       // PLAUSIBLE
-      selectedPosts.push(posts[postId * 5 + 0]);
+      plausiblePosts.add(posts[postId * 5 + 0]);
     } else if (ix >= 5 && ix < 10) {
       // IMPLAUSIBLE
-      selectedPosts.push(posts[postId * 5 + 1]);
+      implausiblePosts.add(posts[postId * 5 + 1]);
     } else if (ix >= 10 && ix < 15) {
       // TRUE
-      selectedPosts.push(posts[postId * 5 + 2]);
+      truePosts.add(posts[postId * 5 + 2]);
     } else if (ix >= 15 && ix < 20) {
       // FALSE
-      selectedPosts.push(posts[postId * 5 + 3]);
+      falsePosts.add(posts[postId * 5 + 3]);
     } else if (ix >= 20 && ix < 25) {
       // WHOLESOME
-      selectedPosts.push(posts[postId * 5 + 4]);
+      wholesomePosts.add(posts[postId * 5 + 4]);
     } else {
       console.log("error");
     }
   });
 
-  return selectedPosts
+  let dayOnePosts = [];
+  let remainingPosts = [];
+
+  let plausiblePostIterator = plausiblePosts.values();
+  dayOnePosts.push(plausiblePostIterator.next().value);
+  let post = plausiblePostIterator.next();
+  while (!post.done) {
+    remainingPosts.push(post.value);
+    post = plausiblePostIterator.next();
+  }
+
+  let implausiblePostIterator = implausiblePosts.values();
+  dayOnePosts.push(implausiblePostIterator.next().value);
+  post = implausiblePostIterator.next();
+  while (!post.done) {
+    remainingPosts.push(post.value);
+    post = implausiblePostIterator.next();
+  }
+
+  let truePostIterator = truePosts.values();
+  dayOnePosts.push(truePostIterator.next().value);
+  post = truePostIterator.next();
+  while (!post.done) {
+    remainingPosts.push(post.value);
+    post = truePostIterator.next();
+  }
+
+  let falsePostIterator = falsePosts.values();
+  dayOnePosts.push(falsePostIterator.next().value);
+  post = falsePostIterator.next();
+  while (!post.done) {
+    remainingPosts.push(post.value);
+    post = falsePostIterator.next();
+  }
+
+  let wholesomePostIterator = wholesomePosts.values();
+  dayOnePosts.push(wholesomePostIterator.next().value);
+  post = wholesomePostIterator.next();
+  while (!post.done) {
+    remainingPosts.push(post.value);
+    post = wholesomePostIterator.next();
+  }
+
+  let shuffledDayOnePosts = dayOnePosts
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
+
+  let shuffledRemainingPosts = remainingPosts
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
+  return [...shuffledDayOnePosts, ...shuffledRemainingPosts];
 }
 
 module.exports = {
@@ -99,10 +152,6 @@ module.exports = {
       );
       await queryInterface.bulkInsert("JunctionPostFeeds", batch);
     }
-
-    // await queryInterface.bulkInsert("JunctionPostFeeds", flatAllocations);
-
-    // console.log(flatAllocations);
   },
 
   async down(queryInterface, Sequelize) {

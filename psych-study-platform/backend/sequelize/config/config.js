@@ -6,6 +6,13 @@ module.exports = {
     host: "localhost",
     dialect: "mysql",
   },
+  test: {
+    username: "tattle",
+    password: "tattle_pw",
+    database: "incentives_db",
+    host: "localhost",
+    dialect: "mysql",
+  },
   staging: {
     username: process.env.DB_USERNAME_STAGING,
     password: process.env.DB_PASSWORD_STAGING,

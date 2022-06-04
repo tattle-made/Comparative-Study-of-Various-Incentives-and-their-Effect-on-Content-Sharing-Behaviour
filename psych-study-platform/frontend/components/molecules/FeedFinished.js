@@ -12,11 +12,6 @@ export function FeedFinished() {
   return (
     <Section>
       <Heading>Thank You</Heading>
-      <Paragraph>
-        Tattle and Monk Prayogshala thank you for your participation! You will
-        receive your compensation in the next couple of weeks :)
-      </Paragraph>
-      <Box height={"2em"}></Box>
       <Box>
         <Text>
           We'd also like to ask you a few more questions. This will take about
@@ -41,6 +36,11 @@ export function FeedFinished() {
           </Box>
         ) : null}
       </Box>
+      <Paragraph>
+        Tattle and Monk Prayogshala thank you for your participation! You will
+        receive your compensation in the next couple of weeks :)
+      </Paragraph>
+      <Box height={"2em"}></Box>
     </Section>
   );
 }
