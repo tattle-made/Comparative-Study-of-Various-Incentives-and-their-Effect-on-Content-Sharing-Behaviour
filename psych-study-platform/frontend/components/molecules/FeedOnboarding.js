@@ -41,6 +41,12 @@ export function FeedOnboarding() {
         the study. You will also receive reminder emails to log in!
       </Paragraph>
       <Paragraph fill>
+        You will need to login for three days to see all the posts, complete the
+        study, and receive payments. You will also receive reminder emails to
+        log in! You can log in after 24 hours; for example, if you log in at 10
+        AM on day 1, you can log in after 10 AM on day 2.
+      </Paragraph>
+      <Paragraph fill>
         For more details, you can write to us at ar@monkprayogshala.in or
         hk@monkprayogshala.in
       </Paragraph>
