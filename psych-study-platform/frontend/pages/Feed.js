@@ -6,6 +6,7 @@ import { Section } from "~/components/atoms/Section";
 import { useApi } from "~/api/hook";
 import { config as configFeed } from "~/api/feed/request";
 import { config as configMetrics } from "~/api/metrics/request";
+import { config as configEvent } from "~/api/events/request";
 import { UserFeed } from "~/components/molecules/UserFeed";
 import { UserState, UserMetric } from "~/UserState";
 import { FeedOnboarding } from "../components/molecules/FeedOnboarding";
@@ -23,6 +24,7 @@ export function Feed() {
   const { data: dataFeed } = useApi(configFeed.getFeed, true);
   const { data: dataUserMetrics } = useApi(configMetrics.userMetrics, true);
   const isVisible = usePageVisibility();
+  const { trigger } = useApi(configEvent.createEvent);
 
   useEffect(() => {
     console.log({ feed: dataFeed });
@@ -36,7 +38,15 @@ export function Feed() {
   }, [dataUserMetrics]);
 
   useEffect(() => {
-    console.log(`page is visible ${isVisible}`);
+    // console.log(`page is visible ${isVisible}`);
+    async function recordPageVisible() {
+      await trigger({
+        postId: undefined,
+        name: "PAGE_VISIBLE",
+        value: isVisible ? "YES" : "NO",
+      });
+    }
+    recordPageVisible();
   }, [isVisible]);
 
   return (
