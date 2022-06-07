@@ -110,7 +110,7 @@ module.exports = { sendEmail };
     </html>
     `;
   await sendEmail({
-    subject: "test",
+    subject: "Tattle and Prayogshala’s Social Media Study is now live!",
     body,
     receiver: "denny@tattle.co.in",
   });
