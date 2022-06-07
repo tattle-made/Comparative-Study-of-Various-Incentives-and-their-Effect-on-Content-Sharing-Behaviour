@@ -134,7 +134,7 @@ function AboutVanity() {
         about your experience with the study.
       </Paragraph>
       <Box width={"large"}>
-        <img src={new URL("../assets/monetary-about.png", import.meta.url)} />
+        <img src={new URL("../assets/vanity-about.png", import.meta.url)} />
       </Box>
 
       <Text weight={500}>
