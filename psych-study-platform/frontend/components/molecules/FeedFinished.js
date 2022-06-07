@@ -14,7 +14,8 @@ export function FeedFinished() {
       <Heading>Thank You</Heading>
       <Box>
         <Text>
-          We'd also like to ask you a few more questions. This will take about
+          We'd also like to ask you{" "}
+          <Text weight={900}>a few more questions.</Text> This will take about
           5-7 minutes. Please click the link here to answer those questions.
         </Text>
         {userMetric.type === "VANITY" ? (

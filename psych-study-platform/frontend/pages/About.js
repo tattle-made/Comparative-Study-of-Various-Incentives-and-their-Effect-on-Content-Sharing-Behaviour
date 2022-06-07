@@ -31,7 +31,7 @@ function AboutMonetary() {
         about your experience with the study.
       </Paragraph>
 
-      <Box>
+      <Box width={"large"}>
         <img src={new URL("../assets/monetary-about.png", import.meta.url)} />
       </Box>
 
@@ -131,7 +131,7 @@ function AboutVanity() {
         You will complete the study over three days. After this, we will ask you
         about your experience with the study.
       </Paragraph>
-      <Box>
+      <Box width={"large"}>
         <img src={new URL("../assets/monetary-about.png", import.meta.url)} />
       </Box>
 

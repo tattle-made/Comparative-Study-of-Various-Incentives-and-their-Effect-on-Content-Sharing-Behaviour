@@ -80,44 +80,18 @@ export function FeedPostTestSurvey() {
             ></RadioButtonGroup>
           </FormField>
 
-          <FormField
-            label={"3. How many times did you Google the information provided?"}
-            name="q_3"
-            htmlFor="q_3"
-          >
-            <RadioButtonGroup
-              name="q_3"
-              id="q_3"
-              options={FORM_OPTIONS}
-            ></RadioButtonGroup>
-          </FormField>
-
           {userMetric.type === "MONETARY" ? (
             <Box>
               <FormField
                 label={
-                  "4. To what extent were you thinking about maximising your earnings while deciding to share/not share a message?"
+                  "3. To what extent were you thinking about maximising your earnings while deciding to share/not share a message?"
                 }
-                name="q_4"
-                htmlFor="q_4"
+                name="q_3"
+                htmlFor="q_3"
               >
                 <RadioButtonGroup
-                  name="q_4"
-                  id="q_4"
-                  options={FORM_OPTIONS}
-                ></RadioButtonGroup>
-              </FormField>
-
-              <FormField
-                label={
-                  "5. To what extent were you thinking about maximizing money while sharing the messages?"
-                }
-                name="q_5"
-                htmlFor="q_5"
-              >
-                <RadioButtonGroup
-                  name="q_5"
-                  id="q_5"
+                  name="q_3"
+                  id="q_3"
                   options={FORM_OPTIONS}
                 ></RadioButtonGroup>
               </FormField>
@@ -128,33 +102,30 @@ export function FeedPostTestSurvey() {
             <Box>
               <FormField
                 label={
-                  "4. To what extent were you thinking about maximising your likes while deciding to share/not share a message?"
+                  "3. To what extent were you thinking about maximising your followers while deciding to share/not share a message?"
                 }
-                name="q_4"
-                htmlFor="q_4"
+                name="q_3"
+                htmlFor="q_3"
               >
                 <RadioButtonGroup
-                  name="q_4"
-                  id="q_4"
-                  options={FORM_OPTIONS}
-                ></RadioButtonGroup>
-              </FormField>
-
-              <FormField
-                label={
-                  "5. To what extent were you thinking about maximizing likes while sharing the messages?"
-                }
-                name="q_5"
-                htmlFor="q_5"
-              >
-                <RadioButtonGroup
-                  name="q_5"
-                  htmlFor="q_5"
+                  name="q_3"
+                  id="q_3"
                   options={FORM_OPTIONS}
                 ></RadioButtonGroup>
               </FormField>
             </Box>
           ) : null}
+          <FormField
+            label={"4. How many times did you Google the information provided?"}
+            name="q_4"
+            htmlFor="q_4"
+          >
+            <RadioButtonGroup
+              name="q_4"
+              id="q_4"
+              options={FORM_OPTIONS}
+            ></RadioButtonGroup>
+          </FormField>
           <Box height={"2em"}></Box>
           <Button type="submit" primary label="Submit" alignSelf="start" />
         </Form>

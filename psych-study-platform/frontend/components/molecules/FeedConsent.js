@@ -42,7 +42,7 @@ function ConsentFormMonetary() {
         thoroughly and use your judgement to classify which content is true,
         which is false, and which would spread joy.
       </Paragraph>
-      <Box>
+      <Box width={"large"}>
         <img
           src={new URL("../../assets/monetary-guide.png", import.meta.url)}
         />
@@ -129,7 +129,7 @@ function ConsentFormVanity() {
         message thoroughly and use your judgement to classify which content is
         true, which is false, and which would spread joy.
       </Paragraph>
-      <Box>
+      <Box width={"large"}>
         <img src={new URL("../../assets/vanity-guide.png", import.meta.url)} />
       </Box>
       <Text weight={500}>Risks</Text>
