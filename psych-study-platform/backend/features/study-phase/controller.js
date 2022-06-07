@@ -75,7 +75,7 @@ async function checkAndUpdate(userId) {
     } else if (studyPhase.stage === "TEST_DAY_01") {
       const now = new Date();
       const timeElapsed = Math.abs(now - studyPhase.createdAt) / 60000;
-      if (timeElapsed > 5) {
+      if (timeElapsed > 2) {
         try {
           await goToNextPhase(userId, studyPhase, "TEST_DAY_02");
         } catch (err) {
@@ -85,14 +85,12 @@ async function checkAndUpdate(userId) {
           );
         }
       } else {
-        throw new UnableToUpdateStudyPhase(
-          `Required Threshold not passed to go to next phase`
-        );
+        throw new UnableToUpdateStudyPhase(`Please come back after 24 hours`);
       }
     } else if (studyPhase.stage === "TEST_DAY_02") {
       const now = new Date();
       const timeElapsed = Math.abs(now - studyPhase.createdAt) / 60000;
-      if (timeElapsed > 5) {
+      if (timeElapsed > 2) {
         try {
           await goToNextPhase(userId, studyPhase, "TEST_DAY_03");
         } catch (err) {
@@ -102,9 +100,7 @@ async function checkAndUpdate(userId) {
           );
         }
       } else {
-        throw new UnableToUpdateStudyPhase(
-          `Required Threshold not passed to go to next phase`
-        );
+        throw new UnableToUpdateStudyPhase(`Please come back after 24 hours`);
       }
     } else if (studyPhase.stage === "TEST_DAY_03") {
       await goToNextPhase(userId, studyPhase, "POST_TEST_SURVEY");
@@ -120,6 +116,11 @@ async function checkAndUpdate(userId) {
   }
 }
 
+async function get(userId) {
+  return StudyPhase.getCurrentStage(userId);
+}
+
 module.exports = {
   checkAndUpdate,
+  get,
 };

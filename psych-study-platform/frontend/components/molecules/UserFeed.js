@@ -202,6 +202,7 @@ function FeedItem({ ix, item }) {
 
 export function UserFeed({ data }) {
   const { data: studyPhaseResult, trigger } = useApi(config.checkAndUpdate);
+  const { data: studyPhase } = useApi(config.get, true);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -210,6 +211,10 @@ export function UserFeed({ data }) {
       navigate(0);
     }
   }, [studyPhaseResult]);
+
+  useEffect(() => {
+    console.log({ studyPhase });
+  }, [studyPhase]);
 
   return (
     <SnappyVerticalScrollContainer>
@@ -222,19 +227,29 @@ export function UserFeed({ data }) {
       )}
       <SnappyVerticalScrollChild>
         <Section>
-          <Box gap={"medium"}>
-            <Text size="large">
-              You have finished viewing your posts for the day. Please visit
-              this app again tomorrow for new posts.
-            </Text>
-            <Button
-              alignSelf="start"
-              onClick={async () => {
-                await trigger();
-              }}
-              label={"Next"}
-            ></Button>
-          </Box>
+          {(studyPhase && studyPhase.stage === "TEST_DAY_01") ||
+          (studyPhase && studyPhase.stage === "TEST_DAY_02") ? (
+            <Box gap={"medium"}>
+              <Text size="large">
+                You have finished viewing your posts for the day. Please visit
+                this app again tomorrow for new posts.
+              </Text>
+            </Box>
+          ) : null}
+          {studyPhase && studyPhase.stage === "TEST_DAY_03" ? (
+            <Box gap={"medium"}>
+              <Text size="large">
+                You have finished viewing your posts for the day.
+              </Text>
+              <Button
+                alignSelf="start"
+                onClick={async () => {
+                  await trigger();
+                }}
+                label={"Continue to Feedback Form"}
+              ></Button>
+            </Box>
+          ) : null}
         </Section>
       </SnappyVerticalScrollChild>
     </SnappyVerticalScrollContainer>
