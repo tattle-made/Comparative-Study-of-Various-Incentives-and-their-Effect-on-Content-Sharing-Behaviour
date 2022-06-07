@@ -1,4 +1,4 @@
-const { checkAndUpdate } = require("./controller");
+const { checkAndUpdate, get } = require("./controller");
 const {
   UnableToCreateNewStudyPhase,
   UnableToUpdateStudyPhase,
@@ -24,6 +24,18 @@ async function upgradePhase(req, res) {
   }
 }
 
+async function getStudyPhase(req, res) {
+  const { user } = req;
+  try {
+    const studyPhase = await get(user.id);
+    res.json(studyPhase);
+  } catch (err) {
+    console.log("Unabl");
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send();
+  }
+}
+
 module.exports = (expressApp) => {
   expressApp.post("/api/study-phase", upgradePhase);
+  expressApp.get("/api/study-phase", getStudyPhase);
 };

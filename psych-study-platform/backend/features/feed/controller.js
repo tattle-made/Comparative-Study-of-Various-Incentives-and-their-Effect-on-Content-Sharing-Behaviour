@@ -6,6 +6,7 @@ const {
   sequelize,
 } = require("../../sequelize/models");
 const { checkAndUpdate } = require("../study-phase/controller");
+const { UnableToUpdateStudyPhase } = require("../study-phase/error");
 const { FeedNotFound } = require("./errors");
 
 /**
@@ -41,6 +42,14 @@ async function getFeed(userId) {
         page: studyPhase.stage,
       };
     } else {
+      try {
+        await checkAndUpdate(userId);
+        studyPhase = await StudyPhase.getCurrentStage(userId);
+      } catch (err) {
+        if (err instanceof UnableToUpdateStudyPhase) {
+          console.log("ignore");
+        }
+      }
       const start = STUDY_PHASES[studyPhase.stage].start;
       const end = STUDY_PHASES[studyPhase.stage].end;
       let feed = await sequelize.query(`     
@@ -73,11 +82,6 @@ async function getFeed(userId) {
         }
 
         prev[index]["metrics"][curr.name] = curr.value;
-        // if (curr.name != null) {
-        // }
-
-        // prev[index]["metrics"][curr.name] = curr.value;
-
         return prev;
       }, []);
       return {
