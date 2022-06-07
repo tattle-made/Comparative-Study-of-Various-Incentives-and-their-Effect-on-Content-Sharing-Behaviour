@@ -116,16 +116,18 @@ function AboutVanity() {
       <Text weight={500}>What do I have to do?</Text>
       <Paragraph fill>
         Every day for three days, you will log into this website with the
-        username and password provided to you.
+        username and password provided to you. You will have a total of forty
+        followers to begin with. After this, you will either gain or lose
+        followers based on your performance.
       </Paragraph>
       <Paragraph fill>
         You will read the posts presented to you. You will then try to
         understand if the post is true, false, or wholesome. To help you, we
         have included some more additional information, which you can read by
         clicking “read more”. Your task is then to react or not react and share
-        or not share the post. For every share of true information, you will be
-        gain a few likes. For every share of false information, a few of your
-        likes will be taken away.
+        or not share the post. For every share of true information, you will
+        gain a few followers. For every share of false information, a few of
+        your followers will be taken away.
       </Paragraph>
       <Paragraph fill>
         You will complete the study over three days. After this, we will ask you
@@ -139,10 +141,11 @@ function AboutVanity() {
         Why do the number of followers I have keep changing?
       </Text>
       <Paragraph fill>
-        You will gain or lose a few likes based on your sharing behaviours. That
-        is, if you share true information, you will receive a few likes. If you
-        share false information, you will lose a few likes. Nothing will happen
-        to your likes if you share wholesome information.
+        You will gain or lose a few followers based on your sharing behaviours.
+        That is, if you share true information, you will receive a few
+        followers. If you share false information, you will lose a few
+        followers. Nothing will happen to your followers if you share wholesome
+        information.
       </Paragraph>
 
       <Text weight={500}>Do I have to share/react to every post?</Text>

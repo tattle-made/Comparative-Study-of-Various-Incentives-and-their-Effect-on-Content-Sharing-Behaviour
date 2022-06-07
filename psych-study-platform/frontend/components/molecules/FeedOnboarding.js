@@ -34,12 +34,10 @@ export function FeedOnboarding() {
         You would need to discern which is which and share accordingly.
       </Paragraph>
       <Text weight={600}>
-        Note that once you react/share, you will not be able to undo it.
+        Note that once you react/share, you will not be able to undo it.<br>
+        You can scroll down for the next post!
       </Text>
-      <Paragraph fill>
-        You will need to login for three days to see all the posts and complete
-        the study. You will also receive reminder emails to log in!
-      </Paragraph>
+      
       <Paragraph fill>
         You will need to login for three days to see all the posts, complete the
         study, and receive payments. You will also receive reminder emails to

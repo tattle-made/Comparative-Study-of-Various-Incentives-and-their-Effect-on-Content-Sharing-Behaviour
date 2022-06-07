@@ -123,11 +123,13 @@ function ConsentFormVanity() {
       <Paragraph fill>
         You will be sent five messages on the first day, and ten each after that
         for two consecutive days. You may choose to share or not share those
-        messages. You will be rewarded for sharing true content; you will get
-        100 likes for sharing true content. You will be penalised for sharing
-        false content by deduction of 40 likes. You will have to read the
-        message thoroughly and use your judgement to classify which content is
-        true, which is false, and which would spread joy.
+        messages. On the first day, we will see how you naturally share content.
+        On second and third days, you will be rewarded for sharing true content;
+        you will get 100 followers for sharing true content. You will be
+        penalised for sharing false content by deduction of 40 followers. You
+        will have to read the message thoroughly and use your judgement to
+        classify which content is true, which is false, and which would spread
+        joy.
       </Paragraph>
       <Box width={"large"}>
         <img src={new URL("../../assets/vanity-guide.png", import.meta.url)} />
