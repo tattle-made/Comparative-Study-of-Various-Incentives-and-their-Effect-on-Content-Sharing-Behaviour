@@ -58,9 +58,14 @@ const sendEmail = async ({ subject, body, receiver }) => {
   }
 };
 
-module.exports = { sendEmail };
+module.exports = {
+  sendEmail,
+  sendOnboardingEmail,
+  sendPostDayOneReminder,
+  sendPostDayTwoReminder,
+};
 
-(async () => {
+async function sendOnboardingEmail(user) {
   const body = `
   <!DOCTYPE html>
     <html>
@@ -95,9 +100,9 @@ module.exports = { sendEmail };
         <p>Please use the following username and password to log in to our system <span style="font-weight: bold;">over the next three days.</span> First, you will read the consent form. Next, you will be onboarded and shown the posts.
         <p>
 
-        <p>Social Media Platform Link: <br>
-            Username: <br>
-            Password:</p>
+        <p>Social Media Platform Link: https://meshi.tattle.co.in/<br>
+            Username: ${user.username} <br>
+            Password: ${user.password}</p>
 
         <p>In case you have any questions or concerns, please feel free to write back to me. Thanks!</p>
 
@@ -110,8 +115,106 @@ module.exports = { sendEmail };
     </html>
     `;
   await sendEmail({
-    subject: "Tattle and Prayogshala’s Social Media Study is now live!",
+    subject: "Tattle and Monk Prayogshala’s Social Media Study is now live!",
     body,
-    receiver: "denny@tattle.co.in",
+    receiver: user.email,
   });
-})();
+}
+
+async function sendPostDayOneReminder(user) {
+  const body = `
+  <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hello from Monk Prayogshala and Tattle!</title>
+        <meta name="description" content="description" />
+        <meta name="author" content="tattle|mp" />
+        <meta name="keywords" content="social media, study" />
+        <style type="text/css">
+        .body {
+            width: auto;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div>
+        <p>Hello,
+        </p>
+        <p>
+        Thank you for participating on the first day. As a reminder, please log back in and complete your task today!
+        </p>
+        <p>As a reminder, your login information is as follows:</p>
+
+        <p>Social Media Platform Link: https://meshi.tattle.co.in/<br>
+            Username: ${user.username} <br>
+            Password: ${user.password}</p>
+
+        <p>In case you have any questions or concerns, please feel free to write back to me. Thanks!
+        </p>
+
+        <p>Best,<br>
+        Arathy</p>
+
+        </div>
+    </body>
+
+    </html>
+    `;
+  await sendEmail({
+    subject: "Day 2 of Tattle and Monk Prayogshala’s Social Media Study",
+    body,
+    receiver: user.email,
+  });
+}
+
+async function sendPostDayTwoReminder(user) {
+  const body = `
+  <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hello from Monk Prayogshala and Tattle!</title>
+        <meta name="description" content="description" />
+        <meta name="author" content="tattle|mp" />
+        <meta name="keywords" content="social media, study" />
+        <style type="text/css">
+        .body {
+            width: auto;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div>
+        <p>Hello,
+        </p>
+        <p>
+        Thank you for participating on the first and the second days. As a reminder, please log back in and complete your task today!
+        </p>
+        <p>As a reminder, your login information is as follows:</p>
+
+        <p>Social Media Platform Link: https://meshi.tattle.co.in/<br>
+            Username: ${user.username} <br>
+            Password: ${user.password}</p>
+
+        <p>In case you have any questions or concerns, please feel free to write back to me. Thanks!
+        </p>
+
+        <p>Best,<br>
+        Arathy</p>
+
+        </div>
+    </body>
+
+    </html>
+    `;
+  await sendEmail({
+    subject: "Day 2 of Tattle and Monk Prayogshala’s Social Media Study",
+    body,
+    receiver: user.email,
+  });
+}
