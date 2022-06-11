@@ -22,9 +22,10 @@ function AboutMonetary() {
         understand if the post is true, false, or wholesome. To help you, we
         have included some more additional information, which you can read by
         clicking “read more”. Your task is then to react or not react and share
-        or not share the post. For every share of true information, you will be
-        gain a few coins. For every share of false information, a few of your
-        coins will be taken away. Here, 1 coin = 1 Rupee.
+        or not share the post within our platform.. For every share of true
+        information, you will be gain a few coins. For every share of false
+        information, a few of your coins will be taken away. Here, 1 coin = 1
+        Rupee.
       </Paragraph>
       <Paragraph fill>
         You will complete the study over three days. After this, we will ask you
@@ -34,6 +35,14 @@ function AboutMonetary() {
       <Box width={"large"}>
         <img src={new URL("../assets/monetary-about.png", import.meta.url)} />
       </Box>
+
+      <Text weight={500}>
+        Do I have to share these posts on my actual social media accounts?
+      </Text>
+      <Paragraph fill>
+        No, you only have to share/react to posts within our social media
+        platform.
+      </Paragraph>
 
       <Text weight={500}>Why do the number of coins I have keep changing?</Text>
       <Paragraph fill>
@@ -49,14 +58,15 @@ function AboutMonetary() {
 
       <Text weight={500}>What are you trying to study?</Text>
       <Paragraph fill>
-        We are trying to study how people naturally share information on social
-        media.
+        We are trying to study how people naturally share information on our
+        social media platform.
       </Paragraph>
 
       <Text weight={500}>Why do I not get coins on the first day?</Text>
       <Paragraph fill>
         We want to see how you share content naturally on Day 1; on Day 2 and
-        Day 3 you will receive/lose coins based on your sharing behavior.
+        Day 3 you will receive/lose coins based on your sharing behavior within
+        our platform.
       </Paragraph>
 
       <Text weight={500}>When will I get real money?</Text>
@@ -125,9 +135,9 @@ function AboutVanity() {
         understand if the post is true, false, or wholesome. To help you, we
         have included some more additional information, which you can read by
         clicking “read more”. Your task is then to react or not react and share
-        or not share the post. For every share of true information, you will
-        gain a few followers. For every share of false information, a few of
-        your followers will be taken away.
+        or not share the post within our platform. For every share of true
+        information, you will gain a few followers. For every share of false
+        information, a few of your followers will be taken away.
       </Paragraph>
       <Paragraph fill>
         You will complete the study over three days. After this, we will ask you
@@ -136,6 +146,14 @@ function AboutVanity() {
       <Box width={"large"}>
         <img src={new URL("../assets/vanity-about.png", import.meta.url)} />
       </Box>
+
+      <Text weight={500}>
+        Do I have to share these posts on my actual social media accounts?
+      </Text>
+      <Paragraph fill>
+        No, you only have to share/react to posts within our social media
+        platform.
+      </Paragraph>
 
       <Text weight={500}>
         Why do the number of followers I have keep changing?
@@ -155,14 +173,15 @@ function AboutVanity() {
 
       <Text weight={500}>What are you trying to study?</Text>
       <Paragraph fill>
-        We are trying to study how people naturally share information on social
-        media.
+        We are trying to study how people naturally share information on our
+        social media platform. .
       </Paragraph>
 
       <Text weight={500}>Why do I not get followers on the first day?</Text>
       <Paragraph fill>
         We want to see how you share content naturally on Day 1; on Day 2 and
-        Day 3 you will receive/lose followers based on your sharing behavior.
+        Day 3 you will receive/lose followers based on your sharing behavior
+        within our platform.
       </Paragraph>
 
       <Text weight={500}>When will I get real money?</Text>

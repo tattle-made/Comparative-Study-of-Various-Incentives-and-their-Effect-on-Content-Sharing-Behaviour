@@ -31,7 +31,8 @@ export function FeedOnboarding() {
       </Paragraph>
       <Paragraph fill>
         Note that you will be provided with some false and some true messages.
-        You would need to discern which is which and share accordingly.
+        You would need to discern which is which and share accordingly within
+        our platform..
       </Paragraph>
       <Text weight={600}>
         Note that once you react/share, you will not be able to undo it.

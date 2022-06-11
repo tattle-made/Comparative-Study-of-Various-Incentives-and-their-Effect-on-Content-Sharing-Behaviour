@@ -95,7 +95,7 @@ async function sendOnboardingEmail(user) {
 
         <p>You will be participating in the study <span style="font-weight: bold;">over three days.</span></p>
 
-        <p>You will be shown five posts on the first day, and ten each after that for two consecutive days. You may choose to share or not share those posts. You will be rewarded for sharing true content and penalised for sharing false content. You will have to read the post and use your judgement to classify which content is true, which is false, and which would spread joy.</p>
+        <p>You will be shown five posts on the first day, and ten each after that for two consecutive days. share or not share those posts within our platform. You will be rewarded for sharing true content and penalised for sharing false content. You will have to read the post and use your judgement to classify which content is true, which is false, and which would spread joy.</p>
 
         <p>Please use the following username and password to log in to our system <span style="font-weight: bold;">over the next three days.</span> First, you will read the consent form. Next, you will be onboarded and shown the posts.
         <p>
@@ -213,7 +213,7 @@ async function sendPostDayTwoReminder(user) {
     </html>
     `;
   await sendEmail({
-    subject: "Day 2 of Tattle and Monk Prayogshala’s Social Media Study",
+    subject: "Day 3 of Tattle and Monk Prayogshala’s Social Media Study",
     body,
     receiver: user.email,
   });
