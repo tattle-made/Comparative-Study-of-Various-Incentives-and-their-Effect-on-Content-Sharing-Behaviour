@@ -8,5 +8,7 @@ sequelize/seeders/posts.json
 sequelize/seeders/userData.json
 sequelize/seeders/userDataStaging.json
 sequelize/seeders/userDataProduction.json
+sequelize/seeders/userPasswordMap.json
+sequelize/seeders/passwordMapProduction.json
 
 public/

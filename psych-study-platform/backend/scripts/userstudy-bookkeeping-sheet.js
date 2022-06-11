@@ -6,7 +6,11 @@
  */
 const creds = require("./credentials.json"); // the file saved above
 const { GoogleSpreadsheet } = require("google-spreadsheet");
-const { sendOnboardingEmail, sendPostDayOneReminder } = require("./email");
+const {
+  sendOnboardingEmail,
+  sendPostDayOneReminder,
+  sendPostDayTwoReminder,
+} = require("./email");
 const doc = new GoogleSpreadsheet(
   "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
 );
@@ -39,9 +43,9 @@ async function parseSheet(sheet) {
 
   let i = 1;
   for (let user of data) {
-    await sendPostDayOneReminder(user);
-    const status = sheet.getCell(i, 6);
-    const timestamp = sheet.getCell(i, 7);
+    await sendPostDayTwoReminder(user);
+    const status = sheet.getCell(i, 8);
+    const timestamp = sheet.getCell(i, 9);
     status.value = "SENT_AUTOMATED";
     timestamp.value = new Date().toUTCString();
     console.log(`Emailed ${user.email}`);
