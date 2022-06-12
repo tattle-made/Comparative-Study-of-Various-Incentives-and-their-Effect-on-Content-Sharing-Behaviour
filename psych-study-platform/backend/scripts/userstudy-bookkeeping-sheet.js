@@ -14,43 +14,41 @@ const {
 const doc = new GoogleSpreadsheet(
   "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
 );
-const fs = require("fs").promises;
 
-async function parseSheet(sheet) {
-  const totalRows = sheet.rowCount;
-  await sheet.loadCells(`A1:L${totalRows}`);
-
-  let data = [];
-  for (var i = 1; i < totalRows; i++) {
-    const cell = sheet.getCell(i, 0).value;
-    if (cell != null) {
-      //   console.log(cell);
-      const username = sheet.getCell(i, 2).value;
-      const password = sheet.getCell(i, 3).value;
-      data.push({ email: cell, username, password });
-    }
-  }
-  return data;
-}
+const sleep = (time) =>
+  new Promise((res) => setTimeout(res, time, "done sleeping"));
 
 (async function getDataFromSheet() {
   await doc.useServiceAccountAuth(creds);
   await doc.loadInfo();
+  const sheet = doc.sheetsByIndex[4];
+  const rows = await sheet.getRows();
 
-  const sheet = doc.sheetsByIndex[3];
-  const data = await parseSheet(sheet);
-  // console.log(data);
+  try {
+    for (var i = 0; i < rows.length; i++) {
+      try {
+        if (rows[i].session_number == 2) {
+          const email = rows[i].email;
+          const username = rows[i].username;
+          const password = rows[i].password;
 
-  let i = 1;
-  for (let user of data) {
-    await sendPostDayTwoReminder(user);
-    const status = sheet.getCell(i, 8);
-    const timestamp = sheet.getCell(i, 9);
-    status.value = "SENT_AUTOMATED";
-    timestamp.value = new Date().toUTCString();
-    console.log(`Emailed ${user.email}`);
-    i++;
+          rows[i].onboarding_email = "SENT";
+          rows[i].onboarding_email_ts = new Date().toUTCString();
+          // await sendOnboardingEmail({
+          //   email,
+          //   username,
+          //   password,
+          // });
+          await rows[i].save();
+          // console.log({ email, username, password });
+          await sleep(1000);
+        }
+      } catch (err) {
+        console.log(`Error Saving row ${i}`);
+        console.log(err);
+      }
+    }
+  } catch (err) {
+    console.log(err);
   }
-  await sheet.saveUpdatedCells();
-  //   await fs.writeFile("scripts/data.json", JSON.stringify(data));
 })();
