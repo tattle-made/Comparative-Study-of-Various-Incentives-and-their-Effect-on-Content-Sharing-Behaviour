@@ -174,7 +174,7 @@ function AboutVanity() {
       <Text weight={500}>What are you trying to study?</Text>
       <Paragraph fill>
         We are trying to study how people naturally share information on our
-        social media platform. .
+        social media platform.
       </Paragraph>
 
       <Text weight={500}>Why do I not get followers on the first day?</Text>

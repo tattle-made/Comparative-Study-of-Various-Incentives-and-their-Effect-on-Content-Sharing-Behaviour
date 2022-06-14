@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Grommet, Box, Heading, Text, Button } from "grommet";
 import { HelpOption } from "grommet-icons";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -9,12 +9,14 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { UserState, UserLoginStatusState } from "~/UserState";
 import { Notification } from "~/components/atoms/Notification";
 import { About } from "./About";
+import { SignUp } from "./SignUp";
 
 export function Home() {
   const [msg, setMsg] = useState("Default");
   const [user, setUser] = useRecoilState(UserState);
   const userLoginStatus = useRecoilValue(UserLoginStatusState);
   let navigate = useNavigate();
+  const location = useLocation();
 
   function clickLogout() {
     setUser({});
@@ -22,7 +24,12 @@ export function Home() {
 
   useEffect(() => {
     if (!userLoginStatus) {
-      navigate("/");
+      const path = location.pathname;
+      if (["/sign-up"].includes(path)) {
+        return;
+      } else {
+        navigate("/");
+      }
     }
   }, [userLoginStatus]);
 
@@ -50,6 +57,7 @@ export function Home() {
         <Route path="/" element={<Login />} />
         <Route path="/feed" element={<Feed />} />
         <Route path="/about" element={<About />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route
           path="*"
           element={

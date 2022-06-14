@@ -32,15 +32,15 @@ const sleep = (time) =>
           const username = rows[i].username;
           const password = rows[i].password;
 
-          rows[i].onboarding_email = "SENT";
-          rows[i].onboarding_email_ts = new Date().toUTCString();
-          // await sendOnboardingEmail({
-          //   email,
-          //   username,
-          //   password,
-          // });
+          rows[i].post_day_1_reminder_email = "SENT";
+          rows[i].post_day_1_reminder_email_ts = new Date().toUTCString();
+          console.log({ email, username, password });
+          await sendPostDayOneReminder({
+            email,
+            username,
+            password,
+          });
           await rows[i].save();
-          // console.log({ email, username, password });
           await sleep(1000);
         }
       } catch (err) {
