@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { verifyAccessToken } = require("../../features/auth/token");
 
-const whitelistedUrls = ["/api/login", "/api/", "/feed"];
+const whitelistedUrls = ["/api/login", "/api/", "/feed", "/sign-up"];
 
 const authenticationMiddleware = async (req, res, next) => {
   // extract token from request headers
