@@ -16,7 +16,7 @@ try {
     const sqlUsername = process.env.DB_USERNAME;
     const sqlPassword = process.env.DB_PASSWORD;
     console.log({
-      projectId: githubCredentials.project_id,
+      projectId: googleServiceAccountCredentials.project_id,
       sqlUsername,
       sqlPassword,
     });
