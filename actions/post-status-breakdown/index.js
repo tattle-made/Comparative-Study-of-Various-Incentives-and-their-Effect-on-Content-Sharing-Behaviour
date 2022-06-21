@@ -3,7 +3,7 @@ const github = require("@actions/github");
 
 try {
   console.log("Hello");
-  const githubCredentials = process.env.GOOGLE_CREDENTIALS;
+  const githubCredentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
   const sqlUsername = process.env.DB_USERNAME;
   const sqlPassword = process.env.DB_PASSWORD;
   console.log({
