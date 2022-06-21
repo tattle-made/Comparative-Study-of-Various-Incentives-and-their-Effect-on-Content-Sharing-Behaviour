@@ -1,0 +1,15 @@
+name: Test Cron Jobs
+on:
+  push:
+    branches:
+      - feat/cron
+
+jobs:
+  bookkeeping:
+    runs-on: ubuntu-latest
+    name: "User Bookkeeping"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update User Status
+        uses: ./actions/post-status-breakdown
