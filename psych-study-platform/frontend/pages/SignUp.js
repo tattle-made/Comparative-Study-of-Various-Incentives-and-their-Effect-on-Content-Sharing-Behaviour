@@ -46,6 +46,10 @@ export function SignUp() {
             to participate.
           </Text>
         </Paragraph>
+        <Paragraph>
+          All participants will receive at least INR 200 for participating in
+          this study!
+        </Paragraph>
       </Section>
     </Box>
   );
