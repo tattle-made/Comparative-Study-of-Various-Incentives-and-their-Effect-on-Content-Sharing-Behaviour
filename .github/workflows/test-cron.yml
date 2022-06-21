@@ -16,5 +16,5 @@ jobs:
         env:
           GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
           DB_HOST: ${{ secrets.DB_HOST}}
-          DB_USERNAME: ${{secrets.SQL_USERNAME}}
-          DB_PASSWORD: ${{secrets.SQL_PASSWORD}}
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}

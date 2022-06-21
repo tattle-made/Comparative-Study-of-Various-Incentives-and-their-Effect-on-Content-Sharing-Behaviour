@@ -21,23 +21,23 @@ try {
       h: process.env.DB_HOST.slice(0, 3),
     });
 
-    // const connection = await mysql.createConnection({
-    //   host: process.env.DB_HOST,
-    //   user: process.env.DB_USERNAME,
-    //   password: process.env.DB_PASSWORD,
-    //   database: "psych_study_platform_production",
-    // });
+    const connection = await mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: "psych_study_platform_production",
+    });
 
-    // const [rows, fields] = await connection.execute(`
-    //   SELECT Count(Users.username), StudyPhases.stage
-    //   FROM StudyPhases
-    //   LEFT JOIN Users
-    //   ON Users.id = StudyPhases.user
-    //   WHERE StudyPhases.current =TRUE
-    //   GROUP BY StudyPhases.stage
-    // `);
+    const [rows, fields] = await connection.execute(`
+      SELECT Count(Users.username), StudyPhases.stage
+      FROM StudyPhases
+      LEFT JOIN Users
+      ON Users.id = StudyPhases.user
+      WHERE StudyPhases.current =TRUE
+      GROUP BY StudyPhases.stage
+    `);
 
-    // console.log(rows);
+    console.log(rows);
 
     // await doc.useServiceAccountAuth(googleServiceAccountCredentials);
     // await doc.loadInfo();
