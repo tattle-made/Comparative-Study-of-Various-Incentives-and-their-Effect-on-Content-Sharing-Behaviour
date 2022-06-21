@@ -1,0 +1,19 @@
+name: Generate Dashboard
+on:
+  schedule:
+    - cron: "25 10 * * *"
+
+jobs:
+  bookkeeping:
+    runs-on: ubuntu-latest
+    name: "User Bookkeeping"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update User Status
+        uses: ./actions/post-status-breakdown
+        env:
+          GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
+          DB_HOST: ${{ secrets.DB_HOST}}
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}

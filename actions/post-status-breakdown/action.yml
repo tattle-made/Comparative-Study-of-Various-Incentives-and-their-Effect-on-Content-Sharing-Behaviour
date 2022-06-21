@@ -1,0 +1,5 @@
+name: "Update User Status Breakdown"
+description: "Updates the Bookkeeping Spreadsheet with upto date data from the SQL database"
+runs:
+  using: "node16"
+  main: "index.js"

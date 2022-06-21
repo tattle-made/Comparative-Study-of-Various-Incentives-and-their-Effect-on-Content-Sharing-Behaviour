@@ -195,7 +195,7 @@ async function sendPostDayTwoReminder(user) {
         <p>Hello,
         </p>
         <p>
-        Thank you for participating on the first and the second days. As a reminder, please log back in and complete your task today!
+        Thank you for participating on the first and the second days.  You should log in every 24 hours after you finish viewing the posts for a day. If you log in before that, you will not be able to see new posts for that day.
         </p>
         <p>As a reminder, your login information is as follows:</p>
 
