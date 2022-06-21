@@ -33,21 +33,21 @@ const sleep = (time) =>
           const email = rows[i].email;
           const username = rows[i].username;
           const password = rows[i].password;
-          const post_day_1_reminder_email = rows[i].post_day_1_reminder_email;
-          const post_day_1_reminder_email_ts =
-            rows[i].post_day_1_reminder_email_ts;
+          const post_day_2_reminder_email = rows[i].post_day_2_reminder_email;
+          const post_day_2_reminder_email_ts =
+            rows[i].post_day_2_reminder_email_ts;
 
           if (
-            (post_day_1_reminder_email === undefined ||
-              post_day_1_reminder_email === "") &&
-            (post_day_1_reminder_email_ts === undefined ||
-              post_day_1_reminder_email_ts === "")
+            (post_day_2_reminder_email === undefined ||
+              post_day_2_reminder_email === "") &&
+            (post_day_2_reminder_email_ts === undefined ||
+              post_day_2_reminder_email_ts === "")
           ) {
             console.log("found contender for emailing", { email });
-            rows[i].post_day_1_reminder_email = "SENT";
-            rows[i].post_day_1_reminder_email_ts = new Date().toUTCString();
+            rows[i].post_day_2_reminder_email = "SENT";
+            rows[i].post_day_2_reminder_email_ts = new Date().toUTCString();
             console.log({ email, username, password });
-            await sendPostDayOneReminder({
+            await sendPostDayTwoReminder({
               email,
               username,
               password,
