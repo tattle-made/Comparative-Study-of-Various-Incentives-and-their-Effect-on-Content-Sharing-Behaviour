@@ -1,12 +1,17 @@
 const core = require("@actions/core");
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const doc = new GoogleSpreadsheet(
-  "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
+  "18IHzjvGxLG8D6ZOiW1gOjsJUfxPYSM0HJUVa02dZWCs"
 );
 const mysql = require("mysql2/promise");
 
 const sleep = (time) =>
   new Promise((res) => setTimeout(res, time, "done sleeping"));
+
+const SHEET_INDEX_BY_NAME = {
+  "Aggregate User Status": 0,
+  "Individual User Status": 1,
+};
 
 try {
   (async function () {
@@ -14,12 +19,6 @@ try {
     const googleServiceAccountCredentials = JSON.parse(
       process.env.GOOGLE_CREDENTIALS
     );
-
-    console.log({
-      u: process.env.DB_USERNAME.slice(0, 3),
-      p: process.env.DB_PASSWORD.slice(0, 3),
-      h: process.env.DB_HOST.slice(0, 3),
-    });
 
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST,
@@ -29,7 +28,7 @@ try {
     });
 
     const [rows, fields] = await connection.execute(`
-      SELECT Count(Users.username), StudyPhases.stage
+      SELECT Count(Users.username) as count, StudyPhases.stage
       FROM StudyPhases
       LEFT JOIN Users
       ON Users.id = StudyPhases.user
@@ -37,21 +36,20 @@ try {
       GROUP BY StudyPhases.stage
     `);
 
-    console.log(rows);
+    await doc.useServiceAccountAuth(googleServiceAccountCredentials);
+    await doc.loadInfo();
+    const sheet =
+      doc.sheetsByIndex[SHEET_INDEX_BY_NAME["Aggregate User Status"]];
+    await sheet.loadCells("A3:B11");
 
-    // await doc.useServiceAccountAuth(googleServiceAccountCredentials);
-    // await doc.loadInfo();
-    // const sheet = doc.sheetsByIndex[3];
-    // const sheetRows = await sheet.getRows();
+    for (let i = 0; i < rows.length; i++) {
+      const cellCount = sheet.getCellByA1(`A${3 + i}`);
+      const cellStage = sheet.getCellByA1(`B${3 + i}`);
+      cellCount.value = rows[i].count;
+      cellStage.value = rows[i].stage;
+    }
 
-    // for (var i = 0; i < sheetRows.length; i++) {
-    //   try {
-    //     // console.log({ username: rows[i].username, password: rows[i].password });
-    //   } catch (err) {
-    //     console.log(`Error Saving row ${i}`);
-    //     console.log(err);
-    //   }
-    // }
+    await sheet.saveUpdatedCells();
   })();
 } catch (err) {
   core.setFailed(err.message);
