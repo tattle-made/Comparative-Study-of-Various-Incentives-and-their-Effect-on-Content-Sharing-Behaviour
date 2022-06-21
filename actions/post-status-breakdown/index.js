@@ -50,6 +50,7 @@ try {
     }
 
     await sheet.saveUpdatedCells();
+    process.exit();
   })();
 } catch (err) {
   core.setFailed(err.message);
