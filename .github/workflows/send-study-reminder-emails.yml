@@ -1,0 +1,37 @@
+name: Send Study Reminder Emails
+on:
+  push:
+    branches:
+      - feat/csv-data
+
+env:
+  GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
+  DB_HOST: ${{ secrets.DB_HOST}}
+  DB_USERNAME: ${{secrets.DB_USERNAME}}
+  DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+
+jobs:
+  schedule-email:
+    runs-on: ubuntu-latest
+    name: "Schedule Reminder Emails"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update User Status
+        uses: ./actions/post-status-breakdown
+        with:
+          mode: "SCHEDULE_STUDY_EMAIL"
+
+  send-email:
+    runs-on: ubuntu-latest
+    name: "Send Reminder Emails"
+    environment:
+      name: production
+      url: https://docs.google.com/spreadsheets/d/14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update User Status
+        uses: ./actions/post-status-breakdown
+        with:
+          mode: "SEND_STUDY_EMAIL"
