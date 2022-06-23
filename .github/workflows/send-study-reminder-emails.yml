@@ -25,6 +25,7 @@ jobs:
   send-email:
     runs-on: ubuntu-latest
     name: "Send Reminder Emails"
+    needs: schedule-email
     environment:
       name: production
       url: https://docs.google.com/spreadsheets/d/14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y/
