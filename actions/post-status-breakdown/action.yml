@@ -1,5 +1,10 @@
 name: "Update User Status Breakdown"
 description: "Updates the Bookkeeping Spreadsheet with upto date data from the SQL database"
+inputs:
+  mode:
+    description: "What mode to run the script in"
+    required: true
+    default: "UPDATE_DASHBOARD"
 runs:
   using: "node16"
   main: "index.js"
