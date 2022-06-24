@@ -89,16 +89,13 @@ const findScheduledEmails = (user) => {
   }
 
   if (["TEST_DAY_03", "FINISHED", "POST_TEST_SURVEY"].includes(currentStatus)) {
-    if (
-      daysSince(postDay2ReminderEmailTS) > 1 &&
-      isEmpty(paymentReminderEmail)
-    ) {
+    if (daysSince(postDay2ReminderTS) > 1 && isEmpty(paymentReminderEmail)) {
       emails.push({ type: "SCHEDULE_PAYMENT_REMINDER", user });
     }
   }
 
   if (isEmpty(currentStatus) && daysSince(onboardingEmailTS) > 3) {
-    emails.push({ type: "UNLOGGEDIN_USER_REMINDER" }, users);
+    emails.push({ type: "UNLOGGEDIN_USER_REMINDER" }, user);
   }
 
   return emails;
