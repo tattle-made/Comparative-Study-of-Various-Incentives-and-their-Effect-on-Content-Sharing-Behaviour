@@ -1,4 +1,5 @@
 exports.userFactory = (googleSheetRow) => {
+  console.log({ googleSheetRow });
   function sanitizeCellData(fieldName) {
     googleSheetRow[fieldName].length === 0 ||
     googleSheetRow[fieldName] === undefined ||
