@@ -7,4 +7,4 @@ This action is meant to be run periodically on a github action runner.
 
 - Get the credentials.json for your service account and place it in the root folder.
 
-test
+test 0.0.1
