@@ -27,7 +27,7 @@ const sleep = (time) =>
         rows[i].username = passwordMapProduction[i - 25].username;
         rows[i].password = passwordMapProduction[i - 25].password;
         await rows[i].save();
-        await sleep(5000);
+        await sleep(1000);
       }
     }
   } catch (err) {
