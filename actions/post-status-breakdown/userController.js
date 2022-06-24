@@ -47,7 +47,7 @@ exports.updateUserStatusOnGoogleSheet = async () => {
             sheetRow.current_status = row.stage;
             sheetRow.current_status_ts = new Date().toUTCString();
             await sheetRow.save();
-            await sleep(25);
+            await sleep(150);
           }
         }
       } catch (err) {

@@ -44,7 +44,7 @@ const sleep = (time) =>
               password,
             });
             await row.save();
-            await sleep(25);
+            await sleep(150);
           } catch (err) {
             console.log("error sending email");
           }
