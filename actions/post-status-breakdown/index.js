@@ -1,5 +1,6 @@
 const core = require("@actions/core");
 const { updateDashboard } = require("./dashboardController");
+const { updateUserStatusOnGoogleSheet } = require("./userController");
 const {
   scheduleStudyEmails,
   sendStudyEmails,
@@ -12,6 +13,9 @@ try {
     switch (mode) {
       case "UPDATE_DASHBOARD":
         await updateDashboard();
+        break;
+      case "UPDATE_USER_STATUS":
+        await updateUserStatusOnGoogleSheet();
         break;
       case "SCHEDULE_STUDY_EMAIL":
         await scheduleStudyEmails();

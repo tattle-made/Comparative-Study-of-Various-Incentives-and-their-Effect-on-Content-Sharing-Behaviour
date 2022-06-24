@@ -4,12 +4,12 @@ const doc = new GoogleSpreadsheet(
   "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
 );
 const mysql = require("mysql2/promise");
-const {
-  sendOnboardingEmail,
-  sendPostDayOneReminder,
-  sendPostDayTwoReminder,
-  sendReminderEmailToNonLoggedInUsers,
-} = require("./email");
+// const {
+//   sendOnboardingEmail,
+//   sendPostDayOneReminder,
+//   sendPostDayTwoReminder,
+//   sendReminderEmailToNonLoggedInUsers,
+// } = require("./email");
 const { userFactory } = require("./userFactory");
 
 const MAX_SESSION = 4;
@@ -31,6 +31,9 @@ exports.scheduleStudyEmails = async () => {
     for (const row of rows) {
       try {
         const user = userFactory(row);
+        if (isNaN(user.session)) {
+          continue;
+        }
         if (user.session < MAX_SESSION) {
           const scheduledEmails = findScheduledEmails(user);
           for (const email of scheduledEmails) {
@@ -54,7 +57,7 @@ exports.sendStudyEmails = (googleSheetUser) => {
   console.log("Sending Study Emails");
 };
 
-function findScheduledEmails(user) {
+exports.findScheduledEmails = (user) => {
   const { currentStatus, currentStatusTS } = user;
   const { onboardingEmail, onboardingEmailTS } = user;
   const { postDay1ReminderEmail, postDay1ReminderEmailTS } = user;
@@ -64,45 +67,42 @@ function findScheduledEmails(user) {
 
   const emails = [];
 
-  if (isEmpty(currentStatus)) {
-    // if onboarding message has not been sent
-    // schedule onboarding message
-    if (isEmpty(onboardingEmail)) {
-      emails.push({ type: "SCHEDULE_ONBOARDING_EMAIL", user });
-    }
-  } else {
-    if (
-      ["UNUSED", "CONSENT", "ONBOARDING", "TEST_DAY_01"].includes(currentStatus)
-    ) {
-      if (daysSince(onboardingEmailTS) > 1 && isEmpty(postDay1ReminderEmail)) {
-        emails.push({ type: "SCHEDULE_POST_DAY_1_EMAIL", user });
-      } else {
-        console.log(`Need not schedule postday1email for ${user.username}`);
-      }
-    } else if (currentStatus === "TEST_DAY_02") {
-      if (
-        daysSince(postDay1ReminderEmailTS) > 1 &&
-        isEmpty(postDay2ReminderEmail)
-      ) {
-        emails.push({ type: "SCHEDULE_POST_DAY_2_EMAIL", user });
-      }
-    } else if (currentStatus === "TEST_DAY_03") {
-      if (daysSince(postDay2ReminderTS) > 1 && isEmpty(postDay2ReminderEmail)) {
-        emails.push({ type: "SCHEDULE_PAYMENT_REMINDER", user });
-      }
-    } else if (["FINISHED", "POST_TEST_SURVEY"].includes(currentStatus)) {
-      const currentStatusDate = new Date(currentStatusTS);
-      const now = new Date();
-      if ((now - currentStatus) / MS_PER_DAY > 1) {
-        if (paymentReminderEmail.length === 0) {
-          emails.push({ type: "SCHEDULE_PAYMENT_REMINDER", user });
-        }
-      }
-    } else {
-      console.log(`Unexpected Current Status of ${user.username}`);
+  if (isEmpty(currentStatus) && isEmpty(onboardingEmail)) {
+    emails.push({ type: "SCHEDULE_ONBOARDING_EMAIL", user });
+  }
+
+  if (
+    ["UNUSED", "CONSENT", "ONBOARDING", "TEST_DAY_01"].includes(currentStatus)
+  ) {
+    if (daysSince(onboardingEmailTS) > 1 && isEmpty(postDay1ReminderEmail)) {
+      emails.push({ type: "SCHEDULE_POST_DAY_1_EMAIL", user });
     }
   }
-}
+
+  if (currentStatus === "TEST_DAY_02") {
+    if (
+      daysSince(postDay1ReminderEmailTS) > 1 &&
+      isEmpty(postDay2ReminderEmail)
+    ) {
+      emails.push({ type: "SCHEDULE_POST_DAY_2_EMAIL", user });
+    }
+  }
+
+  if (["TEST_DAY_03", "FINISHED", "POST_TEST_SURVEY"].includes(currentStatus)) {
+    if (
+      daysSince(postDay2ReminderEmailTS) > 1 &&
+      isEmpty(paymentReminderEmail)
+    ) {
+      emails.push({ type: "SCHEDULE_PAYMENT_REMINDER", user });
+    }
+  }
+
+  if (isEmpty(currentStatus) && daysSince(onboardingEmailTS) > 3) {
+    emails.push({ type: "UNLOGGEDIN_USER_REMINDER" }, users);
+  }
+
+  return emails;
+};
 
 function daysSince(ts) {
   const tsDate = new Date(ts);
