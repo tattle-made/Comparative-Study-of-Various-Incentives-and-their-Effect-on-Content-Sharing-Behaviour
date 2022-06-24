@@ -35,7 +35,7 @@ exports.scheduleStudyEmails = async () => {
         if (isNaN(user.session)) {
           continue;
         }
-        if (user.session < config.MAX_SESSION) {
+        if (user.session <= config.MAX_SESSION) {
           console.log(`Processing ${row.rowNumber}`);
           const scheduledEmails = findScheduledEmails(user);
           for (const email of scheduledEmails) {

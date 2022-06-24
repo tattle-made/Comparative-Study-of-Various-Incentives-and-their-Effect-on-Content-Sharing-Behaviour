@@ -37,7 +37,7 @@ exports.updateUserStatusOnGoogleSheet = async () => {
         if (isNaN(user.session)) {
           continue;
         }
-        if (user.session < config.MAX_SESSION) {
+        if (user.session <= config.MAX_SESSION) {
           console.log(`Updating status for row ${sheetRow.rowNumber}`);
           const [rows, fields] = await connection.execute(
             `SELECT * FROM StudyPhases WHERE user = "${user.userId}" AND current = true`
