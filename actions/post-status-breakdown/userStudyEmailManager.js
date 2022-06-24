@@ -57,7 +57,7 @@ exports.sendStudyEmails = (googleSheetUser) => {
   console.log("Sending Study Emails");
 };
 
-exports.findScheduledEmails = (user) => {
+const findScheduledEmails = (user) => {
   const { currentStatus, currentStatusTS } = user;
   const { onboardingEmail, onboardingEmailTS } = user;
   const { postDay1ReminderEmail, postDay1ReminderEmailTS } = user;
@@ -103,6 +103,8 @@ exports.findScheduledEmails = (user) => {
 
   return emails;
 };
+
+exports.findScheduledEmails = findScheduledEmails;
 
 function daysSince(ts) {
   const tsDate = new Date(ts);
