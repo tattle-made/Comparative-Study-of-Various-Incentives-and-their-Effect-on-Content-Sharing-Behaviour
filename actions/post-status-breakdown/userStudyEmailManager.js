@@ -97,7 +97,7 @@ const findScheduledEmails = (user) => {
   }
 
   if (isEmpty(currentStatus) && daysSince(onboardingEmailTS) > 3) {
-    emails.push({ type: "SCHEDULE_EMAIL_TO_NON_LOGGED_IN_USER" }, user);
+    emails.push({ type: "SCHEDULE_EMAIL_TO_NON_LOGGED_IN_USER", user });
   }
 
   return emails;
@@ -116,7 +116,7 @@ function isEmpty(cellData) {
 }
 
 async function scheduleEmailOnSheet(row, email) {
-  const { type, user } = email;
+  const { type } = email;
 
   try {
     switch (type) {
