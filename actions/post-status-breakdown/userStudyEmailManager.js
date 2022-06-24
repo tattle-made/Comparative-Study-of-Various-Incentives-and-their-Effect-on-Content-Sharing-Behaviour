@@ -144,7 +144,7 @@ async function scheduleEmailOnSheet(row, email) {
         console.log("unexpected schedule");
     }
     await row.save();
-    await sleep(150);
+    await sleep(1000);
   } catch (err) {
     console.log(`Error scheduling ${type} email `);
     console.error(err);

@@ -36,7 +36,7 @@ const sleep = (time) =>
           rows[i].current_status = studyPhase.stage;
           rows[i].current_status_ts = new Date().toUTCString();
           await rows[i].save();
-          await sleep(150);
+          await sleep(1000);
         }
       } catch (err) {
         console.log(`Error Updating row ${i}`);
