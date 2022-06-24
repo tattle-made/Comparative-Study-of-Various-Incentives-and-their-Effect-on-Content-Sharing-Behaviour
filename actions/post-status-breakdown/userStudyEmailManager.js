@@ -36,6 +36,7 @@ exports.scheduleStudyEmails = async () => {
           continue;
         }
         if (user.session < config.MAX_SESSION) {
+          console.log(`Processing ${row.rowNumber}`);
           const scheduledEmails = findScheduledEmails(user);
           for (const email of scheduledEmails) {
             await scheduleEmailOnSheet(row, email);
@@ -143,7 +144,7 @@ async function scheduleEmailOnSheet(row, email) {
         console.log("unexpected schedule");
     }
     await row.save();
-    await sleep(25);
+    await sleep(150);
   } catch (err) {
     console.log(`Error scheduling ${type} email `);
     console.error(err);
