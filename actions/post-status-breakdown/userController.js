@@ -3,6 +3,7 @@ const doc = new GoogleSpreadsheet(
   "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
 );
 const mysql = require("mysql2/promise");
+const { userFactory } = require("./userFactory");
 
 const SHEET_INDEX_BY_NAME = {
   "Production Server Data": 8,
@@ -30,20 +31,25 @@ exports.updateUserStatusOnGoogleSheet = async () => {
 
     for (const sheetRow of sheetRows) {
       try {
-        const [rows, fields] = await connection.execute(`
-            SELECT * FROM StudyPhases 
-            WHERE user = ${sheetRow.userId} 
-            AND current = true
-        `);
-
-        if (rows != undefined && rows.length == 1) {
-          const row = rows[0];
+        const user = userFactory(sheetRow);
+        if (isNaN(user.session)) {
+          continue;
         }
+        if (user.session < MAX_SESSION) {
+          const [rows, fields] = await connection.execute(`
+          SELECT * FROM StudyPhases 
+          WHERE user = ${user.userId} 
+          AND current = true
+      `);
 
-        sheetRow.current_status = row.stage;
-        sheetRow.current_status_ts = new Date().toUTCString();
-        await sheetRow.save();
-        await sleep(25);
+          if (rows != undefined && rows.length == 1) {
+            const row = rows[0];
+            sheetRow.current_status = row.stage;
+            sheetRow.current_status_ts = new Date().toUTCString();
+            await sheetRow.save();
+            await sleep(25);
+          }
+        }
       } catch (err) {
         console.log(`Error Updating Status for ${sheetRow.rowNumber}`);
         console.log(err);
