@@ -31,7 +31,7 @@ exports.updateUserStatusOnGoogleSheet = async () => {
       database: "psych_study_platform_production",
     });
 
-    for (const sheetRow of sheetRows) {
+    for (const sheetRow of sheetRows.slice(0, 10)) {
       try {
         const user = userFactory(sheetRow);
         if (isNaN(user.session)) {

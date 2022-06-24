@@ -21,7 +21,7 @@ try {
         await scheduleStudyEmails();
         break;
       case "SEND_STUDY_EMAIL":
-        // await sendStudyEmails();
+        await sendStudyEmails();
         break;
       case "SCHEDULE_REMINDER_EMAILS":
         break;

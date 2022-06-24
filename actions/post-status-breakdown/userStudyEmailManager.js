@@ -29,7 +29,7 @@ exports.scheduleStudyEmails = async () => {
     const sheet = doc.sheetsByIndex[8];
     const rows = await sheet.getRows();
 
-    for (const row of rows) {
+    for (const row of rows.slice(0, 10)) {
       try {
         const user = userFactory(row);
         if (isNaN(user.session)) {
