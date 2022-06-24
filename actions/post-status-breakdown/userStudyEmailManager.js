@@ -4,6 +4,7 @@ const doc = new GoogleSpreadsheet(
   "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
 );
 const mysql = require("mysql2/promise");
+const { config } = require("./config");
 // const {
 //   sendOnboardingEmail,
 //   sendPostDayOneReminder,
@@ -12,7 +13,6 @@ const mysql = require("mysql2/promise");
 // } = require("./email");
 const { userFactory } = require("./userFactory");
 
-const MAX_SESSION = 4;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 exports.scheduleStudyEmails = async () => {
@@ -34,7 +34,7 @@ exports.scheduleStudyEmails = async () => {
         if (isNaN(user.session)) {
           continue;
         }
-        if (user.session < MAX_SESSION) {
+        if (user.session < config.MAX_SESSION) {
           const scheduledEmails = findScheduledEmails(user);
           for (const email of scheduledEmails) {
             await scheduleEmailOnSheet(row, email);

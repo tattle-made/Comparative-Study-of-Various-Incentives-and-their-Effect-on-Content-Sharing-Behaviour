@@ -3,6 +3,7 @@ const doc = new GoogleSpreadsheet(
   "14RYZt4UofeRyascpsyjagnxYQ3kbgJMB9B5vayE5H9Y"
 );
 const mysql = require("mysql2/promise");
+const { config } = require("./config");
 const { userFactory } = require("./userFactory");
 
 const SHEET_INDEX_BY_NAME = {
@@ -35,7 +36,7 @@ exports.updateUserStatusOnGoogleSheet = async () => {
         if (isNaN(user.session)) {
           continue;
         }
-        if (user.session < MAX_SESSION) {
+        if (user.session < config.MAX_SESSION) {
           const [rows, fields] = await connection.execute(`
           SELECT * FROM StudyPhases 
           WHERE user = ${user.userId} 
