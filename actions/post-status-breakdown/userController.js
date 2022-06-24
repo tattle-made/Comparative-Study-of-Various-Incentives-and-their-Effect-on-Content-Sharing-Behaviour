@@ -37,11 +37,9 @@ exports.updateUserStatusOnGoogleSheet = async () => {
           continue;
         }
         if (user.session < config.MAX_SESSION) {
-          const [rows, fields] = await connection.execute(`
-          SELECT * FROM StudyPhases 
-          WHERE user = ${user.userId} 
-          AND current = true
-      `);
+          const [rows, fields] = await connection.execute(
+            `SELECT * FROM StudyPhases WHERE user = ${user.userId} AND current = true`
+          );
 
           if (rows != undefined && rows.length == 1) {
             const row = rows[0];
