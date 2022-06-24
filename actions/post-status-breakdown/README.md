@@ -6,3 +6,5 @@ This action is meant to be run periodically on a github action runner.
 # TESTS
 
 - Get the credentials.json for your service account and place it in the root folder.
+
+test
