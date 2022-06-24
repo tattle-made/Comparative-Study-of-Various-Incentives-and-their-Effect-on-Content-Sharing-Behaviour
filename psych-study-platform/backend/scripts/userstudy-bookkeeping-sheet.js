@@ -27,35 +27,26 @@ const sleep = (time) =>
   const rows = await sheet.getRows();
 
   try {
-    for (var i = 0; i < rows.length; i++) {
+    for (const row of rows) {
       try {
-        if (rows[i].session_number === "3") {
-          const email = rows[i].email;
-          const username = rows[i].username;
-          const password = rows[i].password;
-          const post_day_2_reminder_email = rows[i].post_day_2_reminder_email;
-          const post_day_2_reminder_email_ts =
-            rows[i].post_day_2_reminder_email_ts;
+        if (row.session_number === "4") {
+          const email = row.email;
+          const username = row.username;
+          const password = row.password;
 
-          if (
-            (post_day_2_reminder_email === undefined ||
-              post_day_2_reminder_email === "") &&
-            (post_day_2_reminder_email_ts === undefined ||
-              post_day_2_reminder_email_ts === "")
-          ) {
-            console.log("found contender for emailing", { email });
-            rows[i].post_day_2_reminder_email = "SENT";
-            rows[i].post_day_2_reminder_email_ts = new Date().toUTCString();
-            console.log({ email, username, password });
-            await sendPostDayTwoReminder({
+          row.onboarding_email = "SENT";
+          row.onboarding_email_ts = new Date().toUTCString();
+          console.log({ email, username, password });
+          try {
+            await sendOnboardingEmail({
               email,
               username,
               password,
             });
-            await rows[i].save();
-            await sleep(1000);
-          } else {
-            console.log("found unexpected state");
+            await row.save();
+            await sleep(25);
+          } catch (err) {
+            console.log("error sending email");
           }
         }
       } catch (err) {

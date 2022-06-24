@@ -1,5 +1,9 @@
 const core = require("@actions/core");
 const { updateDashboard } = require("./dashboardController");
+const {
+  scheduleStudyEmails,
+  sendStudyEmails,
+} = require("./userStudyEmailManager");
 
 try {
   (async function () {
@@ -9,7 +13,15 @@ try {
       case "UPDATE_DASHBOARD":
         await updateDashboard();
         break;
-      case "SCHEDULE_AND_SEND_STUDY_EMAIL":
+      case "SCHEDULE_STUDY_EMAIL":
+        await scheduleStudyEmails();
+        break;
+      case "SEND_STUDY_EMAIL":
+        // await sendStudyEmails();
+        break;
+      case "SCHEDULE_REMINDER_EMAILS":
+        break;
+      case "SEND_REMINDER_EMAILS":
         break;
       case "UPDATE_DATA_ANALYSIS_SHEET":
         break;
