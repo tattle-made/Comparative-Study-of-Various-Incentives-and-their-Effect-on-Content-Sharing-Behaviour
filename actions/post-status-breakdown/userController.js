@@ -5,6 +5,7 @@ const doc = new GoogleSpreadsheet(
 const mysql = require("mysql2/promise");
 const { config } = require("./config");
 const { userFactory } = require("./userFactory");
+const { sleep } = require("./util");
 
 const SHEET_INDEX_BY_NAME = {
   "Production Server Data": 8,
