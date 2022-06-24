@@ -95,7 +95,7 @@ const findScheduledEmails = (user) => {
   }
 
   if (isEmpty(currentStatus) && daysSince(onboardingEmailTS) > 3) {
-    emails.push({ type: "UNLOGGEDIN_USER_REMINDER" }, user);
+    emails.push({ type: "SCHEDULE_EMAIL_TO_NON_LOGGED_IN_USER" }, user);
   }
 
   return emails;
@@ -144,7 +144,8 @@ async function scheduleEmailOnSheet(row, email) {
     await row.save();
     await sleep(25);
   } catch (err) {
-    console.log(`Error scheduling ${type} email for ${user.username}`);
+    console.log(`Error scheduling ${type} email `);
+    console.error(err);
   }
 }
 
