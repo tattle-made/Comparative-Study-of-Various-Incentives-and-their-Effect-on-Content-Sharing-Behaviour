@@ -9,6 +9,8 @@ env:
   DB_HOST: ${{ secrets.DB_HOST}}
   DB_USERNAME: ${{secrets.DB_USERNAME}}
   DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+  SERVICE_AWS_ACCESS_KEY_ID: ${{secrets.SERVICE_AWS_ACCESS_KEY_ID}}
+  SERVICE_AWS_SECRET_ACCESS_KEY: ${{secrets.SERVICE_AWS_SECRET_ACCESS_KEY}}
 
 jobs:
   schedule-email:

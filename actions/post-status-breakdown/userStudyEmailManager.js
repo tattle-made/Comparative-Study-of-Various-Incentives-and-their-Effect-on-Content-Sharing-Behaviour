@@ -40,7 +40,7 @@ exports.scheduleStudyEmails = async () => {
           console.log(`${user.username}'s session is inactive`);
         }
       } catch (err) {
-        console.log(`Error Saving row ${i}`);
+        console.log(`Error Saving ${row.rowNumber}`);
         console.log(err);
       }
     }
