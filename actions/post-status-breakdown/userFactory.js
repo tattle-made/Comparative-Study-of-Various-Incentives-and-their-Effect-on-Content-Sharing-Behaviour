@@ -1,15 +1,15 @@
 exports.userFactory = (googleSheetRow) => {
-  console.log({ googleSheetRow });
   function sanitizeCellData(fieldName) {
-    googleSheetRow[fieldName].length === 0 ||
-    googleSheetRow[fieldName] === undefined ||
-    googleSheetRow[fieldName] === null
+    return googleSheetRow[fieldName] === undefined ||
+      googleSheetRow[fieldName] === null ||
+      googleSheetRow[fieldName].length === 0
       ? ""
       : googleSheetRow[fieldName];
   }
   return {
     email: googleSheetRow.email,
-    session: parseInt(googleSheetRow.session),
+    userId: googleSheetRow.user_id,
+    session: parseInt(googleSheetRow.session_number),
     username: googleSheetRow.username,
     password: googleSheetRow.password,
     currentStatus: sanitizeCellData("current_status"),
