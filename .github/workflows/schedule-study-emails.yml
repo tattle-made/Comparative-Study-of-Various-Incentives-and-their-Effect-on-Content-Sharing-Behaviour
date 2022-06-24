@@ -1,4 +1,4 @@
-name: Schedule Study Reminder Emails
+name: Schedule-Study-Reminder-Emails
 on:
   push:
     branches:
