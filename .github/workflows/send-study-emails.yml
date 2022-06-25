@@ -1,7 +1,7 @@
-name: Send-Study-Reminder-Emails
+name: Send Study Reminder Emails
 on:
   workflow_run:
-    workflows: ["Schedule-Study-Reminder-Emails"]
+    workflows: [Schedule Study Reminder Emails]
     types:
       - completed
 
