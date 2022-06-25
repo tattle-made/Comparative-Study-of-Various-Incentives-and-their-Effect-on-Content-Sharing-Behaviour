@@ -2,8 +2,8 @@ name: Send Study Reminder Emails
 on:
   workflow_run:
     workflows: [Schedule Study Reminder Emails]
-    types:
-      - completed
+    types: [completed]
+    branches: [feat/csv-data]
 
 env:
   GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
