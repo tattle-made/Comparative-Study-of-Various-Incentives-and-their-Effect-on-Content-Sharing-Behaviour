@@ -55,10 +55,6 @@ const config = {
             label: "Production Server Data",
             index: 3,
           },
-          testSheet: {
-            label: "TEST SHEET 2",
-            index: 8,
-          },
         },
       },
       paymentBookkeeping: {
