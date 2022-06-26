@@ -1,7 +1,7 @@
 name: Schedule Study Reminder Emails
 on:
   schedule:
-    - cron: "5 3 * * *"
+    - cron: "15 15 * * *"
 
 env:
   GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
