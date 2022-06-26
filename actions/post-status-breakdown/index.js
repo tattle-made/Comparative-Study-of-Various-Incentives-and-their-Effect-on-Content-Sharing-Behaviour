@@ -1,6 +1,5 @@
 const core = require("@actions/core");
 const { updateDashboard } = require("./controller-dashboard");
-const { updateUserStatusOnGoogleSheet } = require("./controller-user");
 const { manage } = require("./study-emails");
 
 try {
@@ -20,10 +19,6 @@ try {
         break;
       case "SEND_STUDY_EMAIL":
         await manage.sendEmails();
-        break;
-      case "SCHEDULE_PAYMENT_MAILS":
-        break;
-      case "SEND_PAYMENT_MAILS":
         break;
       case "UPDATE_DATA_ANALYSIS_SHEET":
         break;
