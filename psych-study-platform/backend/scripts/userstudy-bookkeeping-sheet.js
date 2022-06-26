@@ -34,11 +34,11 @@ const sleep = (time) =>
           const username = row.username;
           const password = row.password;
 
-          row.onboarding_email = "SENT";
-          row.onboarding_email_ts = new Date().toUTCString();
+          row.post_day_2_reminder_email = "SENT";
+          row.post_day_2_reminder_email_ts = new Date().toUTCString();
           console.log({ email, username, password });
           try {
-            await sendOnboardingEmail({
+            await sendPostDayTwoReminder({
               email,
               username,
               password,

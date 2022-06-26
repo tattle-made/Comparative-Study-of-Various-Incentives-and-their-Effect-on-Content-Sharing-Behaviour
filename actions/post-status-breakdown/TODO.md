@@ -1,0 +1,2 @@
+- move db name to config
+- add config fields for test and production

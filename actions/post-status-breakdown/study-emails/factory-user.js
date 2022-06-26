@@ -1,4 +1,4 @@
-exports.userFactory = (googleSheetRow) => {
+function userFactory(googleSheetRow) {
   function sanitizeCellData(fieldName) {
     return googleSheetRow[fieldName] === undefined ||
       googleSheetRow[fieldName] === null ||
@@ -25,4 +25,46 @@ exports.userFactory = (googleSheetRow) => {
     paymentReminderEmail: sanitizeCellData("payment_reminder_email"),
     paymentReminderTS: sanitizeCellData("payment_reminder_email_ts"),
   };
+}
+
+function* emailFields(user) {
+  yield {
+    type: "onboarding",
+    status: user.onboardingEmail,
+    time: user.onboardingEmailTS,
+  };
+  yield {
+    type: "postDay1Reminder",
+    status: user.postDay1ReminderEmail,
+    time: user.postDay1ReminderEmailTS,
+  };
+  yield {
+    type: "postDay2Reminder",
+    status: user.postDay2ReminderEmail,
+    time: user.postDay2ReminderTS,
+  };
+  yield {
+    type: "unLoggedInUserReminder",
+    status: user.UnloggedInUserReminderEmail,
+    time: user.UnloggedInUserReminderTS,
+  };
+  yield {
+    type: "paymentReminder",
+    status: user.paymentReminderEmail,
+    time: user.paymentReminderTS,
+  };
+}
+
+function* scheduledEmailFields(user) {
+  for (const emailField of emailFields(user)) {
+    if (emailField.status === "SCHEDULED") {
+      yield emailField;
+    }
+  }
+}
+
+module.exports = {
+  userFactory,
+  emailFields,
+  scheduledEmailFields,
 };

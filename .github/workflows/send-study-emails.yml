@@ -8,11 +8,11 @@ env:
   DB_PASSWORD: ${{secrets.DB_PASSWORD}}
   SERVICE_AWS_ACCESS_KEY_ID: ${{secrets.SERVICE_AWS_ACCESS_KEY_ID}}
   SERVICE_AWS_SECRET_ACCESS_KEY: ${{secrets.SERVICE_AWS_SECRET_ACCESS_KEY}}
+  NODE_ENV: test
 
 jobs:
   send-email:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: "Send Reminder Emails"
     environment:
       name: production
