@@ -1,8 +1,7 @@
 name: Schedule Study Reminder Emails
 on:
-  push:
-    branches:
-      - feat/automation
+  schedule:
+    - cron: "5 3 * * *"
 
 env:
   GOOGLE_CREDENTIALS: ${{secrets.GOOGLE_CREDENTIALS}}
@@ -11,7 +10,7 @@ env:
   DB_PASSWORD: ${{secrets.DB_PASSWORD}}
   SERVICE_AWS_ACCESS_KEY_ID: ${{secrets.SERVICE_AWS_ACCESS_KEY_ID}}
   SERVICE_AWS_SECRET_ACCESS_KEY: ${{secrets.SERVICE_AWS_SECRET_ACCESS_KEY}}
-  NODE_ENV: test
+  NODE_ENV: production
 
 jobs:
   schedule-email:
@@ -23,8 +22,8 @@ jobs:
       - name: Update User Status
         uses: ./actions/post-status-breakdown
         with:
-          mode: "TEST_RUN"
+          mode: "UPDATE_USER"
       - name: Update Google Sheet with SCHEDULE
         uses: ./actions/post-status-breakdown
         with:
-          mode: "TEST_RUN"
+          mode: "SCHEDULE_STUDY_EMAIL"

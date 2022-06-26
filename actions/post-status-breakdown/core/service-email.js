@@ -43,7 +43,7 @@ const constructOnboardingParamsObject = ({ subject, body, receiver }) => {
 
 const sendEmail = async ({ subject, body, receiver }) => {
   const env = process.env.NODE_ENV;
-  if (env === "development" || env === "test") {
+  if (env === undefined || env === "development" || env === "test") {
     receiver = email.testTarget;
   }
 

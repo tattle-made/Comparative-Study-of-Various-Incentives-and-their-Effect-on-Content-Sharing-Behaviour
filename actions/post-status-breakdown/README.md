@@ -6,9 +6,30 @@ Code related to various functionalities are grouped in folders - study-emails, f
 
 The bot would need to access the psych study production database, aws ses and the user study bookkeeping Google Doc. The bot's operations and scheduling is managed by Github Actions.
 
-# TESTS
+# Testing
 
-- Get the credentials.json for your service account and place it in the root folder.
+While the scripts don't have full test coverage, I have written simple test functions one could run to cover the brittle parts of code. Follow the instructions here to get them running before running the automation scripts.
+
+## Prerequisites
+
+### Enviornment Variables and Credentials
+
+1. The following environment variables need to be set before you can run the tests
+
+| variable                      | value | description            |
+| ----------------------------- | ----- | ---------------------- |
+| NODE_ENV                      | test  |                        |
+| SERVICE_AWS_ACCESS_KEY_ID     |       | used to access aws ses |
+| SERVICE_AWS_SECRET_ACCESS_KEY |       |                        |
+| DB_HOST                       |       |                        |
+| DB_USERNAME                   |       |                        |
+| DB_PASSWORD                   |       |                        |
+
+2. A file containing credentials for your Google Service Account named `credentials.json` need to be placed in the root folder of the `post-status-breakdown/`. The email id associated with this account should be given access to the Google Docs you wish this action to read/write to.
+
+### Script Configuration
+
+Double check the fields in `config.js` so you don't accidentally write to an unintended location.
 
 ## Testing Study related email mechanism
 

@@ -10,6 +10,7 @@ async function* getRowsFromSpreadsheet(configDoc, sheetName) {
   const doc = new GoogleSpreadsheet(configDoc.id);
   let googleServiceAccountCredentials;
   if (
+    process.env.NODE_ENV === undefined ||
     process.env.NODE_ENV === "development" ||
     process.env.NODE_ENV === "test"
   ) {
@@ -29,6 +30,11 @@ async function* getRowsFromSpreadsheet(configDoc, sheetName) {
   }
 }
 
+/**
+ * Google Spreadsheet imposes a write limit of 60 requests per minute
+ * per user per project. This artificial delay of 1 seconds is to
+ * avoid crossing that limit.
+ */
 async function saveInSheet(row, data) {
   if (data != undefined) {
     Object.keys(data).map((field) => {

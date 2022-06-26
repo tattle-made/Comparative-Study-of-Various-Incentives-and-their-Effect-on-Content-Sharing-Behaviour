@@ -12,8 +12,8 @@ try {
       case "UPDATE_DASHBOARD":
         await updateDashboard();
         break;
-      case "UPDATE_USER_STATUS":
-        await updateUserStatusOnGoogleSheet();
+      case "UPDATE_USER":
+        await manage.updateUserOnSheet();
         break;
       case "SCHEDULE_STUDY_EMAIL":
         await manage.scheduleEmails();

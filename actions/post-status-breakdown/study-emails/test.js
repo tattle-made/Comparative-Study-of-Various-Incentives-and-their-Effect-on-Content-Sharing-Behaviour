@@ -1,12 +1,34 @@
+const { connection } = require("../core/service-db");
 const { sendEmail } = require("../core/service-email");
 const { sleep } = require("../core/util");
+const { getUserStatusAndMetrics } = require("./db");
 const { makeEmail } = require("./factory-email");
 const { manage } = require("./index");
+const config = require("../config");
+const { updateUserOnSheet } = require("./manager");
 
+async function testCheckConfigFile() {
+  console.log(config);
+}
+
+/**
+ * Reads the sheet mentioned in
+ * `config.docs.studyBookkeeping.sheets.productionServerData`
+ * and updates values in that sheet. Please check if your config data
+ * is pointing to the right document.
+ */
 async function testScheduleEmails() {
   await manage.scheduleEmails();
 }
 
+/**
+ * Reads the sheet mentioned in
+ * `config.docs.studyBookkeeping.sheets.productionServerData`
+ * and updates values in that sheet. Please check if your config data
+ * is pointing to the right document.
+ * This function also sends real emails using aws ses to the
+ * email address mentioned in `config.email.testTarget`.
+ */
 async function testSendEmails() {
   await manage.sendEmails();
 }
@@ -48,16 +70,49 @@ async function testSendAllTypeOfEmails() {
   await sendEmail(paymentReminderEmail);
 }
 
+/**
+ * initializes a sql connection and get metrics for a user
+ * the hardcoded userId parameter may be invalid depending on the database.
+ * Make sure you get a valid userId from the sql database.
+ */
+async function testGetUserStatusAndMetrics() {
+  const conn = await connection();
+  const metrics = await getUserStatusAndMetrics(
+    conn,
+    "354fa7fd-c84f-41a4-a3c3-12e939c8ea31"
+  );
+  if (metrics) {
+    console.log(metrics);
+  } else {
+    console.log(`No metrics exist for this user`);
+  }
+}
+
+async function testUpdateUser() {
+  await updateUserOnSheet();
+}
+
 (async function test() {
   const env = process.env.NODE_ENV;
   console.log(`Environment : ${env}`);
 
+  // console.log(`Test : Check Config File`);
+  // await testCheckConfigFile();
+
   // console.log(`Test : Schedule Emails`);
-  // testScheduleEmails();
+  // await testScheduleEmails();
 
   // console.log(`Test : Send Emails`);
-  // testSendEmails();
+  // await testSendEmails();
 
   // console.log(`Test : Send All Types of Emails`);
   // await testSendAllTypeOfEmails();
+
+  // console.log(`Test : Get User Status and Metrics`);
+  // await testGetUserStatusAndMetrics();
+
+  console.log(`Test : Update User`);
+  await testUpdateUser();
+
+  process.exit();
 })();

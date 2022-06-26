@@ -23,4 +23,4 @@ jobs:
       - name: Send out Emails
         uses: ./actions/post-status-breakdown
         with:
-          mode: "TEST_RUN"
+          mode: "SEND_STUDY_EMAIL"

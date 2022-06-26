@@ -1,9 +1,15 @@
-const { sheets, study: studyConfig } = require("../config");
 const { sendEmail } = require("../core/service-email");
 const { makeEmail } = require("./factory-email");
-const { emailFields, scheduledEmailFields } = require("./factory-user");
+const { scheduledEmailFields } = require("./factory-user");
 const { findScheduledEmails } = require("./rules");
-const { studyUsersFromSpreadSheet, scheduleEmailOnSheet } = require("./sheet");
+const {
+  studyUsersFromSpreadSheet,
+  scheduleEmailOnSheet,
+  recordSentEmailOnSheet,
+  updateUser,
+} = require("./sheet");
+const { connection } = require("../core/service-db");
+const { getUserStatus, getUserStatusAndMetrics } = require("./db");
 
 async function scheduleEmails() {
   for await (const studyUser of studyUsersFromSpreadSheet()) {
@@ -20,14 +26,28 @@ async function sendEmails() {
   for await (const studyUser of studyUsersFromSpreadSheet()) {
     const { row, user } = studyUser;
     for await (const emailField of scheduledEmailFields(user)) {
+      console.log(emailField);
       const email = makeEmail(emailField.type, user);
       sendEmail(email);
-      // todo : update row on sheet
+      await recordSentEmailOnSheet(row, emailField);
     }
+  }
+}
+
+async function updateUserOnSheet() {
+  const conn = await connection();
+
+  for await (const studyUser of studyUsersFromSpreadSheet()) {
+    const { row: sheetRow, user } = studyUser;
+    console.log(`Updating : ${user.username}`);
+
+    const metrics = await getUserStatusAndMetrics(conn, user.userId);
+    await updateUser(sheetRow, metrics);
   }
 }
 
 module.exports = {
   scheduleEmails,
   sendEmails,
+  updateUserOnSheet,
 };

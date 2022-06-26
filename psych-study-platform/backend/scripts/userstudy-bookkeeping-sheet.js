@@ -34,11 +34,11 @@ const sleep = (time) =>
           const username = row.username;
           const password = row.password;
 
-          row.post_day_1_reminder_email = "SENT";
-          row.post_day_1_reminder_email_ts = new Date().toUTCString();
+          row.post_day_2_reminder_email = "SENT";
+          row.post_day_2_reminder_email_ts = new Date().toUTCString();
           console.log({ email, username, password });
           try {
-            await sendPostDayOneReminder({
+            await sendPostDayTwoReminder({
               email,
               username,
               password,
