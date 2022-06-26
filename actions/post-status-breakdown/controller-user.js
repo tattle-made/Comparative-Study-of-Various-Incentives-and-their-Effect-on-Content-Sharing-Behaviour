@@ -4,7 +4,7 @@ const doc = new GoogleSpreadsheet(
 );
 const mysql = require("mysql2/promise");
 const { config } = require("./config");
-const { userFactory } = require("./userFactory");
+const { userFactory } = require("./factory-user");
 const { sleep } = require("./util");
 
 const SHEET_INDEX_BY_NAME = {
@@ -31,7 +31,7 @@ exports.updateUserStatusOnGoogleSheet = async () => {
       database: "psych_study_platform_production",
     });
 
-    for (const sheetRow of sheetRows.slice(0, 10)) {
+    for (const sheetRow of sheetRows) {
       try {
         const user = userFactory(sheetRow);
         if (isNaN(user.session)) {
