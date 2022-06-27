@@ -41,7 +41,7 @@ function findScheduledEmails(user) {
     }
   }
 
-  if (["TEST_DAY_03", "FINISHED", "POST_TEST_SURVEY"].includes(currentStatus)) {
+  if (["FINISHED", "POST_TEST_SURVEY"].includes(currentStatus)) {
     if (daysSince(postDay2ReminderTS) > 1 && isEmpty(paymentReminderEmail)) {
       emails.push({ type: "SCHEDULE_PAYMENT_REMINDER", user });
     }
