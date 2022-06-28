@@ -103,6 +103,8 @@ async function checkAndUpdate(userId) {
         throw new UnableToUpdateStudyPhase(`Please come back after 24 hours`);
       }
     } else if (studyPhase.stage === "TEST_DAY_03") {
+      // todo : it was an oversight to not check days passed since
+      // status of test_day_03 was created. add it here at some point
       await goToNextPhase(userId, studyPhase, "POST_TEST_SURVEY");
     } else if (studyPhase.stage === "POST_TEST_SURVEY") {
       await goToNextPhase(userId, studyPhase, "FINISHED");
