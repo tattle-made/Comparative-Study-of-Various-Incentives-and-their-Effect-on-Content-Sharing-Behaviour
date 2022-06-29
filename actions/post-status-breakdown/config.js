@@ -33,6 +33,16 @@ const config = {
           },
         },
       },
+      dataAnalysis: {
+        id: "108I-ni-jL1RjILeOVFFCDBDg1qEhqCj0LQFFw88Zww0",
+        label: "Data for Analysis",
+        sheets: {
+          main: {
+            label: "Sheet1",
+            index: 0,
+          },
+        },
+      },
     },
     email: {
       sender: "ar@monkprayogshala.in",
