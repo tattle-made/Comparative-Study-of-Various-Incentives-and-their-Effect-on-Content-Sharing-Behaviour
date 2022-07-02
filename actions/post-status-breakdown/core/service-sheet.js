@@ -45,7 +45,19 @@ async function saveInSheet(row, data) {
   }
 }
 
+/**
+ * This function prevents overwriting certain fields in your row.
+ * This is useful when on the google spreadsheet, those values are
+ * derived from other tables or formulae.
+ */
+function remove(row, keys) {
+  for (let key of keys) {
+    delete row[key];
+  }
+}
+
 module.exports = {
   getRowsFromSpreadsheet,
   saveInSheet,
+  remove,
 };
