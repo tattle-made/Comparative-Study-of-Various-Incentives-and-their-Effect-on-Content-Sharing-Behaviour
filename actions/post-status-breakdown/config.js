@@ -42,7 +42,7 @@ const config = {
       name: "psych_study_platform_production",
     },
     study: {
-      MAX_SESSION: 4,
+      MAX_SESSION: 6,
     },
   },
   production: {
@@ -86,7 +86,7 @@ const config = {
       name: "psych_study_platform_production",
     },
     study: {
-      MAX_SESSION: 4,
+      MAX_SESSION: 6,
     },
   },
 };
