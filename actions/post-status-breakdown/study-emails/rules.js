@@ -47,7 +47,12 @@ function findScheduledEmails(user) {
     }
   }
 
-  if (isEmpty(currentStatus) && daysSince(onboardingEmailTS) > 4) {
+  if (
+    isEmpty(currentStatus) &&
+    daysSince(onboardingEmailTS) > 4 &&
+    daysSince(onboardingEmailTS) < 5 &&
+    isEmpty(onboardingEmail)
+  ) {
     emails.push({ type: "SCHEDULE_EMAIL_TO_NON_LOGGED_IN_USER", user });
   }
 
