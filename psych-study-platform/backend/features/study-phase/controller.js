@@ -103,21 +103,7 @@ async function checkAndUpdate(userId) {
         throw new UnableToUpdateStudyPhase(`Please come back after 24 hours`);
       }
     } else if (studyPhase.stage === "TEST_DAY_03") {
-      const now = new Date();
-      const timeElapsed = Math.abs(now - studyPhase.createdAt) / 60000;
-      if (timeElapsed > 60 * 24) {
-        try {
-          await goToNextPhase(userId, studyPhase, "POST_TEST_SURVEY");
-        } catch (err) {
-          console.log(err);
-          throw new UnableToGoToNextPhaseError(
-            `Cound not create Post Test Survey study phase for ${userId}`
-          );
-        }
-      } else {
-        throw new UnableToUpdateStudyPhase(`Please come back after 24 hours`);
-      }
-      // await goToNextPhase(userId, studyPhase, "POST_TEST_SURVEY");
+      await goToNextPhase(userId, studyPhase, "POST_TEST_SURVEY");
     } else if (studyPhase.stage === "POST_TEST_SURVEY") {
       await goToNextPhase(userId, studyPhase, "FINISHED");
     } else if (studyPhase.stage === "FINISHED") {
