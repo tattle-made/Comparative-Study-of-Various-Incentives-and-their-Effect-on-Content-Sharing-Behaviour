@@ -37,6 +37,7 @@ const { Post } = require("./model-post");
  */
 async function* sheetRowMaker() {
   let posts = {};
+
   let row = yield;
   while (row) {
     if (posts[row.postId] === undefined) {

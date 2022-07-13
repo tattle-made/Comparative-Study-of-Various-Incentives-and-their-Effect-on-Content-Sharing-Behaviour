@@ -1,5 +1,4 @@
-const { getRowsFromSpreadsheet } = require("../core/service-sheet");
-
+//todo : check and remove `AND (StudyPhases.stage IN ("FINISHED","POST_TEST_SURVEY","THANK_YOU") AND StudyPhases.current = TRUE)`
 async function* getUserMetrics(conn, userId) {
   const [rows, fields] = await conn.execute(
     `
@@ -42,4 +41,31 @@ async function getFeed(conn, userId) {
   return rows;
 }
 
-module.exports = { getUserMetrics, getFeed };
+/**
+ *
+ * returns users who have completed the study
+ */
+async function* getUsersFinished(conn) {
+  const PAGE_SIZE = 20;
+  let query = (pageNum) => `
+  SELECT Users.id as userId, Users.username,
+  Metrics.type, Metrics.points,
+  StudyPhases.stage
+  FROM Users
+  LEFT JOIN Metrics
+  ON Metrics.user = Users.id
+  LEFT JOIN StudyPhases
+  ON StudyPhases.user = Users.id
+  WHERE StudyPhases.stage IN ("FINISHED","POST_TEST_SURVEY","THANK_YOU") AND StudyPhases.current = TRUE
+  LIMIT ${page * PAGE_SIZE},${PAGE_SIZE}
+`;
+
+  let page = 0;
+  while ((result = await conn.execute(query(page)))[0].length !== 0) {
+    const [rows, fields] = result;
+    yield* rows;
+    page++;
+  }
+}
+
+module.exports = { getUserMetrics, getFeed, getUsersFinished };
