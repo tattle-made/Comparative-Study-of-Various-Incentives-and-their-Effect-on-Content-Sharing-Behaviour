@@ -31,6 +31,10 @@ const Post = {
     } else {
     }
   },
+  /**
+   * 1. If multiple distinct values are recorded, it is marked as CORRUPTED
+   * 2. If multiple same values are recorded, it is collapsed into one
+   */
   sanitize(post) {
     const reactionSet = post.reaction;
     const reactionArray = Array.from(reactionSet);
